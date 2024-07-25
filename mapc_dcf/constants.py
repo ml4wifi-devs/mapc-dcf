@@ -40,7 +40,7 @@ TAU = 5.484 * 1e-3
 """Tx slot duration (s) 
 https://ieeexplore.ieee.org/document/8930559"""
 
-FRAME_LEN = jnp.asarray(1500 * 8)
+FRAME_LEN = jnp.asarray(1500 * 8)   # TODO Verify
 """Frame length (bits)"""
 
 MEAN_SNRS = jnp.array([
@@ -50,3 +50,17 @@ MEAN_SNRS = jnp.array([
 ])
 r"""Parameters of the success probability curves - cdf of the normal distribution with standard deviation of 2
 (derived from ns-3 simulations)"""
+
+SLOT_TIME = 9 * 1e-6    # TODO Werify in 802.11ax
+"""802.11ac Slot time (s)"""
+
+DIFS = 34 * 1e-6        # TODO Werify in 802.11ax
+"""802.11ac DIFS time (s)
+https://en.wikipedia.org/wiki/DCF_Interframe_Space"""
+
+SIFS = 16 * 1e-6        # TODO Werify in 802.11ax
+"""802.11ac SIFS time (s)
+https://en.wikipedia.org/wiki/Short_Interframe_Space"""
+
+CW_EXP_MIN = 4
+CW_EXP_MAX = 10
