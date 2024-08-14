@@ -160,5 +160,5 @@ cython_debug/
 .idea/
 
 # Add any other global ignores below:
-mapc_dcf/sdbx.ipynb
+mapc_dcf/notebooks/*
 .vscode/
