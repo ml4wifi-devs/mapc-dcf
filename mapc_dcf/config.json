@@ -1,0 +1,16 @@
+{
+    "n_reps": 40,
+    "seed": 42,
+    "scenarios": [
+        {
+            "scenario": "simple_scenario_1",
+            "name": "simple_scenario_1",
+            "time": 1e-2,
+            "params": {
+                "d": 40.0,
+                "mcs": 11
+            }
+        }
+    ]
+
+}

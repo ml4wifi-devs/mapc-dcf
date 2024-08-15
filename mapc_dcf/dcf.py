@@ -5,27 +5,7 @@ import jax
 import jax.numpy as jnp
 
 from mapc_dcf.constants import *
-
-
-class Channel():
-
-    def __init__(self) -> None:
-        pass
-
-    def is_idle(self):
-        # TODO: Implement
-        pass
-
-    def is_idle_for(self, duration):
-        # TODO: Implement
-        pass
-
-
-class WiFiFrame():
-    # TODO: Implement
-
-    def __init__(self) -> None:
-        pass
+from mapc_dcf.channel import Channel, WiFiFrame
 
 
 class DCF():
