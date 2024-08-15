@@ -1,8 +1,10 @@
 from typing import Callable
 from chex import PRNGKey
 
+import logging
 import jax
 import jax.numpy as jnp
+import simpy
 
 from mapc_dcf.constants import *
 from mapc_dcf.channel import Channel, WiFiFrame
@@ -10,21 +12,34 @@ from mapc_dcf.channel import Channel, WiFiFrame
 
 class DCF():
 
-    def __init__(self, channel: Channel, frame_generator: Callable[[], WiFiFrame], key: PRNGKey) -> None:
+    def __init__(
+            self,
+            ap: int,
+            des_env: simpy.Environment,
+            channel: Channel,
+            frame_generator: Callable[[], WiFiFrame],
+            key: PRNGKey
+    ) -> None:
+        self.ap = ap
+        self.des_env = des_env
         self.channel = channel
         self.frame_generator = frame_generator
         self.cw = 2**CW_EXP_MIN
         self.key = key
     
+    def start_operation(self):
+        self.des_env.process(self.run())
+    
     def wait_for_one_slot(self):
-        # TODO: Implement
-        pass
+        yield self.des_env.timeout(SLOT_TIME)
 
     def send_frame(self, frame: WiFiFrame):
         # TODO: Implement
         pass
 
-    def start_operation(self):
+    def run(self):
+
+        logging.info(f"AP{self.ap}: DCF started")
 
         # While ready to send frames
         while True:
@@ -40,29 +55,36 @@ class DCF():
 
                     # Wait for DIFS
                     while not channel_idle:
+                        # TODO Verify the division by 10. Can we do it in a better way?
+                        yield self.des_env.timeout(DIFS / 10)
                         channel_idle = self.channel.is_idle_for(DIFS)
+                    logging.info(f"AP{self.ap}: Channel idle for DIFS")
                     
                     # Initialize backoff counter
                     key_backoff, self.key = jax.random.split(self.key)
-                    backoff_counter = jax.random.randint(key_backoff, shape=(1,), minval=2**CW_EXP_MIN, maxval=self.cw+1)
+                    backoff_counter = jax.random.randint(key_backoff, shape=(1,), minval=2**CW_EXP_MIN, maxval=self.cw+1).item()
 
                     # Second condition: backoff counter is zero
                     while channel_idle and backoff_counter > 0:
+                        logging.info(f"AP{self.ap}: Backoff counter: {backoff_counter}")
 
                         # If not, wait for one slot and check again both conditions
-                        self.wait_for_one_slot()
+                        yield self.des_env.process(self.wait_for_one_slot())
                         backoff_counter -= 1
                         channel_idle = self.channel.is_idle()
                 
+                logging.info(f"AP{self.ap}: Backoff counter zero. Sending frame")
+                
                 # If both conditions are met, send the frame
+                yield self.des_env.timeout(SIFS)    # TODO Try to remove this line
                 frame_sent_successfully = self.send_frame(frame)
-                if frame_sent_successfully:
+                yield self.des_env.timeout(frame.duration)
+                yield self.des_env.timeout(SIFS)    # TODO Try to remove this line
 
-                    # Reset the contention window on success
+                # Act according to the transmission result
+                if frame_sent_successfully:
                     frame_sent_successfully = True
                     self.cw = 2**CW_EXP_MIN
                 else:
-
-                    # Double the contention window on failure
                     self.cw = min(2*self.cw, 2**CW_EXP_MAX)
     

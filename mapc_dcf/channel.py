@@ -1,3 +1,5 @@
+import random
+
 from mapc_dcf.constants import DATA_RATES, FRAME_LEN_INT
 
 
@@ -9,7 +11,7 @@ class WiFiFrame():
         self.dst = dst
         self.mcs = mcs
         self.size = size
-        self.duration = self.size / (DATA_RATES[mcs] * 1e6)
+        self.duration = self.size / (DATA_RATES[mcs].item() * 1e6)
     
     def set_start_time(self, start_time: float):
         self.start_time = start_time
@@ -21,8 +23,8 @@ class Channel():
 
     def is_idle(self):
         # TODO: Implement
-        pass
+        return random.random() < 0.95
 
     def is_idle_for(self, duration):
         # TODO: Implement
-        pass
+        return random.random() < 0.2

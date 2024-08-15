@@ -5,7 +5,7 @@
         {
             "scenario": "simple_scenario_1",
             "name": "simple_scenario_1",
-            "time": 1e-2,
+            "simulation_length": 1e-3,
             "params": {
                 "d": 40.0,
                 "mcs": 11

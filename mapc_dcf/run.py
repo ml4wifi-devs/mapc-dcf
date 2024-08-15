@@ -16,16 +16,20 @@ from mapc_dcf.nodes import AccessPoint
 def run_scenario(
         scenario: StaticScenario,
         n_reps: int,
-        time: float,
+        simulation_length: float,
         seed: int
 ):
     key = jax.random.PRNGKey(seed)
+    des_env = simpy.Environment()
     channel = Channel()
     aps = list(scenario.associations.keys())
     for ap in aps:
         clients = jnp.array(scenario.associations[ap])
-        ap = AccessPoint(ap, channel, scenario.pos, scenario.mcs[ap].item(), clients, key)
+        mcs = scenario.mcs[ap].item()
+        ap = AccessPoint(ap, scenario.pos, mcs, clients, channel, des_env, key)
         ap.start_operation()
+    
+    des_env.run(until=simulation_length)
 
 
 if __name__ == '__main__':
@@ -44,4 +48,4 @@ if __name__ == '__main__':
         scenario = globals()[scenario_config['scenario']](**scenario_config['params'])
         logging.info(f"Running: {scenario_config['name']}")
 
-        run_scenario(scenario, config['n_reps'], scenario_config['time'], config['seed'])
+        run_scenario(scenario, config['n_reps'], scenario_config['simulation_length'], config['seed'])
