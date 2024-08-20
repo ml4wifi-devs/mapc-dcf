@@ -19,14 +19,15 @@ def run_scenario(
         simulation_length: float,
         seed: int
 ):
-    key = jax.random.PRNGKey(seed)
+    key, key_channel = jax.random.split(jax.random.PRNGKey(seed))
     des_env = simpy.Environment()
-    channel = Channel()
+    channel = Channel(key_channel, scenario.pos)
     aps = list(scenario.associations.keys())
     for ap in aps:
+        key, key_ap = jax.random.split(key)
         clients = jnp.array(scenario.associations[ap])
         mcs = scenario.mcs[ap].item()
-        ap = AccessPoint(ap, scenario.pos, mcs, clients, channel, des_env, key)
+        ap = AccessPoint(ap, scenario.pos, mcs, clients, channel, des_env, key_ap)
         ap.start_operation()
     
     des_env.run(until=simulation_length)

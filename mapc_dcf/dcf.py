@@ -25,6 +25,7 @@ class DCF():
         self.channel = channel
         self.frame_generator = frame_generator
         self.cw = 2**CW_EXP_MIN
+        self.tx_power = DEFAULT_TX_POWER
         self.key = key
     
     def start_operation(self):
@@ -32,10 +33,6 @@ class DCF():
     
     def wait_for_one_slot(self):
         yield self.des_env.timeout(SLOT_TIME)
-
-    def send_frame(self, frame: WiFiFrame):
-        # TODO: Implement
-        pass
 
     def run(self):
 
@@ -57,7 +54,7 @@ class DCF():
                     while not channel_idle:
                         # TODO Verify the division by 10. Can we do it in a better way?
                         yield self.des_env.timeout(DIFS / 10)
-                        channel_idle = self.channel.is_idle_for(DIFS)
+                        channel_idle = self.channel.is_idle_for(self.des_env.now, DIFS, frame.src)
                     logging.info(f"AP{self.ap}: Channel idle for DIFS")
                     
                     # Initialize backoff counter
@@ -71,15 +68,16 @@ class DCF():
                         # If not, wait for one slot and check again both conditions
                         yield self.des_env.process(self.wait_for_one_slot())
                         backoff_counter -= 1
-                        channel_idle = self.channel.is_idle()
+                        channel_idle = self.channel.is_idle(self.des_env.now, frame.src)
                 
                 logging.info(f"AP{self.ap}: Backoff counter zero. Sending frame")
                 
                 # If both conditions are met, send the frame
-                yield self.des_env.timeout(SIFS)    # TODO Try to remove this line
-                frame_sent_successfully = self.send_frame(frame)
-                yield self.des_env.timeout(frame.duration)
-                yield self.des_env.timeout(SIFS)    # TODO Try to remove this line
+                yield self.des_env.timeout(SIFS)            # TODO Try to remove this line
+                self.channel.send_frame(frame, self.des_env.now, self.tx_power)
+                yield self.des_env.timeout(frame.duration)  # TODO Include ACK time
+                frame_sent_successfully = self.channel.succesfully_transmitted(frame)
+                yield self.des_env.timeout(SIFS)            # TODO Try to remove this line
 
                 # Act according to the transmission result
                 if frame_sent_successfully:

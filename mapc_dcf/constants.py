@@ -65,4 +65,10 @@ SIFS = 16 * 1e-6        # TODO Werify in 802.11ax
 https://en.wikipedia.org/wiki/Short_Interframe_Space"""
 
 CW_EXP_MIN = 4
+"""Minimum contention window exponent"""
+
 CW_EXP_MAX = 10
+"""Maximum contention window exponent"""
+
+CCA_THRESHOLD = -82.
+"""Clear channel assessment threshold (dBm)"""
