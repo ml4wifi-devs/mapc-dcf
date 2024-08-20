@@ -76,7 +76,7 @@ class DCF():
                 yield self.des_env.timeout(SIFS)            # TODO Try to remove this line
                 self.channel.send_frame(frame, self.des_env.now, self.tx_power)
                 yield self.des_env.timeout(frame.duration)  # TODO Include ACK time
-                frame_sent_successfully = self.channel.succesfully_transmitted(frame)
+                frame_sent_successfully = self.channel.is_succesfully_transmitted(frame)
                 yield self.des_env.timeout(SIFS)            # TODO Try to remove this line
 
                 # Act according to the transmission result
