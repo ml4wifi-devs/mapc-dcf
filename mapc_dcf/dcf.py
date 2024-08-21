@@ -14,19 +14,19 @@ class DCF():
 
     def __init__(
             self,
+            key: PRNGKey,
             ap: int,
             des_env: simpy.Environment,
             channel: Channel,
             frame_generator: Callable[[], WiFiFrame],
-            key: PRNGKey
     ) -> None:
+        self.key = key
         self.ap = ap
         self.des_env = des_env
         self.channel = channel
         self.frame_generator = frame_generator
         self.cw = 2**CW_EXP_MIN
         self.tx_power = DEFAULT_TX_POWER
-        self.key = key
     
     def start_operation(self):
         self.des_env.process(self.run())
@@ -35,8 +35,12 @@ class DCF():
         yield self.des_env.timeout(SLOT_TIME)
 
     def run(self):
+        """
+        The simplified 802.11 DCF algorithm. Diagram of the algorithm can be found in
+        the documentation `\\docs\\diagrams\\DCF_simple.pdf`.
+        """
 
-        logging.info(f"AP{self.ap}: DCF started")
+        logging.info(f"AP{self.ap}: DCF running")
 
         # While ready to send frames
         while True:
@@ -49,6 +53,7 @@ class DCF():
                 # First condition: channel is idle
                 channel_idle = False
                 while not channel_idle:
+                    logging.info(f"AP{self.ap}: Channel busy, waiting for idle channel")
 
                     # Wait for DIFS
                     while not channel_idle:
@@ -60,6 +65,7 @@ class DCF():
                     # Initialize backoff counter
                     key_backoff, self.key = jax.random.split(self.key)
                     backoff_counter = jax.random.randint(key_backoff, shape=(1,), minval=2**CW_EXP_MIN, maxval=self.cw+1).item()
+                    logging.info(f"AP{self.ap}: Backoff counter initialized to {backoff_counter}")
 
                     # Second condition: backoff counter is zero
                     while channel_idle and backoff_counter > 0:
@@ -70,7 +76,8 @@ class DCF():
                         backoff_counter -= 1
                         channel_idle = self.channel.is_idle(self.des_env.now, frame.src)
                 
-                logging.info(f"AP{self.ap}: Backoff counter zero. Sending frame")
+                logging.info(f"AP{self.ap}: Backoff counter: 0")
+                logging.info(f"AP{self.ap}: Channel is idle and backoff counter is zero. Sending frame...")
                 
                 # If both conditions are met, send the frame
                 yield self.des_env.timeout(SIFS)            # TODO Try to remove this line
@@ -81,8 +88,11 @@ class DCF():
 
                 # Act according to the transmission result
                 if frame_sent_successfully:
+                    logging.info(f"AP{self.ap}: Frame sent successfully! Resetting CW to {2**CW_EXP_MIN}")
                     frame_sent_successfully = True
                     self.cw = 2**CW_EXP_MIN
                 else:
+                    logging.info(f"AP{self.ap}: Collision detected! Increasing CW")
                     self.cw = min(2*self.cw, 2**CW_EXP_MAX)
+                    logging.info(f"AP{self.ap}: Retrying with CW={self.cw}")
     

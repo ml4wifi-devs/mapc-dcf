@@ -1,6 +1,5 @@
 from typing import Set, Optional
 
-import random
 import logging
 import jax
 import jax.numpy as jnp
@@ -25,6 +24,19 @@ class WiFiFrame():
     
 
     def materialize(self, start_time: float, tx_power: float):
+        """
+        Materialize the WiFi frame by setting its start time, end time, and transmission power.
+        End time is calculated based on the predefined frame duration. After materialization,
+        the frame can be sent over the channel.
+
+        Parameters
+        ----------
+        start_time : float
+            Transmission start time.
+        tx_power : float
+            Transmission power.
+        """
+        
         self.start_time = start_time
         self.end_time = start_time + self.duration
         self.tx_power = tx_power
@@ -57,7 +69,8 @@ class Channel():
             Whether the channel is idle or not.
         """
 
-        return random.random() < 0.95 # TODO Remove this line
+        self.key, key_idle = jax.random.split(self.key)
+        return jax.random.uniform(key_idle).item() < 0.95 # TODO Remove this line
 
         self.key, key_sinr = jax.random.split(self.key)
 
@@ -136,6 +149,8 @@ class Channel():
         bool
             Whether the frame was transmitted successfully or not.
         """
+
+        self.key, key_per = jax.random.split(self.key)
         
         frame_start_time, frame_end_time = frame.start_time, frame.end_time
         overlapping_frames = self.frames_history.overlap(frame_start_time, frame_end_time)
@@ -168,7 +183,7 @@ class Channel():
             # TODO Can we agregate the PERs in a better way? Maybe we can weight them by the time they are overlapping?
             max_per = max(max_per, per_middlepoint)
         
-        return random.random() > max_per
+        return jax.random.uniform(key_per).item() < max_per
     
 
     def _get_middlepoints(self, overlapping_frames: Set[Interval]) -> Array:
