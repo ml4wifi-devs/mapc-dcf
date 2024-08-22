@@ -1,4 +1,4 @@
-from typing import Set, Optional
+from typing import Set, Optional, Tuple
 
 import logging
 import jax
@@ -69,11 +69,6 @@ class Channel():
             Whether the channel is idle or not.
         """
 
-        self.key, key_idle = jax.random.split(self.key)
-        return jax.random.uniform(key_idle).item() < 0.95 # TODO Remove this line
-
-        self.key, key_sinr = jax.random.split(self.key)
-
         overlapping_frames = self.frames_history[time]
 
         tx_matrix_at_time = jnp.zeros((self.n_nodes, self.n_nodes))
@@ -84,8 +79,7 @@ class Channel():
             tx_matrix_at_time = tx_matrix_at_time.at[overlapping_frame.src, overlapping_frame.dst].set(1)
             tx_power_at_time = tx_power_at_time.at[overlapping_frame.src].set(overlapping_frame.tx_power)
         
-        sinr_at_ap = self._get_sinr(key_sinr, tx_matrix_at_time, tx_power_at_time)[ap].item()
-        return sinr_at_ap < CCA_THRESHOLD
+        return self._get_signal_level(tx_matrix_at_time, tx_power_at_time, ap) < CCA_THRESHOLD
 
 
     def is_idle_for(self, time: float, duration: float, ap: int) -> bool:
@@ -191,9 +185,8 @@ class Channel():
         end_times = {interval.data.end_time for interval in overlapping_frames}
         timepoints = jnp.array(sorted(list(start_times.union(end_times))))
         return (timepoints[:-1] + timepoints[1:]) / 2
-
     
-    def _get_sinr(self, key: PRNGKey, tx: Array, tx_power: Array) -> Array:
+    def _get_interference(self, tx: Array, tx_power: Array) -> Tuple[Array, Array]:
 
         distance = jnp.sqrt(jnp.sum((self.pos[:, None, :] - self.pos[None, ...]) ** 2, axis=-1))
         distance = jnp.clip(distance, REFERENCE_DISTANCE, None)
@@ -205,16 +198,22 @@ class Channel():
         b = jnp.concatenate([interference_matrix, jnp.ones((1, interference_matrix.shape[1]))], axis=0)
         interference = jax.vmap(logsumexp_db, in_axes=(1, 1))(a, b)
 
-        sinr = signal_power - interference
-        sinr = sinr + tfd.Normal(loc=jnp.zeros_like(signal_power), scale=DEFAULT_SIGMA).sample(seed=key)
-        sinr = (sinr * tx).sum(axis=1)
+        return signal_power, interference
 
-        return sinr
+    
+    def _get_signal_level(self, tx: Array, tx_power: Array, ap: int) -> Scalar:
+        _, interference = self._get_interference(tx, tx_power)
+        return interference[ap].item()
     
 
     def _get_per(self, key: PRNGKey, tx: Array, mcs: Array, tx_power: Array, ap_src: int) -> Scalar:
 
-        sinr = self._get_sinr(key, tx, tx_power)
+        signal_power, interference = self._get_interference(tx, tx_power)
+
+        sinr = signal_power - interference
+        sinr = sinr + tfd.Normal(loc=jnp.zeros_like(signal_power), scale=DEFAULT_SIGMA).sample(seed=key)
+        sinr = (sinr * tx).sum(axis=1)
+
         sdist = tfd.Normal(loc=MEAN_SNRS[mcs], scale=2.)
         logit_success_prob = sdist.log_cdf(sinr) - sdist.log_survival_function(sinr)
         logit_success_prob = jnp.where(sinr > 0, logit_success_prob, -jnp.inf)
