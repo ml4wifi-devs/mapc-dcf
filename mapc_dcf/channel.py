@@ -186,7 +186,7 @@ class Channel():
         timepoints = jnp.array(sorted(list(start_times.union(end_times))))
         return (timepoints[:-1] + timepoints[1:]) / 2
     
-    def _get_interference(self, tx: Array, tx_power: Array) -> Tuple[Array, Array]:
+    def _get_signal_power_and_interference(self, tx: Array, tx_power: Array) -> Tuple[Array, Array]:
 
         distance = jnp.sqrt(jnp.sum((self.pos[:, None, :] - self.pos[None, ...]) ** 2, axis=-1))
         distance = jnp.clip(distance, REFERENCE_DISTANCE, None)
@@ -202,13 +202,13 @@ class Channel():
 
     
     def _get_signal_level(self, tx: Array, tx_power: Array, ap: int) -> Scalar:
-        _, interference = self._get_interference(tx, tx_power)
+        _, interference = self._get_signal_power_and_interference(tx, tx_power)
         return interference[ap].item()
     
 
     def _get_per(self, key: PRNGKey, tx: Array, mcs: Array, tx_power: Array, ap_src: int) -> Scalar:
 
-        signal_power, interference = self._get_interference(tx, tx_power)
+        signal_power, interference = self._get_signal_power_and_interference(tx, tx_power)
 
         sinr = signal_power - interference
         sinr = sinr + tfd.Normal(loc=jnp.zeros_like(signal_power), scale=DEFAULT_SIGMA).sample(seed=key)
