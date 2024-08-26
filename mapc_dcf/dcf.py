@@ -57,8 +57,7 @@ class DCF():
 
                     # Wait for DIFS
                     while not channel_idle:
-                        # TODO Verify the division by 10. Can we do it in a better way?
-                        yield self.des_env.timeout(DIFS / 10)
+                        yield self.des_env.timeout(SLOT_TIME)
                         channel_idle = self.channel.is_idle_for(self.des_env.now, DIFS, frame.src)
                     logging.info(f"AP{self.ap}: Channel idle for DIFS")
                     
