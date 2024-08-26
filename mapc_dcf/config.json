@@ -1,16 +1,11 @@
 {
-    "n_reps": 40,
     "seed": 42,
-    "scenarios": [
-        {
-            "scenario": "simple_scenario_1",
-            "name": "simple_scenario_1",
-            "simulation_length": 1e-3,
-            "params": {
-                "d": 40.0,
-                "mcs": 11
-            }
-        }
-    ]
+    "n_reps": 5,
+    "simulation_length": 1e-3,
+    "scenario": "simple_scenario_1",
+    "params": {
+        "d": 40.0,
+        "mcs": 11
+    }
 
 }
