@@ -13,28 +13,30 @@ from tqdm import tqdm
 from mapc_mab.envs.static_scenarios import *
 from mapc_dcf.channel import Channel
 from mapc_dcf.nodes import AccessPoint
+from mapc_dcf.logger import Logger
 
 def run_scenario(
         key: PRNGKey,
-        n_reps: int,
+        n_runs: int,
         simulation_length: float,
         scenario: StaticScenario,
+        logger: Logger
 ):  
-    
-    for i, _ in enumerate(tqdm(range(n_reps), desc='Repetition'), start=1):
-        logging.info(f"Repetition {i}/{n_reps}")
 
-        key, key_channel = jax.random.split(key)
+    for run, _ in enumerate(tqdm(range(n_runs), desc='Repetition'), start=1):
+        logging.info(f"Run {run}/{n_runs}")
+
+        key, key_scenario = jax.random.split(key)
         des_env = simpy.Environment()
-        channel = Channel(key_channel, scenario.pos)
+        channel = Channel(key_scenario, scenario.pos)
         aps = list(scenario.associations.keys())
         for ap in aps:
 
-            key, key_ap = jax.random.split(key)
+            key_scenario, key_ap = jax.random.split(key_scenario)
             clients = jnp.array(scenario.associations[ap])
             mcs = scenario.mcs[ap].item()
-            ap = AccessPoint(ap, scenario.pos, mcs, clients, channel, des_env, key_ap)
-            ap.start_operation()
+            ap = AccessPoint(key_ap, ap, scenario.pos, mcs, clients, channel, des_env, logger)
+            ap.start_operation(run)
         
         des_env.run(until=simulation_length)
         del des_env
@@ -42,16 +44,18 @@ def run_scenario(
 
 if __name__ == '__main__':
     args = ArgumentParser()
-    args.add_argument('-c', '--config', type=str, default='config.json')
-    args.add_argument('-o', '--output', type=str, default='all_results.json')
-    args.add_argument('-l', '--log', type=str, default='warning')
+    args.add_argument('-c', '--config_path',    type=str, default='config.json')
+    args.add_argument('-r', '--results_path',   type=str, default='all_results.csv')
+    args.add_argument('-l', '--log_level',      type=str, default='warning')
     args = args.parse_args()
 
-    logging.basicConfig(level=logging.getLevelName(args.log.upper()))
+    logging.basicConfig(level=logging.getLevelName(args.log_level.upper()))
 
-    with open(args.config, 'r') as file:
+    with open(args.config_path, 'r') as file:
         config = json.load(file)
-
+    
     key = jax.random.PRNGKey(config['seed'])
-    scenario = globals()[config['scenario']](**config['params'])
-    run_scenario(key, config['n_reps'], config['simulation_length'], scenario)
+
+    logger = Logger(args.results_path, config['n_runs'], **config['logger_params'])
+    scenario = globals()[config['scenario']](**config['scenario_params'])
+    run_scenario(key, config['n_runs'], config['simulation_length'], scenario, logger)
