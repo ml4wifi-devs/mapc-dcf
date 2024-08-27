@@ -28,7 +28,7 @@ def run_scenario(
 
         key, key_scenario = jax.random.split(key)
         des_env = simpy.Environment()
-        channel = Channel(key_scenario, scenario.pos)
+        channel = Channel(key_scenario, scenario.pos, walls=scenario.walls)
         aps = list(scenario.associations.keys())
         for ap in aps:
 

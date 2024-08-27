@@ -26,7 +26,7 @@ class Logger:
             os.remove(self.results_path)
 
 
-    def save_results(self, run: int, sim_time: float):
+    def save_results(self, run: int, sim_time: float, time_delta: float) -> None:
 
         logging.info(f"logger: Saving results for run {run} at time {sim_time}")
         
@@ -35,18 +35,19 @@ class Logger:
         logs_df = pd.DataFrame(logs, columns=self.column_names)
 
         # Calculate the results
+        src = logs_df.groupby('Dst')['Src'].first()
         data_volume = logs_df[logs_df["Collision"] == False].groupby('Dst')['Payload'].sum() / 1e6
         success_rate = 1 - logs_df.groupby('Dst')['Collision'].mean()
 
         # Build the results dataframe
-        results_df = pd.DataFrame({'DataVolume': data_volume, 'SuccessRate': success_rate})
+        results_df = pd.DataFrame({'Src': src, 'DataVolume': data_volume, 'SuccessRate': success_rate})
         results_df.reset_index(inplace=True)
         results_df['Run'] = run
         results_df['Time'] = sim_time
-        results_df['DataRate'] = results_df['DataVolume'] / sim_time
+        results_df['DataRate'] = results_df['DataVolume'] / time_delta
         
         # Reorder the columns
-        results_df = results_df[['Run', 'Time', 'Dst', 'DataVolume', 'DataRate', 'SuccessRate']]
+        results_df = results_df[['Run', 'Time', 'Src', 'Dst', 'DataVolume', 'DataRate', 'SuccessRate']]
 
         # Save the results
         results_df.to_csv(self.results_path, mode='a', header=not os.path.exists(self.results_path), index=False)
@@ -60,8 +61,9 @@ class Logger:
         if self.log_collisions or not collision:
 
             # Every logging_freq seconds, aggregate, save and reset the logs structure
-            if sim_time - self.logs_per_run[run][0] >= self.logging_freq:
-                self.save_results(run, sim_time)
+            time_delta = sim_time - self.logs_per_run[run][0]
+            if time_delta >= self.logging_freq:
+                self.save_results(run, sim_time, time_delta)
                 self.logs_per_run[run][0] = sim_time
             
             # Log the event
