@@ -1,7 +1,8 @@
 {
     "seed": 42,
-    "n_runs": 5,
+    "n_runs": 1,
     "simulation_length": 5e-2,
+    "warmup_length": 5e-3,
     "scenario": "simple_scenario_5",
     "scenario_params": {
         "d_ap": 10.0,

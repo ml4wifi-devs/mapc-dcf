@@ -35,6 +35,7 @@ def plot(
     # Calculate the confidence intervals
     df_data_rate = df.pivot(index='Run', columns='Time', values='DataRate').reset_index().drop(columns=['Run'])
     time = df_data_rate.columns.values.astype(float)
+    time = time - time[0]
     mean, ci_low, ci_high = confidence_interval(df_data_rate.values)
 
     # Plot the coordinated single TX data rate

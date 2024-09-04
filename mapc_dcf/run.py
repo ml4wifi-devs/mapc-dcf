@@ -19,6 +19,7 @@ def run_scenario(
         key: PRNGKey,
         n_runs: int,
         simulation_length: float,
+        warmup_length: float,
         scenario: StaticScenario,
         logger: Logger
 ):  
@@ -38,7 +39,7 @@ def run_scenario(
             ap = AccessPoint(key_ap, ap, scenario.pos, mcs, clients, channel, des_env, logger)
             ap.start_operation(run)
         
-        des_env.run(until=simulation_length)
+        des_env.run(until=warmup_length + simulation_length)
         del des_env
 
 
@@ -56,6 +57,6 @@ if __name__ == '__main__':
     
     key = jax.random.PRNGKey(config['seed'])
 
-    logger = Logger(args.results_path, config['n_runs'], **config['logger_params'])
+    logger = Logger(args.results_path, config['n_runs'], config['warmup_length'], **config['logger_params'])
     scenario = globals()[config['scenario']](**config['scenario_params'])
-    run_scenario(key, config['n_runs'], config['simulation_length'], scenario, logger)
+    run_scenario(key, config['n_runs'], config['simulation_length'], config['warmup_length'], scenario, logger)

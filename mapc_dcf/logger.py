@@ -11,10 +11,12 @@ class Logger:
         self,
         results_path: str,
         n_runs: int,
+        warmup_length: float,
         logging_freq: float,
         log_collisions: bool
     ) -> None:
         self.n_runs = n_runs
+        self.warmup_length = warmup_length
         self.logging_freq = logging_freq
         self.column_names = ['SimTime', 'Src', 'Dst', 'Payload', 'MCS', 'Collision']
         self.logs_per_run = {run: [0., []] for run in range(1, self.n_runs + 1)}
@@ -56,8 +58,12 @@ class Logger:
         self.logs_per_run[run] = [sim_time, []]
 
 
-    def log(self, run: int, sim_time: float, src: int, dst: int, payload: int, mcs: int, collision: bool):
+    def log(self, run: int, sim_time: float, src: int, dst: int, payload: int, mcs: int, collision: bool) -> None:
 
+        if sim_time <= self.warmup_length:
+            return
+
+        # If log_collisions flag is True, log all events. Otherwise, log only successful transmissions
         if self.log_collisions or not collision:
 
             # Every logging_freq seconds, aggregate, save and reset the logs structure
