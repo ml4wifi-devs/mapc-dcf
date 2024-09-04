@@ -42,11 +42,13 @@ def run_scenario(
         des_env.run(until=warmup_length + simulation_length)
         del des_env
 
+    logger.save_accumulators(simulation_length)
+
 
 if __name__ == '__main__':
     args = ArgumentParser()
-    args.add_argument('-c', '--config_path',    type=str, default='config.json')
-    args.add_argument('-r', '--results_path',   type=str, default='all_results.csv')
+    args.add_argument('-c', '--config_path',    type=str, default='default_config.json')
+    args.add_argument('-r', '--results_path',   type=str, default='all_results')
     args.add_argument('-l', '--log_level',      type=str, default='warning')
     args = args.parse_args()
 
