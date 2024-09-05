@@ -57,12 +57,12 @@ def plot(
 
 if __name__ == '__main__':
     args = ArgumentParser()
-    args.add_argument('-r', '--results_path',   type=str, required=True)
+    args.add_argument('-d', '--csv_data',       type=str, required=True)
     args.add_argument('-c', '--config_path',    type=str, required=True)
     args.add_argument('-b', '--num_bins',       type=int, default=None)
     args = args.parse_args()
 
-    df_results = pd.read_csv(args.results_path)
+    df_results = pd.read_csv(args.csv_data)
 
     with open(args.config_path, 'r') as file:
         config = json.load(file)
