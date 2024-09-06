@@ -102,13 +102,16 @@ class Channel():
             Whether the channel is idle for the given duration or not.
         """
 
-        overlapping_frames = self.frames_history.overlap(max(0., time - duration), time)
+        low_time, high_time = max(0., time - duration), time
+        overlapping_frames = self.frames_history.overlap(low_time, high_time)
         logging.debug(f"AP{ap}: Overlapping frames: {overlapping_frames}")
 
-        middlepoints = self._get_middlepoints(overlapping_frames)
+        middlepoints, _ = self._get_middlepoints_and_durations(overlapping_frames, low_time, high_time)
         for middlepoint in middlepoints:
+
             if not self.is_idle(middlepoint, ap):
                 return False
+        
         return True
 
     
@@ -146,13 +149,13 @@ class Channel():
 
         self.key, key_per = jax.random.split(self.key)
         
-        frame_start_time, frame_end_time = frame.start_time, frame.end_time
+        frame_start_time, frame_end_time, frame_duration = frame.start_time, frame.end_time, frame.duration
         overlapping_frames = self.frames_history.overlap(frame_start_time, frame_end_time)
         overlapping_frames_tree = IntervalTree(overlapping_frames)
 
-        success_prob = 1.
-        middlepoints = self._get_middlepoints(overlapping_frames)
-        for middlepoint in middlepoints:
+        collision_probs = []
+        middlepoints, durations = self._get_middlepoints_and_durations(overlapping_frames, frame_start_time, frame_end_time)
+        for middlepoint, duration in zip(middlepoints, durations):
 
             self.key, key_per = jax.random.split(self.key)
             middlepoint_overlapping_frames = overlapping_frames_tree[middlepoint]
@@ -166,26 +169,38 @@ class Channel():
                 mcs_at_middlepoint = mcs_at_middlepoint.at[overlapping_frame.src].set(overlapping_frame.mcs)
                 tx_power_at_middlepoint = tx_power_at_middlepoint.at[overlapping_frame.src].set(overlapping_frame.tx_power)
             
-            prob_middlepoint = self._get_success_probability(
+            weight = duration / frame_duration
+            success_prob_middlepoint = self._get_success_probability(
                 key_per,
                 tx_matrix_at_middlepoint,
                 mcs_at_middlepoint,
                 tx_power_at_middlepoint,
                 frame.src
             )
-
-            # TODO Can we agregate the PERs in a better way? Maybe we can weight them by the time they are overlapping?
-            success_prob = min(success_prob, prob_middlepoint)
+            collision_prob_middlepoint = weight * (1. - success_prob_middlepoint)
+            collision_probs.append(collision_prob_middlepoint)
         
-        return jax.random.uniform(key_per).item() < success_prob
+        collision_probs = jnp.array(collision_probs)
+        success_probs = 1. - collision_probs
+
+        return (jax.random.uniform(key_per, shape=success_probs.shape) < success_probs).all().item()
     
 
-    def _get_middlepoints(self, overlapping_frames: Set[Interval]) -> Array:
-        start_times = {interval.data.start_time for interval in overlapping_frames}
-        end_times = {interval.data.end_time for interval in overlapping_frames}
+    def _get_middlepoints_and_durations(
+            self,
+            overlapping_frames: Set[Interval],
+            low_time: float,
+            high_time: float
+    ) -> Tuple[Array, Array]:
+        
+        start_times = {interval.data.start_time for interval in overlapping_frames if interval.data.start_time >= low_time}
+        end_times = {interval.data.end_time for interval in overlapping_frames if interval.data.end_time <= high_time}
         timepoints = jnp.array(sorted(list(start_times.union(end_times))))
-        return (timepoints[:-1] + timepoints[1:]) / 2
+        durations = timepoints[1:] - timepoints[:-1]
+
+        return (timepoints[:-1] + timepoints[1:]) / 2, durations
     
+
     def _get_signal_power_and_interference(self, tx: Array, tx_power: Array) -> Tuple[Array, Array]:
 
         distance = jnp.sqrt(jnp.sum((self.pos[:, None, :] - self.pos[None, ...]) ** 2, axis=-1))
