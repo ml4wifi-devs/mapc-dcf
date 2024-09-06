@@ -162,4 +162,5 @@ cython_debug/
 # Add any other global ignores below:
 mapc_dcf/notebooks/*
 mapc_dcf/configs/*
+out/*
 .vscode/
