@@ -8,6 +8,7 @@ import simpy
 
 from mapc_dcf.constants import *
 from mapc_dcf.channel import Channel, WiFiFrame
+from mapc_dcf.logger import Logger
 
 
 class DCF():
@@ -18,17 +19,20 @@ class DCF():
             ap: int,
             des_env: simpy.Environment,
             channel: Channel,
+            logger: Logger,
             frame_generator: Callable[[], WiFiFrame],
     ) -> None:
         self.key = key
         self.ap = ap
         self.des_env = des_env
         self.channel = channel
+        self.logger = logger
         self.frame_generator = frame_generator
         self.cw = 2**CW_EXP_MIN
         self.tx_power = DEFAULT_TX_POWER
     
-    def start_operation(self):
+    def start_operation(self, run_number: int):
+        self.run_number = run_number
         self.des_env.process(self.run())
     
     def wait_for_one_slot(self):
@@ -57,8 +61,7 @@ class DCF():
 
                     # Wait for DIFS
                     while not channel_idle:
-                        # TODO Verify the division by 10. Can we do it in a better way?
-                        yield self.des_env.timeout(DIFS / 10)
+                        yield self.des_env.timeout(SLOT_TIME)
                         channel_idle = self.channel.is_idle_for(self.des_env.now, DIFS, frame.src)
                     logging.info(f"AP{self.ap}: Channel idle for DIFS")
                     
@@ -89,10 +92,12 @@ class DCF():
                 # Act according to the transmission result
                 if frame_sent_successfully:
                     logging.info(f"AP{self.ap}: Frame sent successfully! Resetting CW to {2**CW_EXP_MIN}")
+                    self.logger.log(self.run_number, self.des_env.now, frame.src, frame.dst, frame.size, frame.mcs, False)
                     frame_sent_successfully = True
                     self.cw = 2**CW_EXP_MIN
                 else:
                     logging.info(f"AP{self.ap}: Collision detected! Increasing CW")
+                    self.logger.log(self.run_number, self.des_env.now, frame.src, frame.dst, frame.size, frame.mcs, True)
                     self.cw = min(2*self.cw, 2**CW_EXP_MAX)
                     logging.info(f"AP{self.ap}: Retrying with CW={self.cw}")
     

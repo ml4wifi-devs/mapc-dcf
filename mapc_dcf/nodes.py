@@ -5,19 +5,21 @@ import simpy
 
 from mapc_dcf.channel import Channel, WiFiFrame
 from mapc_dcf.dcf import DCF
+from mapc_dcf.logger import Logger
 
 class AccessPoint():
 
     def __init__(
             self,
+            key: PRNGKey,
             id: int,
             position: Array,
             mcs: int,
             clients: Array,
             channel: Channel,
             des_env: simpy.Environment,
-            key: PRNGKey
-        ) -> None:
+            logger: Logger
+    ) -> None:
         self.key, key_dcf = jax.random.split(key)
         self.id = id
         self.position = position
@@ -25,7 +27,7 @@ class AccessPoint():
         self.clients = clients
         self.channel = channel
         self.des_env = des_env
-        self.dcf = DCF(key_dcf, self.id, self.des_env, self.channel, self.frame_generator)
+        self.dcf = DCF(key_dcf, self.id, self.des_env, self.channel, logger, self.frame_generator)
     
     def frame_generator(self) -> WiFiFrame:
         """
@@ -40,5 +42,5 @@ class AccessPoint():
         dst = jax.random.choice(key_frame, self.clients).item()
         return WiFiFrame(self.id, dst, self.mcs)
     
-    def start_operation(self):
-        self.dcf.start_operation()
+    def start_operation(self, run_number: int):
+        self.dcf.start_operation(run_number)

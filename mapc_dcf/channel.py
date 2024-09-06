@@ -150,7 +150,7 @@ class Channel():
         overlapping_frames = self.frames_history.overlap(frame_start_time, frame_end_time)
         overlapping_frames_tree = IntervalTree(overlapping_frames)
 
-        max_per = 0
+        success_prob = 1.
         middlepoints = self._get_middlepoints(overlapping_frames)
         for middlepoint in middlepoints:
 
@@ -166,7 +166,7 @@ class Channel():
                 mcs_at_middlepoint = mcs_at_middlepoint.at[overlapping_frame.src].set(overlapping_frame.mcs)
                 tx_power_at_middlepoint = tx_power_at_middlepoint.at[overlapping_frame.src].set(overlapping_frame.tx_power)
             
-            per_middlepoint = self._get_per(
+            prob_middlepoint = self._get_success_probability(
                 key_per,
                 tx_matrix_at_middlepoint,
                 mcs_at_middlepoint,
@@ -175,9 +175,9 @@ class Channel():
             )
 
             # TODO Can we agregate the PERs in a better way? Maybe we can weight them by the time they are overlapping?
-            max_per = max(max_per, per_middlepoint)
+            success_prob = min(success_prob, prob_middlepoint)
         
-        return jax.random.uniform(key_per).item() < max_per
+        return jax.random.uniform(key_per).item() < success_prob
     
 
     def _get_middlepoints(self, overlapping_frames: Set[Interval]) -> Array:
@@ -206,7 +206,7 @@ class Channel():
         return interference[ap].item()
     
 
-    def _get_per(self, key: PRNGKey, tx: Array, mcs: Array, tx_power: Array, ap_src: int) -> Scalar:
+    def _get_success_probability(self, key: PRNGKey, tx: Array, mcs: Array, tx_power: Array, ap_src: int) -> Scalar:
 
         signal_power, interference = self._get_signal_power_and_interference(tx, tx_power)
 
@@ -219,5 +219,5 @@ class Channel():
         logit_success_prob = jnp.where(sinr > 0, logit_success_prob, -jnp.inf)
         success_prob = jnp.exp(logit_success_prob)/(1 + jnp.exp(logit_success_prob))
 
-        return 1 - success_prob[ap_src].item()
+        return success_prob[ap_src].item()
         
