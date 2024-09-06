@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+mkdir -p out
+
 for i in {1..10}; do
   config_file="mapc_dcf/configs/collisions_vs_density/n${i}.json"
   result_path="out/n${i}"
