@@ -67,7 +67,7 @@ class DCF():
                     
                     # Initialize backoff counter
                     key_backoff, self.key = jax.random.split(self.key)
-                    backoff_counter = jax.random.randint(key_backoff, shape=(1,), minval=2**CW_EXP_MIN, maxval=self.cw+1).item()
+                    backoff_counter = jax.random.randint(key_backoff, shape=(1,), minval=0, maxval=self.cw+1).item()
                     logging.info(f"AP{self.ap}: Backoff counter initialized to {backoff_counter}")
 
                     # Second condition: backoff counter is zero
