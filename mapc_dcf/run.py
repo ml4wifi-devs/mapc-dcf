@@ -42,7 +42,7 @@ def run_scenario(
         des_env.run(until=warmup_length + simulation_length)
         del des_env
 
-    logger.save_accumulators(simulation_length)
+    logger.shutdown()
 
 
 if __name__ == '__main__':
@@ -59,6 +59,6 @@ if __name__ == '__main__':
     
     key = jax.random.PRNGKey(config['seed'])
 
-    logger = Logger(args.results_path, config['n_runs'], config['warmup_length'], **config['logger_params'])
+    logger = Logger(args.results_path, config['n_runs'], config['simulation_length'], config['warmup_length'], **config['logger_params'])
     scenario = globals()[config['scenario']](**config['scenario_params'])
     run_scenario(key, config['n_runs'], config['simulation_length'], config['warmup_length'], scenario, logger)

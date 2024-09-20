@@ -67,8 +67,10 @@ class DCF():
                     
                     # Initialize backoff counter
                     key_backoff, self.key = jax.random.split(self.key)
-                    backoff_counter = jax.random.randint(key_backoff, shape=(1,), minval=2**CW_EXP_MIN, maxval=self.cw+1).item()
-                    logging.info(f"AP{self.ap}: Backoff counter initialized to {backoff_counter}")
+                    selected_backoff = jax.random.randint(key_backoff, shape=(1,), minval=0, maxval=self.cw).item()
+                    backoff_counter = selected_backoff
+                    self.logger.log_backoff(self.des_env.now, selected_backoff, self.ap)
+                    logging.info(f"AP{self.ap}:t{self.des_env.now}\t Backoff counter initialized to {selected_backoff}")
 
                     # Second condition: backoff counter is zero
                     while channel_idle and backoff_counter > 0:
@@ -91,13 +93,12 @@ class DCF():
 
                 # Act according to the transmission result
                 if frame_sent_successfully:
-                    logging.info(f"AP{self.ap}: Frame sent successfully! Resetting CW to {2**CW_EXP_MIN}")
                     self.logger.log(self.run_number, self.des_env.now, frame.src, frame.dst, frame.size, frame.mcs, False)
                     frame_sent_successfully = True
                     self.cw = 2**CW_EXP_MIN
+                    logging.info(f"AP{self.ap}:t{self.des_env.now}\t TX successfull, resetting CW to {self.cw}")
                 else:
-                    logging.info(f"AP{self.ap}: Collision detected! Increasing CW")
                     self.logger.log(self.run_number, self.des_env.now, frame.src, frame.dst, frame.size, frame.mcs, True)
                     self.cw = min(2*self.cw, 2**CW_EXP_MAX)
-                    logging.info(f"AP{self.ap}: Retrying with CW={self.cw}")
+                    logging.info(f"AP{self.ap}:t{self.des_env.now}\t Collision, increasing CW to {self.cw}")
     
