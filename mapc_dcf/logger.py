@@ -90,10 +90,10 @@ class Logger:
         
         # Log accumulators
         if run not in self.acumulators:
-            self.acumulators[run] = {"DataVolume": 0, "TotalFrames": 0, "SuccessFrames": 0}
+            self.acumulators[run] = {"DataVolume": 0, "TotalFrames": 0, "CollisionFrames": 0}
         self.acumulators[run]["DataVolume"] += payload / 1e6
         self.acumulators[run]["TotalFrames"] += 1
-        self.acumulators[run]["SuccessFrames"] += 1 - collision
+        self.acumulators[run]["CollisionFrames"] += collision
 
         # If log_collisions flag is True, log all transmissions. Otherwise, log only successful transmissions
         if self.log_collisions or not collision:
@@ -118,16 +118,16 @@ class Logger:
 
         # Aggregate the dictionaries
         data_rate = [self.acumulators[run]["DataVolume"] / self.simulation_length for run in self.acumulators]
-        success_rate = [self.acumulators[run]["SuccessFrames"] / self.acumulators[run]["TotalFrames"] for run in self.acumulators]
+        collision_rate = [self.acumulators[run]["CollisionFrames"] / self.acumulators[run]["TotalFrames"] for run in self.acumulators]
 
         # Calculate the confidence intervals
         data_rate_mean, data_rate_low, data_rate_high = confidence_interval(np.array(data_rate))
-        success_rate_mean, success_rate_low, success_rate_high = confidence_interval(np.array(success_rate))
+        collision_rate_mean, collision_rate_low, collision_rate_high = confidence_interval(np.array(collision_rate))
 
         # Save the results
         results = {
             "DataRate": {"Mean": data_rate_mean, "Low": data_rate_low, "High": data_rate_high},
-            "SuccessRate": {"Mean": success_rate_mean, "Low": success_rate_low, "High": success_rate_high}
+            "CollisionRate": {"Mean": collision_rate_mean, "Low": collision_rate_low, "High": collision_rate_high}
         }
         with open(self.results_path_json, 'w') as file:
             json.dump(results, file, indent=4)

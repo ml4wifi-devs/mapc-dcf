@@ -20,7 +20,7 @@ class WiFiFrame():
         self.dst = dst
         self.mcs = mcs
         self.size = size
-        self.duration = self.size / (DATA_RATES[mcs].item() * 1e6)
+        self.duration = self.size / (DATA_RATES[mcs].item() * 1e6) # ~84 us for MCS 11
     
 
     def materialize(self, start_time: float, tx_power: float):
@@ -70,6 +70,9 @@ class Channel():
         """
 
         overlapping_frames = self.frames_history[time]
+
+        # TODO To be removed once debugged
+        return not overlapping_frames
 
         tx_matrix_at_time = jnp.zeros((self.n_nodes, self.n_nodes))
         tx_power_at_time = jnp.zeros((self.n_nodes,))
@@ -132,44 +135,58 @@ class Channel():
         self.frames_history.add(Interval(start_time, frame.end_time, frame))
 
 
-    def is_succesfully_transmitted(self, frame: WiFiFrame) -> bool:
+    def is_colliding(self, frame: WiFiFrame) -> bool:
         """
-        Check if a WiFi frame was transmitted successfully. In other words, check if the frame was received without errors.
+        Check if a frame transmission resulted in collision.
 
         Parameters
         ----------
         frame : WiFiFrame
-            The frame to check.
+            The transmitted frame.
 
         Returns
         -------
         bool
-            Whether the frame was transmitted successfully or not.
+            Whether there was a collision or not.
         """
-
-        self.key, key_per = jax.random.split(self.key)
         
+        # Get the overlapping frames with the transmitted frame
         frame_start_time, frame_end_time, frame_duration = frame.start_time, frame.end_time, frame.duration
-        overlapping_frames = self.frames_history.overlap(frame_start_time, frame_end_time)
+        overlapping_frames = self.frames_history.overlap(frame_start_time, frame_end_time) - {Interval(frame_start_time, frame_end_time, frame)}
         overlapping_frames_tree = IntervalTree(overlapping_frames)
 
-        collision_probs = []
+        if not overlapping_frames:
+            return False
+        
+        # TODO to be removed once debugged
+        return True
+
+        # Calculate the middlepoints and durations in reference to the transmitted frame
         middlepoints, durations = self._get_middlepoints_and_durations(overlapping_frames, frame_start_time, frame_end_time)
+        
+        # Calculate the success probability at the middlepoints
+        middlepoints_collision_probs = []
         for middlepoint, duration in zip(middlepoints, durations):
 
-            self.key, key_per = jax.random.split(self.key)
+            # Get the concurrent frames at the middlepoint
             middlepoint_overlapping_frames = overlapping_frames_tree[middlepoint]
+            if not middlepoint_overlapping_frames:
+                continue
+            middlepoint_overlapping_frames.union({Interval(frame_start_time, frame_end_time, frame)})
+
+            # Build the transmission matrix, MCS, and transmission power at the middlepoint
             tx_matrix_at_middlepoint = jnp.zeros((self.n_nodes, self.n_nodes))
             mcs_at_middlepoint = jnp.zeros((self.n_nodes,), dtype=int)
             tx_power_at_middlepoint = jnp.zeros((self.n_nodes,))
             for frame_interval in middlepoint_overlapping_frames:
                 
-                overlapping_frame = frame_interval.data
-                tx_matrix_at_middlepoint = tx_matrix_at_middlepoint.at[overlapping_frame.src, overlapping_frame.dst].set(1)
-                mcs_at_middlepoint = mcs_at_middlepoint.at[overlapping_frame.src].set(overlapping_frame.mcs)
-                tx_power_at_middlepoint = tx_power_at_middlepoint.at[overlapping_frame.src].set(overlapping_frame.tx_power)
+                iter_frame = frame_interval.data
+                tx_matrix_at_middlepoint = tx_matrix_at_middlepoint.at[iter_frame.src, iter_frame.dst].set(1)
+                mcs_at_middlepoint = mcs_at_middlepoint.at[iter_frame.src].set(iter_frame.mcs)
+                tx_power_at_middlepoint = tx_power_at_middlepoint.at[iter_frame.src].set(iter_frame.tx_power)
             
-            weight = duration / frame_duration
+            # Calculate the success probability at the middlepoint
+            self.key, key_per = jax.random.split(self.key)
             success_prob_middlepoint = self._get_success_probability(
                 key_per,
                 tx_matrix_at_middlepoint,
@@ -177,13 +194,19 @@ class Channel():
                 tx_power_at_middlepoint,
                 frame.src
             )
-            collision_prob_middlepoint = weight * (1. - success_prob_middlepoint)
-            collision_probs.append(collision_prob_middlepoint)
-        
-        collision_probs = jnp.array(collision_probs)
-        success_probs = 1. - collision_probs
 
-        return (jax.random.uniform(key_per, shape=success_probs.shape) < success_probs).all().item()
+            # Calculate the collision probability at the middlepoint, weighted by the overlapping ratio
+            weight = duration / frame_duration
+            collision_prob_middlepoint = 1 - success_prob_middlepoint
+            collision_prob_middlepoint = weight * collision_prob_middlepoint
+            middlepoints_collision_probs.append(collision_prob_middlepoint)
+        
+        # Aggregate the collision probabilities
+        middlepoints_collision_probs = jnp.array(middlepoints_collision_probs)
+        self.key, key_collision = jax.random.split(self.key)
+        collision = jnp.any(jax.random.uniform(key_collision, shape=middlepoints_collision_probs.shape) < middlepoints_collision_probs).item()
+        
+        return collision
     
 
     def _get_middlepoints_and_durations(
@@ -193,8 +216,10 @@ class Channel():
             high_time: float
     ) -> Tuple[Array, Array]:
         
-        start_times = {interval.data.start_time for interval in overlapping_frames if interval.data.start_time >= low_time}
-        end_times = {interval.data.end_time for interval in overlapping_frames if interval.data.end_time <= high_time}
+        start_times = {interval.data.start_time for interval in overlapping_frames if interval.data.start_time > low_time}
+        start_times = start_times.union({low_time})
+        end_times = {interval.data.end_time for interval in overlapping_frames if interval.data.end_time < high_time}
+        end_times = end_times.union({high_time})
         timepoints = jnp.array(sorted(list(start_times.union(end_times))))
         durations = timepoints[1:] - timepoints[:-1]
 

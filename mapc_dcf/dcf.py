@@ -30,6 +30,10 @@ class DCF():
         self.frame_generator = frame_generator
         self.cw = 2**CW_EXP_MIN
         self.tx_power = DEFAULT_TX_POWER
+
+        # TODO Temporary, to be removed
+        self.total_frames = 0
+        self.total_collisions = 0
     
     def start_operation(self, run_number: int):
         self.run_number = run_number
@@ -44,7 +48,7 @@ class DCF():
         the documentation `\\docs\\diagrams\\DCF_simple.pdf`.
         """
 
-        logging.info(f"AP{self.ap}: DCF running")
+        logging.info(f"AP{self.ap}:t{self.des_env.now}\t DCF running")
 
         # While ready to send frames
         while True:
@@ -57,13 +61,13 @@ class DCF():
                 # First condition: channel is idle
                 channel_idle = False
                 while not channel_idle:
-                    logging.info(f"AP{self.ap}: Channel busy, waiting for idle channel")
+                    logging.info(f"AP{self.ap}:t{self.des_env.now}\t Channel busy, waiting for idle channel")
 
                     # Wait for DIFS
                     while not channel_idle:
                         yield self.des_env.timeout(SLOT_TIME)
                         channel_idle = self.channel.is_idle_for(self.des_env.now, DIFS, frame.src)
-                    logging.info(f"AP{self.ap}: Channel idle for DIFS")
+                    logging.info(f"AP{self.ap}:t{self.des_env.now}\t Channel idle for DIFS")
                     
                     # Initialize backoff counter
                     key_backoff, self.key = jax.random.split(self.key)
@@ -74,31 +78,34 @@ class DCF():
 
                     # Second condition: backoff counter is zero
                     while channel_idle and backoff_counter > 0:
-                        logging.info(f"AP{self.ap}: Backoff counter: {backoff_counter}")
+                        logging.info(f"AP{self.ap}:t{self.des_env.now}\t Backoff counter: {backoff_counter}")
 
                         # If not, wait for one slot and check again both conditions
                         yield self.des_env.process(self.wait_for_one_slot())
                         backoff_counter -= 1
                         channel_idle = self.channel.is_idle(self.des_env.now, frame.src)
                 
-                logging.info(f"AP{self.ap}: Backoff counter: 0")
-                logging.info(f"AP{self.ap}: Channel is idle and backoff counter is zero. Sending frame...")
+                logging.info(f"AP{self.ap}:t{self.des_env.now}\t Backoff counter: 0")
+                logging.info(f"AP{self.ap}:t{self.des_env.now}\t Channel is idle and backoff counter is zero. Sending frame...")
                 
                 # If both conditions are met, send the frame
                 yield self.des_env.timeout(SIFS)            # TODO Try to remove this line
                 self.channel.send_frame(frame, self.des_env.now, self.tx_power)
                 yield self.des_env.timeout(frame.duration)  # TODO Include ACK time
-                frame_sent_successfully = self.channel.is_succesfully_transmitted(frame)
+                collision = self.channel.is_colliding(frame)
                 yield self.des_env.timeout(SIFS)            # TODO Try to remove this line
 
                 # Act according to the transmission result
-                if frame_sent_successfully:
-                    self.logger.log(self.run_number, self.des_env.now, frame.src, frame.dst, frame.size, frame.mcs, False)
+                self.total_frames += 1
+                if collision:
+                    self.total_collisions += 1
+                    self.cw = min(2*self.cw, 2**CW_EXP_MAX)
+                    logging.info(f"AP{self.ap}:t{self.des_env.now}\t Collision, increasing CW to {self.cw}")
+                else:
                     frame_sent_successfully = True
                     self.cw = 2**CW_EXP_MIN
                     logging.info(f"AP{self.ap}:t{self.des_env.now}\t TX successfull, resetting CW to {self.cw}")
-                else:
-                    self.logger.log(self.run_number, self.des_env.now, frame.src, frame.dst, frame.size, frame.mcs, True)
-                    self.cw = min(2*self.cw, 2**CW_EXP_MAX)
-                    logging.info(f"AP{self.ap}:t{self.des_env.now}\t Collision, increasing CW to {self.cw}")
+                
+                # Log the transmission
+                self.logger.log(self.run_number, self.des_env.now, frame.src, frame.dst, frame.size, frame.mcs, collision)
     

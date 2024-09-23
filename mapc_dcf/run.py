@@ -30,16 +30,21 @@ def run_scenario(
         key, key_scenario = jax.random.split(key)
         des_env = simpy.Environment()
         channel = Channel(key_scenario, scenario.pos, walls=scenario.walls)
-        aps = list(scenario.associations.keys())
-        for ap in aps:
+        aps = {ap_id: None for ap_id in list(scenario.associations.keys())}
+        for ap in aps.keys():
 
             key_scenario, key_ap = jax.random.split(key_scenario)
             clients = jnp.array(scenario.associations[ap])
             mcs = scenario.mcs[ap].item()
-            ap = AccessPoint(key_ap, ap, scenario.pos, mcs, clients, channel, des_env, logger)
-            ap.start_operation(run)
+            aps[ap] = AccessPoint(key_ap, ap, scenario.pos, mcs, clients, channel, des_env, logger)
+            aps[ap].start_operation(run)
         
         des_env.run(until=warmup_length + simulation_length)
+
+        # TODO to be removed once debugged or improve logger
+        for ap in aps.keys():
+            print(f"AP{ap}: {aps[ap].dcf.total_collisions / aps[ap].dcf.total_frames}")
+
         del des_env
 
     logger.shutdown()
