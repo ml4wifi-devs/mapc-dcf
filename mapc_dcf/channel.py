@@ -69,11 +69,10 @@ class Channel():
             Whether the channel is idle or not.
         """
 
+        # Get frames that occupy the channel at the given time
         overlapping_frames = self.frames_history[time]
 
-        # TODO To be removed once debugged
-        return not overlapping_frames
-
+        # Set the transmission matrix and transmission power from the current frames in the channel
         tx_matrix_at_time = jnp.zeros((self.n_nodes, self.n_nodes))
         tx_power_at_time = jnp.zeros((self.n_nodes,))
         for frame_interval in overlapping_frames:
@@ -82,7 +81,14 @@ class Channel():
             tx_matrix_at_time = tx_matrix_at_time.at[overlapping_frame.src, overlapping_frame.dst].set(1)
             tx_power_at_time = tx_power_at_time.at[overlapping_frame.src].set(overlapping_frame.tx_power)
         
-        return self._get_signal_level(tx_matrix_at_time, tx_power_at_time, ap) < CCA_THRESHOLD
+        # Set the transmission from AP to itself, to be used in the signal level calculation
+        tx_matrix_at_time = tx_matrix_at_time.at[ap, ap].set(1)
+        tx_power_at_time = tx_power_at_time.at[ap].set(DEFAULT_TX_POWER) # TODO, move txpower setting to the frame generator
+        
+        # Channel is idle if the signal level at the AP is below the CCA threshold
+        idle = self._get_signal_level(tx_matrix_at_time, tx_power_at_time, ap) < CCA_THRESHOLD
+
+        return idle
 
 
     def is_idle_for(self, time: float, duration: float, ap: int) -> bool:
@@ -105,10 +111,14 @@ class Channel():
             Whether the channel is idle for the given duration or not.
         """
 
+        # Transform time and duration to low and high times
         low_time, high_time = max(0., time - duration), time
+
+        # Get the overlapping frames within the given time interval
         overlapping_frames = self.frames_history.overlap(low_time, high_time)
         logging.debug(f"AP{ap}: Overlapping frames: {overlapping_frames}")
 
+        # We asses the channel as idle if it is idle in all the middlepoints of the given interval
         middlepoints, _ = self._get_middlepoints_and_durations(overlapping_frames, low_time, high_time)
         for middlepoint in middlepoints:
 
@@ -159,7 +169,7 @@ class Channel():
             return False
         
         # TODO to be removed once debugged
-        return True
+        # return True
 
         # Calculate the middlepoints and durations in reference to the transmitted frame
         middlepoints, durations = self._get_middlepoints_and_durations(overlapping_frames, frame_start_time, frame_end_time)

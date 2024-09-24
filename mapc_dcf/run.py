@@ -42,8 +42,15 @@ def run_scenario(
         des_env.run(until=warmup_length + simulation_length)
 
         # TODO to be removed once debugged or improve logger
+        total = 0
+        collisions = 0
         for ap in aps.keys():
-            print(f"AP{ap}: {aps[ap].dcf.total_collisions / aps[ap].dcf.total_frames}")
+            total_ap = aps[ap].dcf.total_frames
+            collisions_ap = aps[ap].dcf.total_collisions
+            print(f"Collisions:AP{ap}: {collisions_ap / total_ap:.3f} (of {total_ap})")
+            total += total_ap
+            collisions += collisions_ap
+        print(f"Collisions: {collisions / total:.3f} (of {total})")
 
         del des_env
 
