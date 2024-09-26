@@ -9,6 +9,7 @@ import jax
 from chex import PRNGKey
 import simpy
 from tqdm import tqdm
+from typing import Dict
 
 from mapc_mab.envs.static_scenarios import *
 from mapc_dcf.channel import Channel
@@ -30,13 +31,14 @@ def run_scenario(
         key, key_scenario = jax.random.split(key)
         des_env = simpy.Environment()
         channel = Channel(key_scenario, scenario.pos, walls=scenario.walls)
-        aps = {ap_id: None for ap_id in list(scenario.associations.keys())}
-        for ap in aps.keys():
+        aps: Dict[int, AccessPoint] = {}
+        for ap in scenario.associations:
 
             key_scenario, key_ap = jax.random.split(key_scenario)
             clients = jnp.array(scenario.associations[ap])
+            tx_power = scenario.tx_power[ap].item()
             mcs = scenario.mcs[ap].item()
-            aps[ap] = AccessPoint(key_ap, ap, scenario.pos, mcs, clients, channel, des_env, logger)
+            aps[ap] = AccessPoint(key_ap, ap, scenario.pos, tx_power, mcs, clients, channel, des_env, logger)
             aps[ap].start_operation(run)
         
         des_env.run(until=warmup_length + simulation_length)

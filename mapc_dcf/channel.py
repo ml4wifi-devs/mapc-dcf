@@ -15,15 +15,16 @@ tfd = tfp.distributions
 
 class WiFiFrame():
 
-    def __init__(self, src: int, dst: int, mcs: int, size: int = FRAME_LEN_INT) -> None:
+    def __init__(self, src: int, dst: int, tx_power: float, mcs: int, size: int = FRAME_LEN_INT) -> None:
         self.src = src
         self.dst = dst
+        self.tx_power = tx_power
         self.mcs = mcs
         self.size = size
         self.duration = self.size / (DATA_RATES[mcs].item() * 1e6) # ~84 us for MCS 11
     
 
-    def materialize(self, start_time: float, tx_power: float):
+    def materialize(self, start_time: float):
         """
         Materialize the WiFi frame by setting its start time, end time, and transmission power.
         End time is calculated based on the predefined frame duration. After materialization,
@@ -39,7 +40,6 @@ class WiFiFrame():
         
         self.start_time = start_time
         self.end_time = start_time + self.duration
-        self.tx_power = tx_power
 
 
 class Channel():
@@ -52,7 +52,7 @@ class Channel():
         self.frames_history = IntervalTree()
 
 
-    def is_idle(self, time: float, ap: int) -> bool:
+    def is_idle(self, time: float, ap: int, sender_tx_power: float) -> bool:
         """
         Check if the signal level at the AP is below the CCA threshold, in other words, check if the channel is idle.
 
@@ -83,7 +83,7 @@ class Channel():
         
         # Set the transmission from AP to itself, to be used in the signal level calculation
         tx_matrix_at_time = tx_matrix_at_time.at[ap, ap].set(1)
-        tx_power_at_time = tx_power_at_time.at[ap].set(DEFAULT_TX_POWER) # TODO, move txpower setting to the frame generator
+        tx_power_at_time = tx_power_at_time.at[ap].set(sender_tx_power)
         
         # Channel is idle if the signal level at the AP is below the CCA threshold
         idle = self._get_signal_level(tx_matrix_at_time, tx_power_at_time, ap) < CCA_THRESHOLD
@@ -91,7 +91,7 @@ class Channel():
         return idle
 
 
-    def is_idle_for(self, time: float, duration: float, ap: int) -> bool:
+    def is_idle_for(self, time: float, duration: float, ap: int, sender_tx_power: float) -> bool:
         """
         Check if the signal level at the AP is below the CCA threshold for a given duration. In other words,
         check if the channel is idle for a given duration.
@@ -122,13 +122,13 @@ class Channel():
         middlepoints, _ = self._get_middlepoints_and_durations(overlapping_frames, low_time, high_time)
         for middlepoint in middlepoints:
 
-            if not self.is_idle(middlepoint, ap):
+            if not self.is_idle(middlepoint, ap, sender_tx_power):
                 return False
         
         return True
 
     
-    def send_frame(self, frame: WiFiFrame, start_time: float, tx_power: float) -> None:
+    def send_frame(self, frame: WiFiFrame, start_time: float) -> None:
         """
         Send a WiFi frame over the channel.
 
@@ -141,7 +141,7 @@ class Channel():
         tx_power : float
             The transmission power at which the frame is sent.
         """
-        frame.materialize(start_time, tx_power)
+        frame.materialize(start_time)
         self.frames_history.add(Interval(start_time, frame.end_time, frame))
 
 
@@ -167,9 +167,6 @@ class Channel():
 
         if not overlapping_frames:
             return False
-        
-        # TODO to be removed once debugged
-        # return True
 
         # Calculate the middlepoints and durations in reference to the transmitted frame
         middlepoints, durations = self._get_middlepoints_and_durations(overlapping_frames, frame_start_time, frame_end_time)

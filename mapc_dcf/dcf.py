@@ -29,7 +29,6 @@ class DCF():
         self.logger = logger
         self.frame_generator = frame_generator
         self.cw = 2**CW_EXP_MIN
-        self.tx_power = DEFAULT_TX_POWER
 
         # TODO Temporary, to be removed
         self.total_frames = 0
@@ -66,7 +65,7 @@ class DCF():
                     # Wait for DIFS
                     while not channel_idle:
                         yield self.des_env.timeout(SLOT_TIME)
-                        channel_idle = self.channel.is_idle_for(self.des_env.now, DIFS, frame.src)
+                        channel_idle = self.channel.is_idle_for(self.des_env.now, DIFS, frame.src, frame.tx_power)
                     logging.info(f"AP{self.ap}:t{self.des_env.now}\t Channel idle for DIFS")
                     
                     # Initialize backoff counter
@@ -83,14 +82,14 @@ class DCF():
                         # If not, wait for one slot and check again both conditions
                         yield self.des_env.process(self.wait_for_one_slot())
                         backoff_counter -= 1
-                        channel_idle = self.channel.is_idle(self.des_env.now, frame.src)
+                        channel_idle = self.channel.is_idle(self.des_env.now, frame.src, frame.tx_power)
                 
                 logging.info(f"AP{self.ap}:t{self.des_env.now}\t Backoff counter: 0")
                 logging.info(f"AP{self.ap}:t{self.des_env.now}\t Channel is idle and backoff counter is zero. Sending frame...")
                 
                 # If both conditions are met, send the frame
                 yield self.des_env.timeout(SIFS)            # TODO Try to remove this line
-                self.channel.send_frame(frame, self.des_env.now, self.tx_power)
+                self.channel.send_frame(frame, self.des_env.now)
                 yield self.des_env.timeout(frame.duration)  # TODO Include ACK time
                 collision = self.channel.is_colliding(frame)
                 yield self.des_env.timeout(SIFS)            # TODO Try to remove this line
