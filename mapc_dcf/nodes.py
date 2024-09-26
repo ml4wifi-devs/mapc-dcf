@@ -14,6 +14,7 @@ class AccessPoint():
             key: PRNGKey,
             id: int,
             position: Array,
+            tx_power: float,
             mcs: int,
             clients: Array,
             channel: Channel,
@@ -23,6 +24,7 @@ class AccessPoint():
         self.key, key_dcf = jax.random.split(key)
         self.id = id
         self.position = position
+        self.tx_power = tx_power
         self.mcs = mcs
         self.clients = clients
         self.channel = channel
@@ -40,7 +42,7 @@ class AccessPoint():
         """
         self.key, key_frame = jax.random.split(self.key)
         dst = jax.random.choice(key_frame, self.clients).item()
-        return WiFiFrame(self.id, dst, self.mcs)
+        return WiFiFrame(self.id, dst, self.tx_power, self.mcs)
     
     def start_operation(self, run_number: int):
         self.dcf.start_operation(run_number)
