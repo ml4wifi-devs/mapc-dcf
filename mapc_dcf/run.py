@@ -40,6 +40,7 @@ def run_scenario(
             aps[ap].start_operation(run)
         
         des_env.run(until=warmup_length + simulation_length)
+        logger._save_accumulators()
 
         # TODO to be removed once debugged or improve logger
         total = 0

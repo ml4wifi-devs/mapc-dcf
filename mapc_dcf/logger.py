@@ -126,8 +126,8 @@ class Logger:
 
         # Save the results
         results = {
-            "DataRate": {"Mean": data_rate_mean, "Low": data_rate_low, "High": data_rate_high},
-            "CollisionRate": {"Mean": collision_rate_mean, "Low": collision_rate_low, "High": collision_rate_high}
+            "DataRate": {"Mean": data_rate_mean, "Low": data_rate_low, "High": data_rate_high, "Data": data_rate},
+            "CollisionRate": {"Mean": collision_rate_mean, "Low": collision_rate_low, "High": collision_rate_high, "Data": collision_rate}
         }
         with open(self.results_path_json, 'w') as file:
             json.dump(results, file, indent=4)
