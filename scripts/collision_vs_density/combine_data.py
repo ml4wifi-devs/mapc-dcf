@@ -12,9 +12,9 @@ def combine_data(results_dir, save_path, clear_dir):
     If clear_dir is True, the json files are deleted after combining.
     The csv file has the following columns:
     - NumAPs
-    - SuccessRateMean
-    - SuccessRateLow
-    - SuccessRateHigh
+    - CollisionRateMean
+    - CollisionRateLow
+    - CollisionRateHigh
 
     The example json file is:
     {
@@ -23,7 +23,7 @@ def combine_data(results_dir, save_path, clear_dir):
             "Low": 44.40000000000002,
             "High": 44.40000000000002
         },
-        "SuccessRate": {
+        "CollisionRate": {
             "Mean": 1.0,
             "Low": 1.0,
             "High": 1.0
@@ -42,9 +42,9 @@ def combine_data(results_dir, save_path, clear_dir):
             data = json.load(f)
             results.append({
                 'NumAPs': n_aps,
-                'SuccessRateMean': data['SuccessRate']['Mean'],
-                'SuccessRateLow': data['SuccessRate']['Low'],
-                'SuccessRateHigh': data['SuccessRate']['High']
+                'CollisionRateMean': data['CollisionRate']['Mean'],
+                'CollisionRateLow': data['CollisionRate']['Low'],
+                'CollisionRateHigh': data['CollisionRate']['High']
             })
 
     if clear_dir:
@@ -57,10 +57,10 @@ def combine_data(results_dir, save_path, clear_dir):
 
 if __name__ == '__main__':
     args = ArgumentParser()
-    args.add_argument('-d', '--results_dir',    type=str, default='out')
-    args.add_argument('-s', '--save_path',      type=str, default='out/combined.csv')
-    args.add_argument('-c', '--clear_dir',      action='store_true')
+    args.add_argument('-o', '--out_dir',    type=str, default='out')
+    args.add_argument('-s', '--save_path',  type=str, default='out/combined.csv')
+    args.add_argument('-c', '--clear_dir',  action='store_true')
     args = args.parse_args()
 
-    combine_data(args.results_dir, args.save_path, args.clear_dir)
+    combine_data(args.out_dir, args.save_path, args.clear_dir)
 

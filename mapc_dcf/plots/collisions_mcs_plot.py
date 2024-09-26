@@ -19,8 +19,8 @@ def plot(mcs_data: Dict[int, pd.DataFrame], reference_data: pd.DataFrame):
     # Plot the mcs data
     xs = list(mcs_data.values())[0]["NumAPs"]
     for mcs, df in mcs_data.items():
-        plt.plot(xs, 1. - df['SuccessRateMean'], marker='.', label=f'MCS {mcs}', color=colors[mcs])
-        plt.fill_between(xs,  1. - df['SuccessRateLow'], 1. - df['SuccessRateHigh'], alpha=0.5, color=colors[mcs], linewidth=0)
+        plt.plot(xs, df['CollisionRateMean'], marker='.', label=f'MCS {mcs}', color=colors[mcs])
+        plt.fill_between(xs,  df['CollisionRateLow'], df['CollisionRateHigh'], alpha=0.5, color=colors[mcs], linewidth=0)
 
     # Plot the reference data
     for i, row in reference_data.iterrows():

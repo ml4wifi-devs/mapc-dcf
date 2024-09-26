@@ -30,19 +30,32 @@ def run_scenario(
         key, key_scenario = jax.random.split(key)
         des_env = simpy.Environment()
         channel = Channel(key_scenario, scenario.pos, walls=scenario.walls)
-        aps = list(scenario.associations.keys())
-        for ap in aps:
+        aps = {ap_id: None for ap_id in list(scenario.associations.keys())}
+        for ap in aps.keys():
 
             key_scenario, key_ap = jax.random.split(key_scenario)
             clients = jnp.array(scenario.associations[ap])
             mcs = scenario.mcs[ap].item()
-            ap = AccessPoint(key_ap, ap, scenario.pos, mcs, clients, channel, des_env, logger)
-            ap.start_operation(run)
+            aps[ap] = AccessPoint(key_ap, ap, scenario.pos, mcs, clients, channel, des_env, logger)
+            aps[ap].start_operation(run)
         
         des_env.run(until=warmup_length + simulation_length)
+        logger._save_accumulators()
+
+        # TODO to be removed once debugged or improve logger
+        total = 0
+        collisions = 0
+        for ap in aps.keys():
+            total_ap = aps[ap].dcf.total_frames
+            collisions_ap = aps[ap].dcf.total_collisions
+            print(f"Collisions:AP{ap}: {collisions_ap / total_ap:.3f} (of {total_ap})")
+            total += total_ap
+            collisions += collisions_ap
+        print(f"Collisions: {collisions / total:.3f} (of {total})")
+
         del des_env
 
-    logger.save_accumulators(simulation_length)
+    logger.shutdown()
 
 
 if __name__ == '__main__':
@@ -59,6 +72,6 @@ if __name__ == '__main__':
     
     key = jax.random.PRNGKey(config['seed'])
 
-    logger = Logger(args.results_path, config['n_runs'], config['warmup_length'], **config['logger_params'])
+    logger = Logger(args.results_path, config['n_runs'], config['simulation_length'], config['warmup_length'], **config['logger_params'])
     scenario = globals()[config['scenario']](**config['scenario_params'])
     run_scenario(key, config['n_runs'], config['simulation_length'], config['warmup_length'], scenario, logger)
