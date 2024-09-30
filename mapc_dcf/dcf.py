@@ -70,18 +70,17 @@ class DCF():
                     
                     # Initialize backoff counter
                     key_backoff, self.key = jax.random.split(self.key)
-                    selected_backoff = jax.random.randint(key_backoff, shape=(1,), minval=0, maxval=self.cw).item()
-                    backoff_counter = selected_backoff
-                    self.logger.log_backoff(self.des_env.now, selected_backoff, self.ap)
-                    logging.info(f"AP{self.ap}:t{self.des_env.now}\t Backoff counter initialized to {selected_backoff}")
+                    time_to_backoff = jax.random.randint(key_backoff, shape=(1,), minval=0, maxval=self.cw).item()
+                    self.logger.log_backoff(self.des_env.now, time_to_backoff, self.ap)
+                    logging.info(f"AP{self.ap}:t{self.des_env.now}\t Backoff counter initialized to {time_to_backoff}")
 
                     # Second condition: backoff counter is zero
-                    while channel_idle and backoff_counter > 0:
-                        logging.info(f"AP{self.ap}:t{self.des_env.now}\t Backoff counter: {backoff_counter}")
+                    while channel_idle and time_to_backoff > 0:
+                        logging.info(f"AP{self.ap}:t{self.des_env.now}\t Backoff counter: {time_to_backoff}")
 
                         # If not, wait for one slot and check again both conditions
                         yield self.des_env.process(self.wait_for_one_slot())
-                        backoff_counter -= 1
+                        time_to_backoff -= 1
                         channel_idle = self.channel.is_idle(self.des_env.now, frame.src, frame.tx_power)
                 
                 logging.info(f"AP{self.ap}:t{self.des_env.now}\t Backoff counter: 0")
