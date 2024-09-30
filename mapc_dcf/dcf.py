@@ -74,6 +74,10 @@ class DCF():
                     self.logger.log_backoff(self.des_env.now, time_to_backoff, self.ap)
                     logging.info(f"AP{self.ap}:t{self.des_env.now}\t Backoff counter initialized to {time_to_backoff}")
 
+                    # Corner case: Selected TTB is zero (in this situatiion, we ommit the next while loop)
+                    if time_to_backoff == 0:
+                        channel_idle = self.channel.is_idle(self.des_env.now, frame.src, frame.tx_power)
+
                     # Second condition: backoff counter is zero
                     while channel_idle and time_to_backoff > 0:
                         logging.info(f"AP{self.ap}:t{self.des_env.now}\t Backoff counter: {time_to_backoff}")
