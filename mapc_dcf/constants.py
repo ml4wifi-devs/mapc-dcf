@@ -72,3 +72,5 @@ CW_EXP_MAX = 10
 
 CCA_THRESHOLD = -82.
 """Clear channel assessment threshold (dBm)"""
+
+RETRY_LIMIT = None

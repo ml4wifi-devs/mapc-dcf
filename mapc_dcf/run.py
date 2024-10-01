@@ -48,7 +48,7 @@ def run_scenario(
         total = 0
         collisions = 0
         for ap in aps.keys():
-            total_ap = aps[ap].dcf.total_frames
+            total_ap = aps[ap].dcf.total_attempts
             collisions_ap = aps[ap].dcf.total_collisions
             print(f"Collisions:AP{ap}: {collisions_ap / total_ap:.3f} (of {total_ap})")
             total += total_ap
