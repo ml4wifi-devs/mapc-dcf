@@ -89,21 +89,24 @@ class DCF():
         self.channel.send_frame(frame, self.des_env.now)
         yield self.des_env.timeout(frame.duration + SIFS) # The SIFS is the lower bound of the ACK timeout
 
-        # If the packet transmission is unsuccessful, the size of the contention window is doubled
-        if collision := self.channel.is_colliding(frame):
-            self.cw = min(2*self.cw, 2**CW_EXP_MAX)
-            yield self.des_env.process(self._try_sending(frame, retry_count + 1))
-            self.total_collisions += 1
-            logging.info(f"AP{self.ap}:t{self.des_env.now}\t Collision, increasing CW to {self.cw}")
-        
-        # and reset, if successful
-        else:
-            self.cw = 2**CW_EXP_MIN
-            logging.info(f"AP{self.ap}:t{self.des_env.now}\t TX successfull, resetting CW to {self.cw}")
+        # The channel returns the result of the transmission §
+        collision = self.channel.is_colliding(frame)
 
         # Log the transmission attempt
         self.total_attempts += 1
         self.logger.log(self.run_number, self.des_env.now, frame.src, frame.dst, frame.size, frame.mcs, collision)
+
+        # If the packet transmission is unsuccessful, the size of the contention window is doubled
+        if collision:
+            logging.info(f"AP{self.ap}:t{self.des_env.now}\t Collision, increasing CW to {self.cw}")
+            self.total_collisions += 1
+            self.cw = min(2*self.cw, 2**CW_EXP_MAX)
+            yield self.des_env.process(self._try_sending(frame, retry_count + 1))
+        
+        # and reset, if successful
+        else:
+            logging.info(f"AP{self.ap}:t{self.des_env.now}\t TX successfull, resetting CW to {self.cw}")
+            self.cw = 2**CW_EXP_MIN
 
 
     def _run(self):
