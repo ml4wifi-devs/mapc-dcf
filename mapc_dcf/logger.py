@@ -11,16 +11,21 @@ from datetime import datetime
 from mapc_mab.plots.utils import confidence_interval
 from mapc_dcf.plots import plot_backoff_hist
 from mapc_dcf.channel import WiFiFrame
+from mapc_dcf.constants import CW_EXP_MIN, CW_EXP_MAX
 
 class Logger:
 
-    def __init__(self, results_path: str, dump_size: int = 1000) -> None:
+    def __init__(self, simulation_length: float, warmup_length: float, results_path: str, dump_size: int = 1000) -> None:
         
+        self.simulation_length = simulation_length
+        self.warmup_length = warmup_length
         self.timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         self.header = ['SimTime', 'RunNumber', 'FrameID', 'Retransmission', 'Src', 'Dst', 'PayloadSize', 'MCS', 'Backoff', 'Collision']
         self.accumulator = []
         self.dump_size = dump_size
         self.dumped = False
+
+        self.get_cw_exp = lambda backoff: int(np.floor(np.log2(max(backoff, 15)))) + 1
 
         self.results_dir = os.path.dirname(results_path)
         self.results_path_csv = results_path.split('.')[0] + '.csv'
@@ -81,6 +86,62 @@ class Logger:
             os.remove(os.path.join(self.results_dir, dump_file))
     
     
+    def _parse_results(self):
+        
+        # TODO: Implement a more efficient way to load the results
+        # Load the results (May be too large to load at once)
+        results_csv = pd.read_csv(self.results_path_csv)
+
+        # Calculate the data rates and collision rates for each run
+        data_rates = []
+        collision_rates = []
+        for run in results_csv['RunNumber'].unique():
+
+            # Filter the results for the current run after the warmup period
+            run_df = results_csv[(results_csv['RunNumber'] == run) & (results_csv['SimTime'] > self.warmup_length)]
+
+            # Calculate the data rate
+            total_payload = run_df[run_df['Collision'] == False]['PayloadSize'].sum()
+            data_rates.append(total_payload / self.simulation_length / 1e6)
+
+            # Calculate the collision rate
+            total_collisions = run_df['Collision'].sum()
+            collision_rates.append(total_collisions / len(run_df))
+        
+        # Calculate the backoff histogram for each AP
+        unique_aps = results_csv['Src'].unique()
+        selected_backoffs = {int(src): {cw_exp: [] for cw_exp in range(CW_EXP_MIN, CW_EXP_MAX + 1)} for src in unique_aps}
+        for src in unique_aps:
+            ap_df = results_csv[(results_csv['Src'] == src) & (results_csv['SimTime'] > self.warmup_length)]
+            backoffs_values = ap_df['Backoff'].values
+            for backoff in backoffs_values:
+                selected_backoffs[int(src)][self.get_cw_exp(backoff)].append(int(backoff))
+
+        # Calculate the confidence intervals
+        data_rate_mean, data_rate_low, data_rate_high = confidence_interval(np.array(data_rates))
+        collision_rate_mean, collision_rate_low, collision_rate_high = confidence_interval(np.array(collision_rates))
+
+        # Fill the json with the results
+        results_json = {}
+        results_json['DataRate'] = {
+            'Mean': data_rate_mean,
+            'Low': data_rate_low,
+            'High': data_rate_high,
+            'Data': data_rates
+        }
+        results_json['CollisionRate'] = {
+            'Mean': collision_rate_mean,
+            'Low': collision_rate_low,
+            'High': collision_rate_high,
+            'Data': collision_rates
+        }
+        results_json['Backoff'] = selected_backoffs
+
+        with open(self.results_path_json, 'w') as file:
+            json.dump(results_json, file, indent=4)
+
+
     def shutdown(self):
         self._combine_dumps()
+        self._parse_results()
             

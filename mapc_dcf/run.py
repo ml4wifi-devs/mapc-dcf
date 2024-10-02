@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+from time import time
 from typing import Dict
 from argparse import ArgumentParser
 
@@ -49,10 +50,10 @@ def single_run(
     for ap in aps.keys():
         total_ap = aps[ap].dcf.total_attempts
         collisions_ap = aps[ap].dcf.total_collisions
-        print(f"Run{run}:Collisions:AP{ap}: {collisions_ap / total_ap:.3f} (of {total_ap})")
+        logging.warning(f"Run{run}:Collisions:AP{ap}: {collisions_ap / total_ap:.3f} (of {total_ap})")
         total += total_ap
         collisions += collisions_ap
-    print(f"Run{run}:Collisions: {collisions / total:.3f} (of {total})")
+    logging.warning(f"Run{run}:Collisions: {collisions / total:.3f} (of {total})")
 
     del des_env
 
@@ -71,12 +72,14 @@ if __name__ == '__main__':
     
     key = jax.random.PRNGKey(config['seed'])
 
-    logger = Logger(args.results_path, **config['logger_params'])
+    logger = Logger(config['simulation_length'], config['warmup_length'], args.results_path, **config['logger_params'])
     scenario = globals()[config['scenario']](**config['scenario_params'])
 
+    start_time = time()
     n_runs = config['n_runs']
     Parallel(n_jobs=n_runs)(
         delayed(single_run)(key, run, config['simulation_length'], config['warmup_length'], scenario, logger)
         for key, run in zip(jax.random.split(key, n_runs), range(1, n_runs + 1))
     )
     logger.shutdown()
+    logging.warning(f"Execution time: {time() - start_time:.2f} seconds")
