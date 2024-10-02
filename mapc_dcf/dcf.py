@@ -64,11 +64,11 @@ class DCF():
 
         # Initialize a random backoff interval
         key_backoff, self.key = jax.random.split(self.key)
-        time_to_backoff = jax.random.randint(key_backoff, shape=(1,), minval=0, maxval=self.cw).item()
-        self.logger.log_backoff(self.des_env.now, time_to_backoff, self.ap)
-        logging.info(f"AP{self.ap}:t{self.des_env.now}\t TTB initialized as {time_to_backoff} from [0, {self.cw}) interval")
+        initialized_backoff = jax.random.randint(key_backoff, shape=(1,), minval=0, maxval=self.cw).item()
+        logging.info(f"AP{self.ap}:t{self.des_env.now}\t TTB initialized as {initialized_backoff} from [0, {self.cw}) interval")
 
         # The bakoff countdown with the freeze-and-reactivation mechanism
+        time_to_backoff = initialized_backoff
         while time_to_backoff > 0:
             logging.info(f"AP{self.ap}:t{self.des_env.now}\t TTB = {time_to_backoff}")
 
@@ -86,15 +86,15 @@ class DCF():
         
         # The frame is sent to the channel
         logging.info(f"AP{self.ap}:t{self.des_env.now}\t Sending frame to {frame.dst}")
-        self.channel.send_frame(frame, self.des_env.now)
+        self.channel.send_frame(frame, self.des_env.now, retry_count)
         yield self.des_env.timeout(frame.duration + SIFS) # The SIFS is the lower bound of the ACK timeout
 
-        # The channel returns the result of the transmission §
+        # The channel returns the result of the transmission attempt
         collision = self.channel.is_colliding(frame)
 
         # Log the transmission attempt
         self.total_attempts += 1
-        self.logger.log(self.run_number, self.des_env.now, frame.src, frame.dst, frame.size, frame.mcs, collision)
+        self.logger.log(self.des_env.now, self.run_number, frame, initialized_backoff, collision)
 
         # If the packet transmission is unsuccessful, the size of the contention window is doubled
         if collision:

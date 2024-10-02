@@ -42,7 +42,7 @@ def run_scenario(
             aps[ap].start_operation(run)
         
         des_env.run(until=warmup_length + simulation_length)
-        logger._save_accumulators()
+        logger.dump_acumulators(run)
 
         # TODO to be removed once debugged or improve logger
         total = 0
@@ -63,7 +63,7 @@ def run_scenario(
 if __name__ == '__main__':
     args = ArgumentParser()
     args.add_argument('-c', '--config_path',    type=str, default='default_config.json')
-    args.add_argument('-r', '--results_path',   type=str, default='all_results')
+    args.add_argument('-r', '--results_path',   type=str, default=os.path.join('out', 'results'))
     args.add_argument('-l', '--log_level',      type=str, default='warning')
     args = args.parse_args()
 
@@ -74,6 +74,6 @@ if __name__ == '__main__':
     
     key = jax.random.PRNGKey(config['seed'])
 
-    logger = Logger(args.results_path, config['n_runs'], config['simulation_length'], config['warmup_length'], **config['logger_params'])
+    logger = Logger(args.results_path, **config['logger_params'])
     scenario = globals()[config['scenario']](**config['scenario_params'])
     run_scenario(key, config['n_runs'], config['simulation_length'], config['warmup_length'], scenario, logger)

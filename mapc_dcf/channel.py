@@ -15,7 +15,8 @@ tfd = tfp.distributions
 
 class WiFiFrame():
 
-    def __init__(self, src: int, dst: int, tx_power: float, mcs: int, size: int = FRAME_LEN_INT) -> None:
+    def __init__(self, id: int, src: int, dst: int, tx_power: float, mcs: int, size: int = FRAME_LEN_INT) -> None:
+        self.id = id
         self.src = src
         self.dst = dst
         self.tx_power = tx_power
@@ -24,7 +25,7 @@ class WiFiFrame():
         self.duration = self.size / (DATA_RATES[mcs].item() * 1e6) # ~84 us for MCS 11
     
 
-    def materialize(self, start_time: float):
+    def materialize(self, start_time: float, retransmission: int) -> None:
         """
         Materialize the WiFi frame by setting its start time, end time, and transmission power.
         End time is calculated based on the predefined frame duration. After materialization,
@@ -40,6 +41,7 @@ class WiFiFrame():
         
         self.start_time = start_time
         self.end_time = start_time + self.duration
+        self.retransmission = retransmission
 
 
 class Channel():
@@ -128,7 +130,7 @@ class Channel():
         return True
 
     
-    def send_frame(self, frame: WiFiFrame, start_time: float) -> None:
+    def send_frame(self, frame: WiFiFrame, start_time: float, retransmission: int) -> None:
         """
         Send a WiFi frame over the channel.
 
@@ -141,7 +143,7 @@ class Channel():
         tx_power : float
             The transmission power at which the frame is sent.
         """
-        frame.materialize(start_time)
+        frame.materialize(start_time, retransmission)
         self.frames_history.add(Interval(start_time, frame.end_time, frame))
 
 
