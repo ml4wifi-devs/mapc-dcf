@@ -165,4 +165,5 @@ configs/*
 results/*
 analytical/*
 out/*
+logs/*
 .vscode/
