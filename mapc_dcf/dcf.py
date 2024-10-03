@@ -55,22 +55,22 @@ class DCF():
 
     def _try_sending(self, frame: WiFiFrame, retry_count: int):
 
-        logging.info(f"AP{self.ap}:t{self.des_env.now}\t Attempting to send frame. Retry count: {retry_count}")
+        logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Attempting to send frame. Retry count: {retry_count}")
         
         # If the retry limit is reached, the frame is dropped
         if retry_count > self.retry_limit:
-            logging.info(f"AP{self.ap}:t{self.des_env.now}\t Retry limit reached, dropping frame")
+            logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Retry limit reached, dropping frame")
             return
 
         # Initialize a random backoff interval
         key_backoff, self.key = jax.random.split(self.key)
         initialized_backoff = jax.random.randint(key_backoff, shape=(1,), minval=0, maxval=self.cw).item()
-        logging.info(f"AP{self.ap}:t{self.des_env.now}\t TTB initialized as {initialized_backoff} from [0, {self.cw}) interval")
+        logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t TTB initialized as {initialized_backoff} from [0, {self.cw}) interval")
 
         # The bakoff countdown with the freeze-and-reactivation mechanism
         time_to_backoff = initialized_backoff
         while time_to_backoff > 0:
-            logging.info(f"AP{self.ap}:t{self.des_env.now}\t TTB = {time_to_backoff}")
+            logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t TTB = {time_to_backoff}")
 
             # The backoff time counter is decremented as long as the channel is sensed idle.
             if self.channel.is_idle(self.des_env.now, frame.src, frame.tx_power):
@@ -79,13 +79,13 @@ class DCF():
             
             # It is frozen when activities (i.e. packet transmissions) are detected on the channel
             else:
-                logging.info(f"AP{self.ap}:t{self.des_env.now}\t Channel busy, freezing backoff at TTB = {time_to_backoff}")
+                logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Channel busy, freezing backoff at TTB = {time_to_backoff}")
                 yield self.des_env.process(self._wait_for_difs(frame))
-                logging.info(f"AP{self.ap}:t{self.des_env.now}\t Channel idle, reactivating backoff at TTB = {time_to_backoff}")
+                logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Channel idle, reactivating backoff at TTB = {time_to_backoff}")
                 # and reactivated after the channel is sensed idle again for a guard period.
         
         # The frame is sent to the channel
-        logging.info(f"AP{self.ap}:t{self.des_env.now}\t Sending frame to {frame.dst}")
+        logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Sending frame to {frame.dst}")
         self.channel.send_frame(frame, self.des_env.now, retry_count)
         yield self.des_env.timeout(frame.duration + SIFS) # The SIFS is the lower bound of the ACK timeout
 
@@ -98,14 +98,14 @@ class DCF():
 
         # If the packet transmission is unsuccessful, the size of the contention window is doubled
         if collision:
-            logging.info(f"AP{self.ap}:t{self.des_env.now}\t Collision, increasing CW to {self.cw}")
+            logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Collision, increasing CW to {self.cw}")
             self.total_collisions += 1
             self.cw = min(2*self.cw, 2**CW_EXP_MAX)
             yield self.des_env.process(self._try_sending(frame, retry_count + 1))
         
         # and reset, if successful
         else:
-            logging.info(f"AP{self.ap}:t{self.des_env.now}\t TX successfull, resetting CW to {self.cw}")
+            logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t TX successfull, resetting CW to {self.cw}")
             self.cw = 2**CW_EXP_MIN
 
 
@@ -115,7 +115,7 @@ class DCF():
         the documentation `\\docs\\diagrams\\DCF_simple.pdf`.
         """
 
-        logging.info(f"AP{self.ap}:t{self.des_env.now}\t DCF running")
+        logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t DCF running")
 
         # Network is assumed to be saturated, there is always a frame to send
         while True:
