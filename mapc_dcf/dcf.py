@@ -51,6 +51,7 @@ class DCF():
         while not idle:
             yield self.des_env.timeout(SLOT_TIME)
             idle = self.channel.is_idle_for(self.des_env.now, DIFS, frame.src, frame.tx_power)
+        logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Channel idle for a DIFS guard period")
 
 
     def _try_sending(self, frame: WiFiFrame, retry_count: int):
