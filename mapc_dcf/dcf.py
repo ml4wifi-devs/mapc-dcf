@@ -68,7 +68,7 @@ class DCF():
                     while not channel_idle:
                         yield self.des_env.timeout(SLOT_TIME)
                         channel_idle = self.channel.is_idle_for(self.des_env.now, DIFS, frame.src, frame.tx_power)
-                    logging.info(f"AP{self.ap}:t{self.des_env.now}\t Channel idle for a DIFS guard period")
+                    logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Channel idle for a DIFS guard period")
                     
                     # Initialize backoff counter
                     key_backoff, self.key = jax.random.split(self.key)
@@ -91,7 +91,7 @@ class DCF():
                     
                     # Log the channel status
                     if not channel_idle:
-                        logging.info(f"AP{self.ap}:t{self.des_env.now}\t Channel busy, waiting for idle channel")
+                        logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Channel busy, waiting for idle channel")
                 
                 logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t TTB reached zero (TTB = {time_to_backoff}) and the channel is idle")
                 logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Sending frame to {frame.dst}")
