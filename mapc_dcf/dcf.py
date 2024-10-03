@@ -93,8 +93,7 @@ class DCF():
                     if not channel_idle:
                         logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Channel busy, waiting for idle channel")
                 
-                logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t TTB reached zero (TTB = {time_to_backoff}) and the channel is idle")
-                logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Sending frame to {frame.dst}")
+                logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t TTB reached zero (TTB = {time_to_backoff}) and the channel is idle. Sending frame to {frame.dst}")
                 
                 # If both conditions are met, send the frame
                 yield self.des_env.timeout(SIFS)            # TODO Try to remove this line

@@ -24,17 +24,20 @@ def run_scenario(
         scenario: StaticScenario,
         logger: Logger
 ):  
+    
+    run_keys = jax.random.split(key, n_runs)
 
     for run, _ in enumerate(tqdm(range(n_runs), desc='Repetition'), start=1):
         logging.info(f"Run {run}/{n_runs}")
 
-        key, key_scenario = jax.random.split(key)
+        run_key = run_keys[run - 1]
+        run_key, key_channel = jax.random.split(run_key)
         des_env = simpy.Environment()
-        channel = Channel(key_scenario, scenario.pos, walls=scenario.walls)
+        channel = Channel(key_channel, scenario.pos, walls=scenario.walls)
         aps: Dict[int, AccessPoint] = {}
         for ap in scenario.associations:
 
-            key_scenario, key_ap = jax.random.split(key_scenario)
+            run_key, key_ap = jax.random.split(run_key)
             clients = jnp.array(scenario.associations[ap])
             tx_power = scenario.tx_power[ap].item()
             mcs = scenario.mcs[ap].item()
