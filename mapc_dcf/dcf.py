@@ -52,6 +52,14 @@ class DCF():
             yield self.des_env.timeout(SLOT_TIME)
             idle = self.channel.is_idle_for(self.des_env.now, DIFS, frame.src, frame.tx_power)
         logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Channel idle for a DIFS guard period")
+    
+
+    def _freeze_backoff(self, frame: WiFiFrame, time_to_backoff: int):
+
+        logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Channel busy, freezing backoff at TTB = {time_to_backoff}")
+        yield self.des_env.process(self._wait_for_difs(frame))
+        logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Channel idle, reactivating backoff at TTB = {time_to_backoff}")
+        # and reactivated after the channel is sensed idle again for a guard period.
 
 
     def _try_sending(self, frame: WiFiFrame, retry_count: int):
@@ -80,13 +88,16 @@ class DCF():
             
             # It is frozen when activities (i.e. packet transmissions) are detected on the channel
             else:
-                logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Channel busy, freezing backoff at TTB = {time_to_backoff}")
-                yield self.des_env.process(self._wait_for_difs(frame))
-                logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Channel idle, reactivating backoff at TTB = {time_to_backoff}")
+                yield self.des_env.process(self._freeze_backoff(frame, time_to_backoff))
                 # and reactivated after the channel is sensed idle again for a guard period.
         
+        # Corner case: Selected TTB is zero and the channel is busy, we wait for the DIFS period
+        if not self.channel.is_idle(self.des_env.now, frame.src, frame.tx_power):
+            yield self.des_env.process(self._freeze_backoff(frame, time_to_backoff))
+            # and reactivated after the channel is sensed idle again for a guard period.
+        
         # The frame is sent to the channel
-        logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Sending frame to {frame.dst}")
+        logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t TTB reached zero (TTB = {time_to_backoff}) and the channel is idle. Sending frame to {frame.dst}")
         self.channel.send_frame(frame, self.des_env.now, retry_count)
         yield self.des_env.timeout(frame.duration + SIFS) # The SIFS is the lower bound of the ACK timeout
 
