@@ -91,10 +91,10 @@ class DCF():
                 yield self.des_env.process(self._freeze_backoff(frame, time_to_backoff))
                 # and reactivated after the channel is sensed idle again for a guard period.
         
-        # Corner case: Selected TTB is zero and the channel is busy, we wait for the DIFS period
-        if not self.channel.is_idle(self.des_env.now, frame.src, frame.tx_power):
-            yield self.des_env.process(self._freeze_backoff(frame, time_to_backoff))
-            # and reactivated after the channel is sensed idle again for a guard period.
+        # # Corner case: Selected TTB is zero and the channel is busy, we wait for the DIFS period
+        # if not self.channel.is_idle(self.des_env.now, frame.src, frame.tx_power):
+        #     yield self.des_env.process(self._freeze_backoff(frame, time_to_backoff))
+        #     # and reactivated after the channel is sensed idle again for a guard period.
         
         # The frame is sent to the channel
         logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t TTB reached zero (TTB = {time_to_backoff}) and the channel is idle. Sending frame to {frame.dst}")
