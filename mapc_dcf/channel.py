@@ -125,7 +125,7 @@ class Channel():
             if not self.is_idle(middlepoint, ap, sender_tx_power):
                 return False
         
-        return True
+        return self.is_idle(high_time, ap, sender_tx_power)
 
     
     def send_frame(self, frame: WiFiFrame, start_time: float) -> None:
