@@ -83,6 +83,10 @@ class Channel():
             tx_matrix_at_time = tx_matrix_at_time.at[overlapping_frame.src, overlapping_frame.dst].set(1)
             tx_power_at_time = tx_power_at_time.at[overlapping_frame.src].set(overlapping_frame.tx_power)
         
+        # If ap was transmitting at the given time, the channel is busy
+        if tx_matrix_at_time[ap].sum() > 0:
+            return False
+        
         # Set the transmission from AP to itself, to be used in the signal level calculation
         tx_matrix_at_time = tx_matrix_at_time.at[ap, ap].set(1)
         tx_power_at_time = tx_power_at_time.at[ap].set(sender_tx_power)
@@ -114,14 +118,18 @@ class Channel():
         """
 
         # Transform time and duration to low and high times
-        low_time, high_time = max(0., time - duration), time
+        low_time, high_time = time - duration, time
+
+        # If the simulation does not last long enough, assume the channel busy
+        if low_time < 0:
+            return False
 
         # Get the overlapping frames within the given time interval
         overlapping_frames = self.frames_history.overlap(low_time, high_time)
-        logging.debug(f"AP{ap}: Overlapping frames: {overlapping_frames}")
 
         # We asses the channel as idle if it is idle in all the middlepoints of the given interval
         middlepoints, _ = self._get_middlepoints_and_durations(overlapping_frames, low_time, high_time)
+        logging.debug(f"AP{ap}:t{time:.9f}\t Overlapping frames: {overlapping_frames}\n" + "\t"*8 + f"Middlepoints: {middlepoints}")
         for middlepoint in middlepoints:
 
             if not self.is_idle(middlepoint, ap, sender_tx_power):

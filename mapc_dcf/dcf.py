@@ -47,11 +47,12 @@ class DCF():
 
     def _wait_for_difs(self, frame: WiFiFrame):
         
-        idle = False
+        idle = self.channel.is_idle_for(self.des_env.now, DIFS, frame.src, frame.tx_power)
         while not idle:
+            logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Channel busy, waiting for a SLOT_TIME = 9 us")
             yield self.des_env.timeout(SLOT_TIME)
             idle = self.channel.is_idle_for(self.des_env.now, DIFS, frame.src, frame.tx_power)
-        logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Channel idle for a DIFS guard period")
+        logging.info(f"AP{self.ap}:t{self.des_env.now:.9f}\t Channel idle for DIFS = 34 us")
     
 
     def _freeze_backoff(self, frame: WiFiFrame, time_to_backoff: int):
@@ -91,7 +92,7 @@ class DCF():
                 yield self.des_env.process(self._freeze_backoff(frame, time_to_backoff))
                 # and reactivated after the channel is sensed idle again for a guard period.
         
-        # # Corner case: Selected TTB is zero and the channel is busy, we wait for the DIFS period
+        # # Corner case: Selected TTB is zero and the channel is busy, we wait for DIFS
         # if not self.channel.is_idle(self.des_env.now, frame.src, frame.tx_power):
         #     yield self.des_env.process(self._freeze_backoff(frame, time_to_backoff))
         #     # and reactivated after the channel is sensed idle again for a guard period.
