@@ -20,10 +20,14 @@ dependencies = [
   "chex~=0.1.87",
   "jax~=0.4.33",
   "jaxlib~=0.4.33",
+  "joblib~=1.4.2",
   "matplotlib~=3.9.2",
   "simpy~=4.1.1",
   "tensorflow-probability[jax]~=0.24.0"
 ]
+
+[tool.setuptools.packages]
+find = {}
 
 [build-system]
 requires = ["setuptools", "wheel"]
