@@ -20,7 +20,7 @@ class Logger:
         self.simulation_length = simulation_length
         self.warmup_length = warmup_length
         self.timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        self.header = ['SimTime', 'RunNumber', 'FrameID', 'Retransmission', 'Src', 'Dst', 'PayloadSize', 'MCS', 'Backoff', 'Collision']
+        self.header = ['SimTime', 'RunNumber', 'FrameID', 'Retransmission', 'Src', 'Dst', 'PayloadSize', 'MCS', 'CW', 'Backoff', 'Collision']
         self.accumulator = []
         self.dump_size = dump_size
         self.dumped = False
@@ -56,7 +56,7 @@ class Logger:
         self.accumulator = []
 
 
-    def log(self, sim_time: float, run_number: int, frame: WiFiFrame, backoff: int, collision: bool):
+    def log(self, sim_time: float, run_number: int, frame: WiFiFrame, cw: int, backoff: int, collision: bool):
         
         self.accumulator.append([
             sim_time,
@@ -67,6 +67,7 @@ class Logger:
             frame.dst,
             frame.size,
             frame.mcs,
+            cw,
             backoff,
             collision
         ])
@@ -119,18 +120,22 @@ class Logger:
 
         # Calculate the confidence intervals
         data_rate_mean, data_rate_low, data_rate_high = confidence_interval(np.array(data_rates))
+        data_rate_std = np.std(data_rates)
         collision_rate_mean, collision_rate_low, collision_rate_high = confidence_interval(np.array(collision_rates))
+        collision_rate_std = np.std(collision_rates)
 
         # Fill the json with the results
         results_json = {}
         results_json['DataRate'] = {
             'Mean': data_rate_mean,
+            'Std': data_rate_std,
             'Low': data_rate_low,
             'High': data_rate_high,
             'Data': data_rates
         }
         results_json['CollisionRate'] = {
             'Mean': collision_rate_mean,
+            'Std': collision_rate_std,
             'Low': collision_rate_low,
             'High': collision_rate_high,
             'Data': collision_rates

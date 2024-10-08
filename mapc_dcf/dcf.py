@@ -113,7 +113,7 @@ class DCF():
 
         # Log the transmission attempt
         self.total_attempts += 1
-        self.logger.log(self.des_env.now, self.run_number, frame, initialized_backoff, collision)
+        self.logger.log(self.des_env.now, self.run_number, frame, self.cw, initialized_backoff, collision)
 
         # If the packet transmission is unsuccessful, the size of the contention window is doubled
         if collision:
