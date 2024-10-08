@@ -74,6 +74,10 @@ class Channel():
         # Get frames that occupy the channel at the given time
         overlapping_frames = self.frames_history[time]
 
+        # TODO BEBUG If there are ANY frames in the channel, the channel is busy
+        if overlapping_frames:
+            return False
+
         # Set the transmission matrix and transmission power from the current frames in the channel
         tx_matrix_at_time = jnp.zeros((self.n_nodes, self.n_nodes))
         tx_power_at_time = jnp.zeros((self.n_nodes,))
@@ -177,6 +181,9 @@ class Channel():
 
         if not overlapping_frames:
             return False
+        # TODO DEBUG If there are ANY frames overlapping with the transmitted frame, there is a collision
+        else:
+            return True
 
         # Calculate the middlepoints and durations in reference to the transmitted frame
         middlepoints, durations = self._get_middlepoints_and_durations(overlapping_frames, frame_start_time, frame_end_time)
