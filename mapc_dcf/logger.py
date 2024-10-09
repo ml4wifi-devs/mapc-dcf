@@ -110,10 +110,18 @@ class Logger:
             collision_rates.append(total_collisions / len(run_df))
 
         # Calculate the confidence intervals
+            # For the data rate
         data_rate_mean, data_rate_low, data_rate_high = confidence_interval(np.array(data_rates))
         data_rate_std = np.std(data_rates)
+
+            # For the collision rate
         collision_rate_mean, collision_rate_low, collision_rate_high = confidence_interval(np.array(collision_rates))
         collision_rate_std = np.std(collision_rates)
+
+            # For the backoffs
+        backoffs = np.array(results_csv[results_csv['SimTime'] > self.warmup_length]['Backoff'].values)
+        backoff_mean, backoff_low, backoff_high = confidence_interval(backoffs)
+        backoff_std = np.std(backoffs)
 
         # Fill the json with the results
         results_json = {}
@@ -130,6 +138,12 @@ class Logger:
             'Low': collision_rate_low,
             'High': collision_rate_high,
             'Data': collision_rates
+        }
+        results_json['Backoffs'] = {
+            'Mean': backoff_mean,
+            'Std': backoff_std,
+            'Low': backoff_low,
+            'High': backoff_high,
         }
         results_json["Config"] = config
 
