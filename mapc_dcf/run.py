@@ -81,5 +81,5 @@ if __name__ == '__main__':
         delayed(single_run)(key, run, config['simulation_length'], config['warmup_length'], scenario, logger)
         for key, run in zip(jax.random.split(key, n_runs), range(1, n_runs + 1))
     )
-    logger.shutdown()
+    logger.shutdown(config)
     logging.warning(f"Execution time: {time() - start_time:.2f} seconds")

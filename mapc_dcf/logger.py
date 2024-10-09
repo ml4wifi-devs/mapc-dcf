@@ -87,7 +87,7 @@ class Logger:
             os.remove(os.path.join(self.results_dir, dump_file))
     
     
-    def _parse_results(self):
+    def _parse_results(self, config: dict):
         
         # TODO: Implement a more efficient way to load the results
         # Load the results (May be too large to load at once)
@@ -108,15 +108,6 @@ class Logger:
             # Calculate the collision rate
             total_collisions = run_df['Collision'].sum()
             collision_rates.append(total_collisions / len(run_df))
-        
-        # Calculate the backoff histogram for each AP
-        unique_aps = results_csv['Src'].unique()
-        selected_backoffs = {int(src): {cw_exp: [] for cw_exp in range(CW_EXP_MIN, CW_EXP_MAX + 1)} for src in unique_aps}
-        for src in unique_aps:
-            ap_df = results_csv[(results_csv['Src'] == src) & (results_csv['SimTime'] > self.warmup_length)]
-            backoffs_values = ap_df['Backoff'].values
-            for backoff in backoffs_values:
-                selected_backoffs[int(src)][self.get_cw_exp(backoff)].append(int(backoff))
 
         # Calculate the confidence intervals
         data_rate_mean, data_rate_low, data_rate_high = confidence_interval(np.array(data_rates))
@@ -140,13 +131,13 @@ class Logger:
             'High': collision_rate_high,
             'Data': collision_rates
         }
-        results_json['Backoff'] = selected_backoffs
+        results_json["Config"] = config
 
         with open(self.results_path_json, 'w') as file:
             json.dump(results_json, file, indent=4)
 
 
-    def shutdown(self):
+    def shutdown(self, config: dict) -> None:
         self._combine_dumps()
-        self._parse_results()
+        self._parse_results(config)
             

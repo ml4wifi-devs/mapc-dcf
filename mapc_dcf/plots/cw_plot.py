@@ -9,16 +9,8 @@ from mapc_dcf.plots import set_style, get_cmap
 
 set_style()
 
-LABELS = [
-    "[0, 16)",
-    "[16, 32)",
-    "[32, 64)",
-    "[64, 128)",
-    "[128, 256)",
-    "[256, 512)",
-    "[512, 1024)"
-]
-BINS = [0, 16, 32, 64, 128, 256, 512, 1024]
+BINS = [16, 32, 64, 128, 256, 512, 1024, 1024]
+LABELS = [str(b) for b in BINS]
 
 
 def plot(df_results: pd.DataFrame, warmup: float, save_path: str, accumulate_aps: bool) -> None:
@@ -35,18 +27,19 @@ def plot(df_results: pd.DataFrame, warmup: float, save_path: str, accumulate_aps
 
     if accumulate_aps:
         # Accumulate all APs results
-        backoffs = df["Backoff"]
+        backoffs = df["CW"]
         hist, _ = np.histogram(backoffs, bins=BINS)
-        plt.bar(LABELS, hist, color=colors[0])
+        print(hist)
+        plt.bar(LABELS[:len(hist)], hist, color=colors[0])
     else:
         # Plot each AP separately
         for ap, color in zip(aps, colors):
-            backoffs = df[df["Src"] == ap]["Backoff"]
+            backoffs = df[df["Src"] == ap]["CW"]
             hist, _ = np.histogram(backoffs, bins=BINS)
-            plt.bar(LABELS, hist, color=color, alpha=0.5, label=f"AP {ap}")
+            plt.bar(LABELS[:len(hist)], hist, color=color, alpha=0.5, label=f"AP {ap}")
 
     # Configure plot
-    plt.xlabel('Backoff Interval')
+    plt.xlabel('CW Value')
     plt.xticks(rotation=45)
     plt.ylabel('Count')
     plt.yscale('log')
@@ -68,7 +61,7 @@ if __name__ == '__main__':
     if args.json is None:
         args.json = args.csv.split('.')[0] + '.json'
 
-    save_path = args.csv.split('.')[0] + '_backoffs.pdf'
+    save_path = args.csv.split('.')[0] + '_CWs.pdf'
 
     # Load warmup period from the JSON file
     with open(args.json, 'r') as f:
