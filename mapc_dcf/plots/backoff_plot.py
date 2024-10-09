@@ -26,13 +26,14 @@ def plot(df_results: pd.DataFrame, warmup: float, save_path: str, accumulate_aps
     # Filter out warmup period
     df = df_results[df_results["SimTime"] > warmup]
 
-    # Plot the backoff distribution 
-    plt.figure(figsize=(5, 3))
+    # Plot the mean backoff
+    mean_backoff = df["Backoff"].mean()
 
     # Set color map
     aps = sorted(df_results["Src"].unique())
     colors = get_cmap(len(aps))
 
+    plt.figure(figsize=(5, 3))
     if accumulate_aps:
         # Accumulate all APs results
         backoffs = df["Backoff"]
@@ -46,6 +47,7 @@ def plot(df_results: pd.DataFrame, warmup: float, save_path: str, accumulate_aps
             plt.bar(LABELS, hist, color=color, alpha=0.5, label=f"AP {ap}")
 
     # Configure plot
+    plt.title(f'Mean backoff: {mean_backoff:.4f}')
     plt.xlabel('Backoff Interval')
     plt.xticks(rotation=45)
     plt.ylabel('Count')

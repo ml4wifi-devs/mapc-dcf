@@ -18,24 +18,22 @@ def plot(df_results: pd.DataFrame, warmup: float, save_path: str, accumulate_aps
     # Filter out warmup period
     df = df_results[df_results["SimTime"] > warmup]
 
-    # Plot the backoff distribution 
-    plt.figure(figsize=(5, 3))
-
     # Set color map
     aps = sorted(df_results["Src"].unique())
     colors = get_cmap(len(aps))
 
+    plt.figure(figsize=(5, 3))
     if accumulate_aps:
         # Accumulate all APs results
-        backoffs = df["CW"]
-        hist, _ = np.histogram(backoffs, bins=BINS)
+        cws = df["CW"]
+        hist, _ = np.histogram(cws, bins=BINS)
         print(hist)
         plt.bar(LABELS[:len(hist)], hist, color=colors[0])
     else:
         # Plot each AP separately
         for ap, color in zip(aps, colors):
-            backoffs = df[df["Src"] == ap]["CW"]
-            hist, _ = np.histogram(backoffs, bins=BINS)
+            cws = df[df["Src"] == ap]["CW"]
+            hist, _ = np.histogram(cws, bins=BINS)
             plt.bar(LABELS[:len(hist)], hist, color=color, alpha=0.5, label=f"AP {ap}")
 
     # Configure plot
@@ -71,6 +69,6 @@ if __name__ == '__main__':
     # Load the results CSV file
     df_results = pd.read_csv(args.csv)
 
-    # Plot the backoff distribution
+    # Plot the CW distribution
     plot(df_results, warmup, save_path, args.accumulate_aps)
     
