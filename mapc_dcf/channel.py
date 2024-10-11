@@ -22,7 +22,7 @@ class WiFiFrame():
         self.tx_power = tx_power
         self.mcs = mcs
         self.size = size
-        self.duration = self.size / (DATA_RATES[mcs].item() * 1e6) # ~84 us for MCS 11
+        self.duration = SLOT_TIME
     
 
     def materialize(self, start_time: float, retransmission: int) -> None:
@@ -74,8 +74,10 @@ class Channel():
         # Get frames that occupy the channel at the given time
         overlapping_frames = self.frames_history[time]
 
+        if not overlapping_frames:
+            return True
         # TODO BEBUG If there are ANY frames in the channel, the channel is busy
-        if overlapping_frames:
+        else:
             return False
 
         # Set the transmission matrix and transmission power from the current frames in the channel
