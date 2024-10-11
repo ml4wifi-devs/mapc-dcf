@@ -22,7 +22,7 @@ class WiFiFrame():
         self.tx_power = tx_power
         self.mcs = mcs
         self.size = size
-        self.duration = SLOT_TIME
+        self.duration = self.size / (DATA_RATES[mcs].item() * 1e6) # ~84 us for MCS 11
     
 
     def materialize(self, start_time: float, retransmission: int) -> None:
