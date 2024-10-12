@@ -63,10 +63,12 @@ class DCF():
 
     def _freeze_backoff(self, frame: WiFiFrame, time_to_backoff: int):
 
+        
         logging.info(f"AP{self.ap}:{self.timestamp()}\t Channel busy, freezing backoff at TTB = {time_to_backoff}")
         yield self.des_env.process(self._wait_for_difs(frame))
         logging.info(f"AP{self.ap}:{self.timestamp()}\t Channel idle, reactivating backoff at TTB = {time_to_backoff}")
         # and reactivated after the channel is sensed idle again for a guard period.
+        
 
 
     def _try_sending(self, frame: WiFiFrame, retry_count: int):
@@ -95,6 +97,7 @@ class DCF():
             
             # It is frozen when activities (i.e. packet transmissions) are detected on the channel
             else:
+                time_to_backoff += 1
                 yield self.des_env.process(self._freeze_backoff(frame, time_to_backoff))
                 # and reactivated after the channel is sensed idle again for a guard period.
         

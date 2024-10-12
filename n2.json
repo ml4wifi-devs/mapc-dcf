@@ -1,0 +1,13 @@
+{
+    "seed": 1,
+    "n_runs": 1,
+    "simulation_length": 1e-2,
+    "warmup_length": 0,
+    "scenario": "dense_point_scenario",
+    "scenario_params": {
+        "n_ap": 2,
+        "n_associations": 1,
+        "mcs": 0
+    },
+    "logger_params": {}
+}

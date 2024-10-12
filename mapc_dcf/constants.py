@@ -56,18 +56,18 @@ r"""Parameters of the success probability curves - cdf of the normal distributio
 SLOT_TIME = 9 * 1e-6
 """802.11ac Slot time (s)"""
 
-DIFS = 34 * 1e-6
+DIFS = 36 * 1e-6
 """802.11ac DIFS time (s)
 https://en.wikipedia.org/wiki/DCF_Interframe_Space"""
 
-SIFS = 16 * 1e-6
+SIFS = 18 * 1e-6
 """802.11ac SIFS time (s)
 https://en.wikipedia.org/wiki/Short_Interframe_Space"""
 
 CW_EXP_MIN = 4
 """Minimum contention window exponent"""
 
-CW_EXP_MAX = 10
+CW_EXP_MAX = 4
 """Maximum contention window exponent"""
 
 CCA_THRESHOLD = -82.

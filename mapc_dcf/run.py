@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import sys
 from time import time
 from typing import Dict
 from argparse import ArgumentParser
@@ -65,7 +66,7 @@ if __name__ == '__main__':
     args.add_argument('-l', '--log_level',      type=str, default='warning')
     args = args.parse_args()
 
-    logging.basicConfig(level=logging.getLevelName(args.log_level.upper()))
+    logging.basicConfig(stream=sys.stdout,level=logging.getLevelName(args.log_level.upper()))
 
     with open(args.config_path, 'r') as file:
         config = json.load(file)

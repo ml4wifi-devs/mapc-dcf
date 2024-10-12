@@ -1,0 +1,2001 @@
+WARNING:root:logger: Overwriting file out/results.csv!
+WARNING:root:logger: Overwriting file out/results.json!
+INFO:root:AP0:000000.000000000 us	 DCF running
+INFO:root:AP1:000000.000000000 us	 DCF running
+INFO:root:AP0:000000.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000000.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000009.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000009.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000018.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000018.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000027.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000027.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000036.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:000036.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:000036.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:000036.000000000 us	 TTB initialized as 1 from [0, 16) interval
+INFO:root:AP0:000036.000000000 us	 TTB = 1
+INFO:root:AP1:000036.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:000036.000000000 us	 TTB initialized as 7 from [0, 16) interval
+INFO:root:AP1:000036.000000000 us	 TTB = 7
+INFO:root:AP0:000045.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:000045.000000000 us	 TTB = 6
+INFO:root:AP1:000045.000000000 us	 Channel busy, freezing backoff at TTB = 7
+INFO:root:AP1:000045.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000054.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000063.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000072.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000081.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000090.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000099.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000108.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000117.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000126.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000135.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000144.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:000144.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000144.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000153.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000153.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000162.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:000162.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:000162.000000000 us	 Channel idle, reactivating backoff at TTB = 7
+INFO:root:AP0:000162.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:000162.000000000 us	 TTB initialized as 8 from [0, 16) interval
+INFO:root:AP0:000162.000000000 us	 TTB = 8
+INFO:root:AP1:000162.000000000 us	 TTB = 7
+INFO:root:AP0:000171.000000000 us	 TTB = 7
+INFO:root:AP1:000171.000000000 us	 TTB = 6
+INFO:root:AP0:000180.000000000 us	 TTB = 6
+INFO:root:AP1:000180.000000000 us	 TTB = 5
+INFO:root:AP0:000189.000000000 us	 TTB = 5
+INFO:root:AP1:000189.000000000 us	 TTB = 4
+INFO:root:AP0:000198.000000000 us	 TTB = 4
+INFO:root:AP1:000198.000000000 us	 TTB = 3
+INFO:root:AP0:000207.000000000 us	 TTB = 3
+INFO:root:AP1:000207.000000000 us	 TTB = 2
+INFO:root:AP0:000216.000000000 us	 TTB = 2
+INFO:root:AP1:000216.000000000 us	 TTB = 1
+INFO:root:AP0:000225.000000000 us	 TTB = 1
+INFO:root:AP1:000225.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:000234.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:000324.000000000 us	 Collision, increasing CW to 16
+INFO:root:AP1:000324.000000000 us	 Attempting to send frame. Retry count: 1
+INFO:root:AP1:000324.000000000 us	 TTB initialized as 14 from [0, 16) interval
+INFO:root:AP1:000324.000000000 us	 TTB = 14
+INFO:root:AP0:000333.000000000 us	 Collision, increasing CW to 16
+INFO:root:AP0:000333.000000000 us	 Attempting to send frame. Retry count: 1
+INFO:root:AP0:000333.000000000 us	 TTB initialized as 10 from [0, 16) interval
+INFO:root:AP0:000333.000000000 us	 TTB = 10
+INFO:root:AP1:000333.000000000 us	 TTB = 13
+INFO:root:AP0:000342.000000000 us	 TTB = 9
+INFO:root:AP1:000342.000000000 us	 TTB = 12
+INFO:root:AP0:000351.000000000 us	 TTB = 8
+INFO:root:AP1:000351.000000000 us	 TTB = 11
+INFO:root:AP0:000360.000000000 us	 TTB = 7
+INFO:root:AP1:000360.000000000 us	 TTB = 10
+INFO:root:AP0:000369.000000000 us	 TTB = 6
+INFO:root:AP1:000369.000000000 us	 TTB = 9
+INFO:root:AP0:000378.000000000 us	 TTB = 5
+INFO:root:AP1:000378.000000000 us	 TTB = 8
+INFO:root:AP0:000387.000000000 us	 TTB = 4
+INFO:root:AP1:000387.000000000 us	 TTB = 7
+INFO:root:AP0:000396.000000000 us	 TTB = 3
+INFO:root:AP1:000396.000000000 us	 TTB = 6
+INFO:root:AP0:000405.000000000 us	 TTB = 2
+INFO:root:AP1:000405.000000000 us	 TTB = 5
+INFO:root:AP0:000414.000000000 us	 TTB = 1
+INFO:root:AP1:000414.000000000 us	 TTB = 4
+INFO:root:AP0:000423.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:000423.000000000 us	 TTB = 3
+INFO:root:AP1:000423.000000000 us	 Channel busy, freezing backoff at TTB = 4
+INFO:root:AP1:000423.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000432.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000441.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000450.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000459.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000468.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000477.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000486.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000495.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000504.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000513.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000522.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:000522.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000522.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000531.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000531.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000540.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:000540.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:000540.000000000 us	 Channel idle, reactivating backoff at TTB = 4
+INFO:root:AP0:000540.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:000540.000000000 us	 TTB initialized as 11 from [0, 16) interval
+INFO:root:AP0:000540.000000000 us	 TTB = 11
+INFO:root:AP1:000540.000000000 us	 TTB = 4
+INFO:root:AP0:000549.000000000 us	 TTB = 10
+INFO:root:AP1:000549.000000000 us	 TTB = 3
+INFO:root:AP0:000558.000000000 us	 TTB = 9
+INFO:root:AP1:000558.000000000 us	 TTB = 2
+INFO:root:AP0:000567.000000000 us	 TTB = 8
+INFO:root:AP1:000567.000000000 us	 TTB = 1
+INFO:root:AP0:000576.000000000 us	 TTB = 7
+INFO:root:AP1:000576.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:000585.000000000 us	 TTB = 6
+INFO:root:AP0:000585.000000000 us	 Channel busy, freezing backoff at TTB = 7
+INFO:root:AP0:000585.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000594.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000603.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000612.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000621.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000630.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000639.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000648.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000657.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000666.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000675.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:000675.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000675.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000684.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000684.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000693.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:000693.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:000693.000000000 us	 Channel idle, reactivating backoff at TTB = 7
+INFO:root:AP1:000693.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:000693.000000000 us	 TTB initialized as 14 from [0, 16) interval
+INFO:root:AP1:000693.000000000 us	 TTB = 14
+INFO:root:AP0:000693.000000000 us	 TTB = 7
+INFO:root:AP1:000702.000000000 us	 TTB = 13
+INFO:root:AP0:000702.000000000 us	 TTB = 6
+INFO:root:AP1:000711.000000000 us	 TTB = 12
+INFO:root:AP0:000711.000000000 us	 TTB = 5
+INFO:root:AP1:000720.000000000 us	 TTB = 11
+INFO:root:AP0:000720.000000000 us	 TTB = 4
+INFO:root:AP1:000729.000000000 us	 TTB = 10
+INFO:root:AP0:000729.000000000 us	 TTB = 3
+INFO:root:AP1:000738.000000000 us	 TTB = 9
+INFO:root:AP0:000738.000000000 us	 TTB = 2
+INFO:root:AP1:000747.000000000 us	 TTB = 8
+INFO:root:AP0:000747.000000000 us	 TTB = 1
+INFO:root:AP1:000756.000000000 us	 TTB = 7
+INFO:root:AP0:000756.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:000765.000000000 us	 TTB = 6
+INFO:root:AP1:000765.000000000 us	 Channel busy, freezing backoff at TTB = 7
+INFO:root:AP1:000765.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000774.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000783.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000792.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000801.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000810.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000819.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000828.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000837.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000846.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000855.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:000855.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000855.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000864.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:000864.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000873.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:000873.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:000873.000000000 us	 Channel idle, reactivating backoff at TTB = 7
+INFO:root:AP0:000873.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:000873.000000000 us	 TTB initialized as 6 from [0, 16) interval
+INFO:root:AP0:000873.000000000 us	 TTB = 6
+INFO:root:AP1:000873.000000000 us	 TTB = 7
+INFO:root:AP0:000882.000000000 us	 TTB = 5
+INFO:root:AP1:000882.000000000 us	 TTB = 6
+INFO:root:AP0:000891.000000000 us	 TTB = 4
+INFO:root:AP1:000891.000000000 us	 TTB = 5
+INFO:root:AP0:000900.000000000 us	 TTB = 3
+INFO:root:AP1:000900.000000000 us	 TTB = 4
+INFO:root:AP0:000909.000000000 us	 TTB = 2
+INFO:root:AP1:000909.000000000 us	 TTB = 3
+INFO:root:AP0:000918.000000000 us	 TTB = 1
+INFO:root:AP1:000918.000000000 us	 TTB = 2
+INFO:root:AP0:000927.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:000927.000000000 us	 TTB = 1
+INFO:root:AP1:000927.000000000 us	 Channel busy, freezing backoff at TTB = 2
+INFO:root:AP1:000927.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000936.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000945.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000954.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000963.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000972.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000981.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000990.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:000999.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001008.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001017.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001026.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001026.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:001026.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001035.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001035.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001044.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001044.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001053.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:001053.000000000 us	 Channel idle, reactivating backoff at TTB = 2
+INFO:root:AP1:001053.000000000 us	 TTB = 2
+INFO:root:AP0:001053.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:001053.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:001053.000000000 us	 TTB initialized as 5 from [0, 16) interval
+INFO:root:AP0:001053.000000000 us	 TTB = 5
+INFO:root:AP1:001062.000000000 us	 TTB = 1
+INFO:root:AP0:001062.000000000 us	 TTB = 4
+INFO:root:AP1:001071.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:001071.000000000 us	 TTB = 3
+INFO:root:AP0:001071.000000000 us	 Channel busy, freezing backoff at TTB = 4
+INFO:root:AP0:001071.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001080.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001089.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001098.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001107.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001116.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001125.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001134.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001143.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001152.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001161.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001170.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001170.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:001170.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001179.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001179.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001188.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001188.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:001188.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:001188.000000000 us	 TTB initialized as 2 from [0, 16) interval
+INFO:root:AP1:001188.000000000 us	 TTB = 2
+INFO:root:AP0:001197.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:001197.000000000 us	 Channel idle, reactivating backoff at TTB = 4
+INFO:root:AP0:001197.000000000 us	 TTB = 4
+INFO:root:AP1:001197.000000000 us	 TTB = 1
+INFO:root:AP0:001206.000000000 us	 TTB = 3
+INFO:root:AP1:001206.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:001215.000000000 us	 TTB = 2
+INFO:root:AP0:001215.000000000 us	 Channel busy, freezing backoff at TTB = 3
+INFO:root:AP0:001215.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001224.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001233.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001242.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001251.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001260.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001269.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001278.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001287.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001296.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001305.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001305.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:001305.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001314.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001314.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001323.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001323.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001332.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:001332.000000000 us	 Channel idle, reactivating backoff at TTB = 3
+INFO:root:AP0:001332.000000000 us	 TTB = 3
+INFO:root:AP1:001332.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:001332.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:001332.000000000 us	 TTB initialized as 7 from [0, 16) interval
+INFO:root:AP1:001332.000000000 us	 TTB = 7
+INFO:root:AP0:001341.000000000 us	 TTB = 2
+INFO:root:AP1:001341.000000000 us	 TTB = 6
+INFO:root:AP0:001350.000000000 us	 TTB = 1
+INFO:root:AP1:001350.000000000 us	 TTB = 5
+INFO:root:AP0:001359.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:001359.000000000 us	 TTB = 4
+INFO:root:AP1:001359.000000000 us	 Channel busy, freezing backoff at TTB = 5
+INFO:root:AP1:001359.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001368.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001377.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001386.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001395.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001404.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001413.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001422.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001431.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001440.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001449.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001458.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:001458.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001458.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001467.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001467.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001476.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:001476.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:001476.000000000 us	 TTB initialized as 5 from [0, 16) interval
+INFO:root:AP0:001476.000000000 us	 TTB = 5
+INFO:root:AP1:001476.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:001476.000000000 us	 Channel idle, reactivating backoff at TTB = 5
+INFO:root:AP1:001476.000000000 us	 TTB = 5
+INFO:root:AP0:001485.000000000 us	 TTB = 4
+INFO:root:AP1:001485.000000000 us	 TTB = 4
+INFO:root:AP0:001494.000000000 us	 TTB = 3
+INFO:root:AP1:001494.000000000 us	 TTB = 3
+INFO:root:AP0:001503.000000000 us	 TTB = 2
+INFO:root:AP1:001503.000000000 us	 TTB = 2
+INFO:root:AP0:001512.000000000 us	 TTB = 1
+INFO:root:AP1:001512.000000000 us	 TTB = 1
+INFO:root:AP0:001521.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:001521.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:001620.000000000 us	 Collision, increasing CW to 16
+INFO:root:AP0:001620.000000000 us	 Attempting to send frame. Retry count: 1
+INFO:root:AP0:001620.000000000 us	 TTB initialized as 2 from [0, 16) interval
+INFO:root:AP0:001620.000000000 us	 TTB = 2
+INFO:root:AP1:001620.000000000 us	 Collision, increasing CW to 16
+INFO:root:AP1:001620.000000000 us	 Attempting to send frame. Retry count: 1
+INFO:root:AP1:001620.000000000 us	 TTB initialized as 12 from [0, 16) interval
+INFO:root:AP1:001620.000000000 us	 TTB = 12
+INFO:root:AP0:001629.000000000 us	 TTB = 1
+INFO:root:AP1:001629.000000000 us	 TTB = 11
+INFO:root:AP0:001638.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:001638.000000000 us	 TTB = 10
+INFO:root:AP1:001638.000000000 us	 Channel busy, freezing backoff at TTB = 11
+INFO:root:AP1:001638.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001647.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001656.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001665.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001674.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001683.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001692.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001701.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001710.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001719.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001728.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001737.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001737.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:001737.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001746.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001746.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001755.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001755.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:001755.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:001755.000000000 us	 TTB initialized as 6 from [0, 16) interval
+INFO:root:AP0:001755.000000000 us	 TTB = 6
+INFO:root:AP1:001764.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:001764.000000000 us	 Channel idle, reactivating backoff at TTB = 11
+INFO:root:AP1:001764.000000000 us	 TTB = 11
+INFO:root:AP0:001764.000000000 us	 TTB = 5
+INFO:root:AP1:001773.000000000 us	 TTB = 10
+INFO:root:AP0:001773.000000000 us	 TTB = 4
+INFO:root:AP1:001782.000000000 us	 TTB = 9
+INFO:root:AP0:001782.000000000 us	 TTB = 3
+INFO:root:AP1:001791.000000000 us	 TTB = 8
+INFO:root:AP0:001791.000000000 us	 TTB = 2
+INFO:root:AP1:001800.000000000 us	 TTB = 7
+INFO:root:AP0:001800.000000000 us	 TTB = 1
+INFO:root:AP1:001809.000000000 us	 TTB = 6
+INFO:root:AP0:001809.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:001818.000000000 us	 TTB = 5
+INFO:root:AP1:001818.000000000 us	 Channel busy, freezing backoff at TTB = 6
+INFO:root:AP1:001818.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001827.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001836.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001845.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001854.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001863.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001872.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001881.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001890.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001899.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001908.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001908.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:001908.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001917.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001917.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001926.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001926.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:001935.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:001935.000000000 us	 Channel idle, reactivating backoff at TTB = 6
+INFO:root:AP1:001935.000000000 us	 TTB = 6
+INFO:root:AP0:001935.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:001935.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:001935.000000000 us	 TTB initialized as 14 from [0, 16) interval
+INFO:root:AP0:001935.000000000 us	 TTB = 14
+INFO:root:AP1:001944.000000000 us	 TTB = 5
+INFO:root:AP0:001944.000000000 us	 TTB = 13
+INFO:root:AP1:001953.000000000 us	 TTB = 4
+INFO:root:AP0:001953.000000000 us	 TTB = 12
+INFO:root:AP1:001962.000000000 us	 TTB = 3
+INFO:root:AP0:001962.000000000 us	 TTB = 11
+INFO:root:AP1:001971.000000000 us	 TTB = 2
+INFO:root:AP0:001971.000000000 us	 TTB = 10
+INFO:root:AP1:001980.000000000 us	 TTB = 1
+INFO:root:AP0:001980.000000000 us	 TTB = 9
+INFO:root:AP1:001989.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:001989.000000000 us	 TTB = 8
+INFO:root:AP0:001989.000000000 us	 Channel busy, freezing backoff at TTB = 9
+INFO:root:AP0:001989.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:001998.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002007.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002016.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002025.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002034.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002043.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002052.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002061.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002070.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002079.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002088.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:002088.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002088.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002097.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002097.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002106.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:002106.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:002106.000000000 us	 Channel idle, reactivating backoff at TTB = 9
+INFO:root:AP1:002106.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:002106.000000000 us	 TTB initialized as 8 from [0, 16) interval
+INFO:root:AP1:002106.000000000 us	 TTB = 8
+INFO:root:AP0:002106.000000000 us	 TTB = 9
+INFO:root:AP1:002115.000000000 us	 TTB = 7
+INFO:root:AP0:002115.000000000 us	 TTB = 8
+INFO:root:AP1:002124.000000000 us	 TTB = 6
+INFO:root:AP0:002124.000000000 us	 TTB = 7
+INFO:root:AP1:002133.000000000 us	 TTB = 5
+INFO:root:AP0:002133.000000000 us	 TTB = 6
+INFO:root:AP1:002142.000000000 us	 TTB = 4
+INFO:root:AP0:002142.000000000 us	 TTB = 5
+INFO:root:AP1:002151.000000000 us	 TTB = 3
+INFO:root:AP0:002151.000000000 us	 TTB = 4
+INFO:root:AP1:002160.000000000 us	 TTB = 2
+INFO:root:AP0:002160.000000000 us	 TTB = 3
+INFO:root:AP1:002169.000000000 us	 TTB = 1
+INFO:root:AP0:002169.000000000 us	 TTB = 2
+INFO:root:AP1:002178.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:002178.000000000 us	 TTB = 1
+INFO:root:AP0:002178.000000000 us	 Channel busy, freezing backoff at TTB = 2
+INFO:root:AP0:002178.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002187.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002196.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002205.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002214.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002223.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002232.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002241.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002250.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002259.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002268.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002277.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002277.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:002277.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002286.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002286.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002295.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002295.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:002295.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:002295.000000000 us	 TTB initialized as 1 from [0, 16) interval
+INFO:root:AP1:002295.000000000 us	 TTB = 1
+INFO:root:AP0:002304.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:002304.000000000 us	 Channel idle, reactivating backoff at TTB = 2
+INFO:root:AP0:002304.000000000 us	 TTB = 2
+INFO:root:AP1:002304.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:002313.000000000 us	 TTB = 1
+INFO:root:AP0:002313.000000000 us	 Channel busy, freezing backoff at TTB = 2
+INFO:root:AP0:002313.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002322.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002331.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002340.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002349.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002358.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002367.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002376.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002385.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002394.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002403.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002403.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:002403.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002412.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002412.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002421.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002421.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:002421.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:002421.000000000 us	 TTB initialized as 14 from [0, 16) interval
+INFO:root:AP1:002421.000000000 us	 TTB = 14
+INFO:root:AP0:002430.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:002430.000000000 us	 Channel idle, reactivating backoff at TTB = 2
+INFO:root:AP0:002430.000000000 us	 TTB = 2
+INFO:root:AP1:002430.000000000 us	 TTB = 13
+INFO:root:AP0:002439.000000000 us	 TTB = 1
+INFO:root:AP1:002439.000000000 us	 TTB = 12
+INFO:root:AP0:002448.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:002448.000000000 us	 TTB = 11
+INFO:root:AP1:002448.000000000 us	 Channel busy, freezing backoff at TTB = 12
+INFO:root:AP1:002448.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002457.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002466.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002475.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002484.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002493.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002502.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002511.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002520.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002529.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002538.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002547.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:002547.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002547.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002556.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002556.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002565.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:002565.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:002565.000000000 us	 TTB initialized as 13 from [0, 16) interval
+INFO:root:AP0:002565.000000000 us	 TTB = 13
+INFO:root:AP1:002565.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:002565.000000000 us	 Channel idle, reactivating backoff at TTB = 12
+INFO:root:AP1:002565.000000000 us	 TTB = 12
+INFO:root:AP0:002574.000000000 us	 TTB = 12
+INFO:root:AP1:002574.000000000 us	 TTB = 11
+INFO:root:AP0:002583.000000000 us	 TTB = 11
+INFO:root:AP1:002583.000000000 us	 TTB = 10
+INFO:root:AP0:002592.000000000 us	 TTB = 10
+INFO:root:AP1:002592.000000000 us	 TTB = 9
+INFO:root:AP0:002601.000000000 us	 TTB = 9
+INFO:root:AP1:002601.000000000 us	 TTB = 8
+INFO:root:AP0:002610.000000000 us	 TTB = 8
+INFO:root:AP1:002610.000000000 us	 TTB = 7
+INFO:root:AP0:002619.000000000 us	 TTB = 7
+INFO:root:AP1:002619.000000000 us	 TTB = 6
+INFO:root:AP0:002628.000000000 us	 TTB = 6
+INFO:root:AP1:002628.000000000 us	 TTB = 5
+INFO:root:AP0:002637.000000000 us	 TTB = 5
+INFO:root:AP1:002637.000000000 us	 TTB = 4
+INFO:root:AP0:002646.000000000 us	 TTB = 4
+INFO:root:AP1:002646.000000000 us	 TTB = 3
+INFO:root:AP0:002655.000000000 us	 TTB = 3
+INFO:root:AP1:002655.000000000 us	 TTB = 2
+INFO:root:AP0:002664.000000000 us	 TTB = 2
+INFO:root:AP1:002664.000000000 us	 TTB = 1
+INFO:root:AP0:002673.000000000 us	 TTB = 1
+INFO:root:AP1:002673.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:002682.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:002772.000000000 us	 Collision, increasing CW to 16
+INFO:root:AP1:002772.000000000 us	 Attempting to send frame. Retry count: 1
+INFO:root:AP1:002772.000000000 us	 TTB initialized as 6 from [0, 16) interval
+INFO:root:AP1:002772.000000000 us	 TTB = 6
+INFO:root:AP0:002781.000000000 us	 Collision, increasing CW to 16
+INFO:root:AP0:002781.000000000 us	 Attempting to send frame. Retry count: 1
+INFO:root:AP0:002781.000000000 us	 TTB initialized as 3 from [0, 16) interval
+INFO:root:AP0:002781.000000000 us	 TTB = 3
+INFO:root:AP1:002781.000000000 us	 TTB = 5
+INFO:root:AP0:002790.000000000 us	 TTB = 2
+INFO:root:AP1:002790.000000000 us	 TTB = 4
+INFO:root:AP0:002799.000000000 us	 TTB = 1
+INFO:root:AP1:002799.000000000 us	 TTB = 3
+INFO:root:AP0:002808.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:002808.000000000 us	 TTB = 2
+INFO:root:AP1:002808.000000000 us	 Channel busy, freezing backoff at TTB = 3
+INFO:root:AP1:002808.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002817.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002826.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002835.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002844.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002853.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002862.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002871.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002880.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002889.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002898.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002907.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:002907.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002907.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002916.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002916.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:002925.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:002925.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:002925.000000000 us	 Channel idle, reactivating backoff at TTB = 3
+INFO:root:AP0:002925.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:002925.000000000 us	 TTB initialized as 11 from [0, 16) interval
+INFO:root:AP0:002925.000000000 us	 TTB = 11
+INFO:root:AP1:002925.000000000 us	 TTB = 3
+INFO:root:AP0:002934.000000000 us	 TTB = 10
+INFO:root:AP1:002934.000000000 us	 TTB = 2
+INFO:root:AP0:002943.000000000 us	 TTB = 9
+INFO:root:AP1:002943.000000000 us	 TTB = 1
+INFO:root:AP0:002952.000000000 us	 TTB = 8
+INFO:root:AP1:002952.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:002961.000000000 us	 TTB = 7
+INFO:root:AP0:002961.000000000 us	 Channel busy, freezing backoff at TTB = 8
+INFO:root:AP0:002961.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002970.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002979.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002988.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:002997.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003006.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003015.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003024.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003033.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003042.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003051.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003051.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:003051.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003060.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003060.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003069.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003069.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:003069.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:003069.000000000 us	 TTB initialized as 0 from [0, 16) interval
+INFO:root:AP1:003069.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:003078.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003087.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003096.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003105.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003114.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003123.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003132.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003141.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003150.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003159.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003168.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003168.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:003168.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003177.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003177.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003186.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003186.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:003186.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:003186.000000000 us	 TTB initialized as 10 from [0, 16) interval
+INFO:root:AP1:003186.000000000 us	 TTB = 10
+INFO:root:AP0:003195.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:003195.000000000 us	 Channel idle, reactivating backoff at TTB = 8
+INFO:root:AP0:003195.000000000 us	 TTB = 8
+INFO:root:AP1:003195.000000000 us	 TTB = 9
+INFO:root:AP0:003204.000000000 us	 TTB = 7
+INFO:root:AP1:003204.000000000 us	 TTB = 8
+INFO:root:AP0:003213.000000000 us	 TTB = 6
+INFO:root:AP1:003213.000000000 us	 TTB = 7
+INFO:root:AP0:003222.000000000 us	 TTB = 5
+INFO:root:AP1:003222.000000000 us	 TTB = 6
+INFO:root:AP0:003231.000000000 us	 TTB = 4
+INFO:root:AP1:003231.000000000 us	 TTB = 5
+INFO:root:AP0:003240.000000000 us	 TTB = 3
+INFO:root:AP1:003240.000000000 us	 TTB = 4
+INFO:root:AP0:003249.000000000 us	 TTB = 2
+INFO:root:AP1:003249.000000000 us	 TTB = 3
+INFO:root:AP0:003258.000000000 us	 TTB = 1
+INFO:root:AP1:003258.000000000 us	 TTB = 2
+INFO:root:AP0:003267.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:003267.000000000 us	 TTB = 1
+INFO:root:AP1:003267.000000000 us	 Channel busy, freezing backoff at TTB = 2
+INFO:root:AP1:003267.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003276.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003285.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003294.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003303.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003312.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003321.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003330.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003339.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003348.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003357.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003366.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:003366.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003366.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003375.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003375.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003384.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:003384.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:003384.000000000 us	 TTB initialized as 10 from [0, 16) interval
+INFO:root:AP0:003384.000000000 us	 TTB = 10
+INFO:root:AP1:003384.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:003384.000000000 us	 Channel idle, reactivating backoff at TTB = 2
+INFO:root:AP1:003384.000000000 us	 TTB = 2
+INFO:root:AP0:003393.000000000 us	 TTB = 9
+INFO:root:AP1:003393.000000000 us	 TTB = 1
+INFO:root:AP0:003402.000000000 us	 TTB = 8
+INFO:root:AP1:003402.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:003411.000000000 us	 TTB = 7
+INFO:root:AP0:003411.000000000 us	 Channel busy, freezing backoff at TTB = 8
+INFO:root:AP0:003411.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003420.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003429.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003438.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003447.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003456.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003465.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003474.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003483.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003492.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003501.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003501.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:003501.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003510.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003510.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003519.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003519.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:003519.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:003519.000000000 us	 TTB initialized as 0 from [0, 16) interval
+INFO:root:AP1:003519.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:003528.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003537.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003546.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003555.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003564.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003573.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003582.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003591.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003600.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003609.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003618.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003618.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:003618.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003627.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003627.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003636.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003636.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:003636.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:003636.000000000 us	 TTB initialized as 0 from [0, 16) interval
+INFO:root:AP1:003636.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:003645.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003654.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003663.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003672.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003681.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003690.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003699.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003708.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003717.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003726.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003735.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003735.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:003735.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003744.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003744.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003753.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003753.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:003753.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:003753.000000000 us	 TTB initialized as 7 from [0, 16) interval
+INFO:root:AP1:003753.000000000 us	 TTB = 7
+INFO:root:AP0:003762.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:003762.000000000 us	 Channel idle, reactivating backoff at TTB = 8
+INFO:root:AP0:003762.000000000 us	 TTB = 8
+INFO:root:AP1:003762.000000000 us	 TTB = 6
+INFO:root:AP0:003771.000000000 us	 TTB = 7
+INFO:root:AP1:003771.000000000 us	 TTB = 5
+INFO:root:AP0:003780.000000000 us	 TTB = 6
+INFO:root:AP1:003780.000000000 us	 TTB = 4
+INFO:root:AP0:003789.000000000 us	 TTB = 5
+INFO:root:AP1:003789.000000000 us	 TTB = 3
+INFO:root:AP0:003798.000000000 us	 TTB = 4
+INFO:root:AP1:003798.000000000 us	 TTB = 2
+INFO:root:AP0:003807.000000000 us	 TTB = 3
+INFO:root:AP1:003807.000000000 us	 TTB = 1
+INFO:root:AP0:003816.000000000 us	 TTB = 2
+INFO:root:AP1:003816.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:003825.000000000 us	 TTB = 1
+INFO:root:AP0:003825.000000000 us	 Channel busy, freezing backoff at TTB = 2
+INFO:root:AP0:003825.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003834.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003843.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003852.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003861.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003870.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003879.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003888.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003897.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003906.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003915.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003915.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:003915.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003924.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003924.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:003933.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003933.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:003933.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:003933.000000000 us	 TTB initialized as 4 from [0, 16) interval
+INFO:root:AP1:003933.000000000 us	 TTB = 4
+INFO:root:AP0:003942.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:003942.000000000 us	 Channel idle, reactivating backoff at TTB = 2
+INFO:root:AP0:003942.000000000 us	 TTB = 2
+INFO:root:AP1:003942.000000000 us	 TTB = 3
+INFO:root:AP0:003951.000000000 us	 TTB = 1
+INFO:root:AP1:003951.000000000 us	 TTB = 2
+INFO:root:AP0:003960.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:003960.000000000 us	 TTB = 1
+INFO:root:AP1:003960.000000000 us	 Channel busy, freezing backoff at TTB = 2
+INFO:root:AP1:003960.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003969.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003978.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003987.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:003996.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004005.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004014.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004023.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004032.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004041.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004050.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004059.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:004059.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004059.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004068.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004068.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004077.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:004077.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:004077.000000000 us	 TTB initialized as 14 from [0, 16) interval
+INFO:root:AP0:004077.000000000 us	 TTB = 14
+INFO:root:AP1:004077.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:004077.000000000 us	 Channel idle, reactivating backoff at TTB = 2
+INFO:root:AP1:004077.000000000 us	 TTB = 2
+INFO:root:AP0:004086.000000000 us	 TTB = 13
+INFO:root:AP1:004086.000000000 us	 TTB = 1
+INFO:root:AP0:004095.000000000 us	 TTB = 12
+INFO:root:AP1:004095.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:004104.000000000 us	 TTB = 11
+INFO:root:AP0:004104.000000000 us	 Channel busy, freezing backoff at TTB = 12
+INFO:root:AP0:004104.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004113.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004122.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004131.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004140.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004149.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004158.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004167.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004176.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004185.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004194.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004194.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:004194.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004203.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004203.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004212.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004212.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:004212.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:004212.000000000 us	 TTB initialized as 5 from [0, 16) interval
+INFO:root:AP1:004212.000000000 us	 TTB = 5
+INFO:root:AP0:004221.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:004221.000000000 us	 Channel idle, reactivating backoff at TTB = 12
+INFO:root:AP0:004221.000000000 us	 TTB = 12
+INFO:root:AP1:004221.000000000 us	 TTB = 4
+INFO:root:AP0:004230.000000000 us	 TTB = 11
+INFO:root:AP1:004230.000000000 us	 TTB = 3
+INFO:root:AP0:004239.000000000 us	 TTB = 10
+INFO:root:AP1:004239.000000000 us	 TTB = 2
+INFO:root:AP0:004248.000000000 us	 TTB = 9
+INFO:root:AP1:004248.000000000 us	 TTB = 1
+INFO:root:AP0:004257.000000000 us	 TTB = 8
+INFO:root:AP1:004257.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:004266.000000000 us	 TTB = 7
+INFO:root:AP0:004266.000000000 us	 Channel busy, freezing backoff at TTB = 8
+INFO:root:AP0:004266.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004275.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004284.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004293.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004302.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004311.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004320.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004329.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004338.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004347.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004356.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004356.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:004356.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004365.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004365.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004374.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004374.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:004374.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:004374.000000000 us	 TTB initialized as 2 from [0, 16) interval
+INFO:root:AP1:004374.000000000 us	 TTB = 2
+INFO:root:AP0:004383.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:004383.000000000 us	 Channel idle, reactivating backoff at TTB = 8
+INFO:root:AP0:004383.000000000 us	 TTB = 8
+INFO:root:AP1:004383.000000000 us	 TTB = 1
+INFO:root:AP0:004392.000000000 us	 TTB = 7
+INFO:root:AP1:004392.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:004401.000000000 us	 TTB = 6
+INFO:root:AP0:004401.000000000 us	 Channel busy, freezing backoff at TTB = 7
+INFO:root:AP0:004401.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004410.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004419.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004428.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004437.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004446.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004455.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004464.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004473.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004482.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004491.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:004491.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004491.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004500.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004500.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004509.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:004509.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:004509.000000000 us	 TTB initialized as 9 from [0, 16) interval
+INFO:root:AP1:004509.000000000 us	 TTB = 9
+INFO:root:AP0:004509.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:004509.000000000 us	 Channel idle, reactivating backoff at TTB = 7
+INFO:root:AP0:004509.000000000 us	 TTB = 7
+INFO:root:AP1:004518.000000000 us	 TTB = 8
+INFO:root:AP0:004518.000000000 us	 TTB = 6
+INFO:root:AP1:004527.000000000 us	 TTB = 7
+INFO:root:AP0:004527.000000000 us	 TTB = 5
+INFO:root:AP1:004536.000000000 us	 TTB = 6
+INFO:root:AP0:004536.000000000 us	 TTB = 4
+INFO:root:AP1:004545.000000000 us	 TTB = 5
+INFO:root:AP0:004545.000000000 us	 TTB = 3
+INFO:root:AP1:004554.000000000 us	 TTB = 4
+INFO:root:AP0:004554.000000000 us	 TTB = 2
+INFO:root:AP1:004563.000000000 us	 TTB = 3
+INFO:root:AP0:004563.000000000 us	 TTB = 1
+INFO:root:AP1:004572.000000000 us	 TTB = 2
+INFO:root:AP0:004572.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:004581.000000000 us	 TTB = 1
+INFO:root:AP1:004581.000000000 us	 Channel busy, freezing backoff at TTB = 2
+INFO:root:AP1:004581.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004590.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004599.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004608.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004617.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004626.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004635.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004644.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004653.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004662.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004671.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:004671.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004671.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004680.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004680.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004689.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:004689.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:004689.000000000 us	 TTB initialized as 10 from [0, 16) interval
+INFO:root:AP0:004689.000000000 us	 TTB = 10
+INFO:root:AP1:004689.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:004689.000000000 us	 Channel idle, reactivating backoff at TTB = 2
+INFO:root:AP1:004689.000000000 us	 TTB = 2
+INFO:root:AP0:004698.000000000 us	 TTB = 9
+INFO:root:AP1:004698.000000000 us	 TTB = 1
+INFO:root:AP0:004707.000000000 us	 TTB = 8
+INFO:root:AP1:004707.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:004716.000000000 us	 TTB = 7
+INFO:root:AP0:004716.000000000 us	 Channel busy, freezing backoff at TTB = 8
+INFO:root:AP0:004716.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004725.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004734.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004743.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004752.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004761.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004770.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004779.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004788.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004797.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004806.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:004806.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004806.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004815.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004815.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004824.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:004824.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:004824.000000000 us	 TTB initialized as 15 from [0, 16) interval
+INFO:root:AP1:004824.000000000 us	 TTB = 15
+INFO:root:AP0:004824.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:004824.000000000 us	 Channel idle, reactivating backoff at TTB = 8
+INFO:root:AP0:004824.000000000 us	 TTB = 8
+INFO:root:AP1:004833.000000000 us	 TTB = 14
+INFO:root:AP0:004833.000000000 us	 TTB = 7
+INFO:root:AP1:004842.000000000 us	 TTB = 13
+INFO:root:AP0:004842.000000000 us	 TTB = 6
+INFO:root:AP1:004851.000000000 us	 TTB = 12
+INFO:root:AP0:004851.000000000 us	 TTB = 5
+INFO:root:AP1:004860.000000000 us	 TTB = 11
+INFO:root:AP0:004860.000000000 us	 TTB = 4
+INFO:root:AP1:004869.000000000 us	 TTB = 10
+INFO:root:AP0:004869.000000000 us	 TTB = 3
+INFO:root:AP1:004878.000000000 us	 TTB = 9
+INFO:root:AP0:004878.000000000 us	 TTB = 2
+INFO:root:AP1:004887.000000000 us	 TTB = 8
+INFO:root:AP0:004887.000000000 us	 TTB = 1
+INFO:root:AP1:004896.000000000 us	 TTB = 7
+INFO:root:AP0:004896.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:004905.000000000 us	 TTB = 6
+INFO:root:AP1:004905.000000000 us	 Channel busy, freezing backoff at TTB = 7
+INFO:root:AP1:004905.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004914.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004923.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004932.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004941.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004950.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004959.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004968.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004977.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004986.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:004995.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:004995.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:004995.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005004.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005004.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005013.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:005013.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:005013.000000000 us	 TTB initialized as 3 from [0, 16) interval
+INFO:root:AP0:005013.000000000 us	 TTB = 3
+INFO:root:AP1:005013.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:005013.000000000 us	 Channel idle, reactivating backoff at TTB = 7
+INFO:root:AP1:005013.000000000 us	 TTB = 7
+INFO:root:AP0:005022.000000000 us	 TTB = 2
+INFO:root:AP1:005022.000000000 us	 TTB = 6
+INFO:root:AP0:005031.000000000 us	 TTB = 1
+INFO:root:AP1:005031.000000000 us	 TTB = 5
+INFO:root:AP0:005040.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:005040.000000000 us	 TTB = 4
+INFO:root:AP1:005040.000000000 us	 Channel busy, freezing backoff at TTB = 5
+INFO:root:AP1:005040.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005049.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005058.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005067.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005076.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005085.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005094.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005103.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005112.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005121.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005130.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005139.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:005139.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005139.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005148.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005148.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005157.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:005157.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:005157.000000000 us	 TTB initialized as 5 from [0, 16) interval
+INFO:root:AP0:005157.000000000 us	 TTB = 5
+INFO:root:AP1:005157.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:005157.000000000 us	 Channel idle, reactivating backoff at TTB = 5
+INFO:root:AP1:005157.000000000 us	 TTB = 5
+INFO:root:AP0:005166.000000000 us	 TTB = 4
+INFO:root:AP1:005166.000000000 us	 TTB = 4
+INFO:root:AP0:005175.000000000 us	 TTB = 3
+INFO:root:AP1:005175.000000000 us	 TTB = 3
+INFO:root:AP0:005184.000000000 us	 TTB = 2
+INFO:root:AP1:005184.000000000 us	 TTB = 2
+INFO:root:AP0:005193.000000000 us	 TTB = 1
+INFO:root:AP1:005193.000000000 us	 TTB = 1
+INFO:root:AP0:005202.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:005202.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:005301.000000000 us	 Collision, increasing CW to 16
+INFO:root:AP0:005301.000000000 us	 Attempting to send frame. Retry count: 1
+INFO:root:AP0:005301.000000000 us	 TTB initialized as 6 from [0, 16) interval
+INFO:root:AP0:005301.000000000 us	 TTB = 6
+INFO:root:AP1:005301.000000000 us	 Collision, increasing CW to 16
+INFO:root:AP1:005301.000000000 us	 Attempting to send frame. Retry count: 1
+INFO:root:AP1:005301.000000000 us	 TTB initialized as 2 from [0, 16) interval
+INFO:root:AP1:005301.000000000 us	 TTB = 2
+INFO:root:AP0:005310.000000000 us	 TTB = 5
+INFO:root:AP1:005310.000000000 us	 TTB = 1
+INFO:root:AP0:005319.000000000 us	 TTB = 4
+INFO:root:AP1:005319.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:005328.000000000 us	 TTB = 3
+INFO:root:AP0:005328.000000000 us	 Channel busy, freezing backoff at TTB = 4
+INFO:root:AP0:005328.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005337.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005346.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005355.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005364.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005373.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005382.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005391.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005400.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005409.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005418.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005418.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:005418.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005427.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005427.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005436.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005436.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:005436.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:005436.000000000 us	 TTB initialized as 1 from [0, 16) interval
+INFO:root:AP1:005436.000000000 us	 TTB = 1
+INFO:root:AP0:005445.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:005445.000000000 us	 Channel idle, reactivating backoff at TTB = 4
+INFO:root:AP0:005445.000000000 us	 TTB = 4
+INFO:root:AP1:005445.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:005454.000000000 us	 TTB = 3
+INFO:root:AP0:005454.000000000 us	 Channel busy, freezing backoff at TTB = 4
+INFO:root:AP0:005454.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005463.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005472.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005481.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005490.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005499.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005508.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005517.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005526.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005535.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005544.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:005544.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005544.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005553.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005553.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005562.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:005562.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:005562.000000000 us	 TTB initialized as 11 from [0, 16) interval
+INFO:root:AP1:005562.000000000 us	 TTB = 11
+INFO:root:AP0:005562.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:005562.000000000 us	 Channel idle, reactivating backoff at TTB = 4
+INFO:root:AP0:005562.000000000 us	 TTB = 4
+INFO:root:AP1:005571.000000000 us	 TTB = 10
+INFO:root:AP0:005571.000000000 us	 TTB = 3
+INFO:root:AP1:005580.000000000 us	 TTB = 9
+INFO:root:AP0:005580.000000000 us	 TTB = 2
+INFO:root:AP1:005589.000000000 us	 TTB = 8
+INFO:root:AP0:005589.000000000 us	 TTB = 1
+INFO:root:AP1:005598.000000000 us	 TTB = 7
+INFO:root:AP0:005598.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:005607.000000000 us	 TTB = 6
+INFO:root:AP1:005607.000000000 us	 Channel busy, freezing backoff at TTB = 7
+INFO:root:AP1:005607.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005616.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005625.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005634.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005643.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005652.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005661.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005670.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005679.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005688.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005697.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:005697.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005697.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005706.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005706.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:005715.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:005715.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:005715.000000000 us	 TTB initialized as 8 from [0, 16) interval
+INFO:root:AP0:005715.000000000 us	 TTB = 8
+INFO:root:AP1:005715.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:005715.000000000 us	 Channel idle, reactivating backoff at TTB = 7
+INFO:root:AP1:005715.000000000 us	 TTB = 7
+INFO:root:AP0:005724.000000000 us	 TTB = 7
+INFO:root:AP1:005724.000000000 us	 TTB = 6
+INFO:root:AP0:005733.000000000 us	 TTB = 6
+INFO:root:AP1:005733.000000000 us	 TTB = 5
+INFO:root:AP0:005742.000000000 us	 TTB = 5
+INFO:root:AP1:005742.000000000 us	 TTB = 4
+INFO:root:AP0:005751.000000000 us	 TTB = 4
+INFO:root:AP1:005751.000000000 us	 TTB = 3
+INFO:root:AP0:005760.000000000 us	 TTB = 3
+INFO:root:AP1:005760.000000000 us	 TTB = 2
+INFO:root:AP0:005769.000000000 us	 TTB = 2
+INFO:root:AP1:005769.000000000 us	 TTB = 1
+INFO:root:AP0:005778.000000000 us	 TTB = 1
+INFO:root:AP1:005778.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:005787.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:005877.000000000 us	 Collision, increasing CW to 16
+INFO:root:AP1:005877.000000000 us	 Attempting to send frame. Retry count: 1
+INFO:root:AP1:005877.000000000 us	 TTB initialized as 14 from [0, 16) interval
+INFO:root:AP1:005877.000000000 us	 TTB = 14
+INFO:root:AP0:005886.000000000 us	 Collision, increasing CW to 16
+INFO:root:AP0:005886.000000000 us	 Attempting to send frame. Retry count: 1
+INFO:root:AP0:005886.000000000 us	 TTB initialized as 7 from [0, 16) interval
+INFO:root:AP0:005886.000000000 us	 TTB = 7
+INFO:root:AP1:005886.000000000 us	 TTB = 13
+INFO:root:AP0:005895.000000000 us	 TTB = 6
+INFO:root:AP1:005895.000000000 us	 TTB = 12
+INFO:root:AP0:005904.000000000 us	 TTB = 5
+INFO:root:AP1:005904.000000000 us	 TTB = 11
+INFO:root:AP0:005913.000000000 us	 TTB = 4
+INFO:root:AP1:005913.000000000 us	 TTB = 10
+INFO:root:AP0:005922.000000000 us	 TTB = 3
+INFO:root:AP1:005922.000000000 us	 TTB = 9
+INFO:root:AP0:005931.000000000 us	 TTB = 2
+INFO:root:AP1:005931.000000000 us	 TTB = 8
+INFO:root:AP0:005940.000000000 us	 TTB = 1
+INFO:root:AP1:005940.000000000 us	 TTB = 7
+INFO:root:AP0:005949.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:005949.000000000 us	 TTB = 6
+INFO:root:AP1:005949.000000000 us	 Channel busy, freezing backoff at TTB = 7
+INFO:root:AP1:005949.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005958.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005967.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005976.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005985.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:005994.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006003.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006012.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006021.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006030.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006039.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006048.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:006048.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006048.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006057.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006057.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006066.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:006066.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:006066.000000000 us	 TTB initialized as 10 from [0, 16) interval
+INFO:root:AP0:006066.000000000 us	 TTB = 10
+INFO:root:AP1:006066.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:006066.000000000 us	 Channel idle, reactivating backoff at TTB = 7
+INFO:root:AP1:006066.000000000 us	 TTB = 7
+INFO:root:AP0:006075.000000000 us	 TTB = 9
+INFO:root:AP1:006075.000000000 us	 TTB = 6
+INFO:root:AP0:006084.000000000 us	 TTB = 8
+INFO:root:AP1:006084.000000000 us	 TTB = 5
+INFO:root:AP0:006093.000000000 us	 TTB = 7
+INFO:root:AP1:006093.000000000 us	 TTB = 4
+INFO:root:AP0:006102.000000000 us	 TTB = 6
+INFO:root:AP1:006102.000000000 us	 TTB = 3
+INFO:root:AP0:006111.000000000 us	 TTB = 5
+INFO:root:AP1:006111.000000000 us	 TTB = 2
+INFO:root:AP0:006120.000000000 us	 TTB = 4
+INFO:root:AP1:006120.000000000 us	 TTB = 1
+INFO:root:AP0:006129.000000000 us	 TTB = 3
+INFO:root:AP1:006129.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:006138.000000000 us	 TTB = 2
+INFO:root:AP0:006138.000000000 us	 Channel busy, freezing backoff at TTB = 3
+INFO:root:AP0:006138.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006147.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006156.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006165.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006174.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006183.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006192.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006201.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006210.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006219.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006228.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006228.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:006228.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006237.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006237.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006246.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006246.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:006246.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:006246.000000000 us	 TTB initialized as 2 from [0, 16) interval
+INFO:root:AP1:006246.000000000 us	 TTB = 2
+INFO:root:AP0:006255.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:006255.000000000 us	 Channel idle, reactivating backoff at TTB = 3
+INFO:root:AP0:006255.000000000 us	 TTB = 3
+INFO:root:AP1:006255.000000000 us	 TTB = 1
+INFO:root:AP0:006264.000000000 us	 TTB = 2
+INFO:root:AP1:006264.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:006273.000000000 us	 TTB = 1
+INFO:root:AP0:006273.000000000 us	 Channel busy, freezing backoff at TTB = 2
+INFO:root:AP0:006273.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006282.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006291.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006300.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006309.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006318.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006327.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006336.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006345.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006354.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006363.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:006363.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006363.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006372.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006372.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006381.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:006381.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:006381.000000000 us	 TTB initialized as 9 from [0, 16) interval
+INFO:root:AP1:006381.000000000 us	 TTB = 9
+INFO:root:AP0:006381.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:006381.000000000 us	 Channel idle, reactivating backoff at TTB = 2
+INFO:root:AP0:006381.000000000 us	 TTB = 2
+INFO:root:AP1:006390.000000000 us	 TTB = 8
+INFO:root:AP0:006390.000000000 us	 TTB = 1
+INFO:root:AP1:006399.000000000 us	 TTB = 7
+INFO:root:AP0:006399.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:006408.000000000 us	 TTB = 6
+INFO:root:AP1:006408.000000000 us	 Channel busy, freezing backoff at TTB = 7
+INFO:root:AP1:006408.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006417.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006426.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006435.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006444.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006453.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006462.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006471.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006480.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006489.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006498.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:006498.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006498.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006507.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006507.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006516.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:006516.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:006516.000000000 us	 TTB initialized as 2 from [0, 16) interval
+INFO:root:AP0:006516.000000000 us	 TTB = 2
+INFO:root:AP1:006516.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:006516.000000000 us	 Channel idle, reactivating backoff at TTB = 7
+INFO:root:AP1:006516.000000000 us	 TTB = 7
+INFO:root:AP0:006525.000000000 us	 TTB = 1
+INFO:root:AP1:006525.000000000 us	 TTB = 6
+INFO:root:AP0:006534.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:006534.000000000 us	 TTB = 5
+INFO:root:AP1:006534.000000000 us	 Channel busy, freezing backoff at TTB = 6
+INFO:root:AP1:006534.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006543.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006552.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006561.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006570.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006579.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006588.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006597.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006606.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006615.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006624.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006633.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:006633.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006633.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006642.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006642.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006651.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:006651.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:006651.000000000 us	 TTB initialized as 14 from [0, 16) interval
+INFO:root:AP0:006651.000000000 us	 TTB = 14
+INFO:root:AP1:006651.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:006651.000000000 us	 Channel idle, reactivating backoff at TTB = 6
+INFO:root:AP1:006651.000000000 us	 TTB = 6
+INFO:root:AP0:006660.000000000 us	 TTB = 13
+INFO:root:AP1:006660.000000000 us	 TTB = 5
+INFO:root:AP0:006669.000000000 us	 TTB = 12
+INFO:root:AP1:006669.000000000 us	 TTB = 4
+INFO:root:AP0:006678.000000000 us	 TTB = 11
+INFO:root:AP1:006678.000000000 us	 TTB = 3
+INFO:root:AP0:006687.000000000 us	 TTB = 10
+INFO:root:AP1:006687.000000000 us	 TTB = 2
+INFO:root:AP0:006696.000000000 us	 TTB = 9
+INFO:root:AP1:006696.000000000 us	 TTB = 1
+INFO:root:AP0:006705.000000000 us	 TTB = 8
+INFO:root:AP1:006705.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:006714.000000000 us	 TTB = 7
+INFO:root:AP0:006714.000000000 us	 Channel busy, freezing backoff at TTB = 8
+INFO:root:AP0:006714.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006723.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006732.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006741.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006750.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006759.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006768.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006777.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006786.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006795.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006804.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006804.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:006804.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006813.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006813.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006822.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006822.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:006822.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:006822.000000000 us	 TTB initialized as 0 from [0, 16) interval
+INFO:root:AP1:006822.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:006831.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006840.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006849.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006858.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006867.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006876.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006885.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006894.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006903.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006912.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006921.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:006921.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006921.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006930.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:006930.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:006939.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:006939.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:006939.000000000 us	 TTB initialized as 8 from [0, 16) interval
+INFO:root:AP1:006939.000000000 us	 TTB = 8
+INFO:root:AP0:006939.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:006939.000000000 us	 Channel idle, reactivating backoff at TTB = 8
+INFO:root:AP0:006939.000000000 us	 TTB = 8
+INFO:root:AP1:006948.000000000 us	 TTB = 7
+INFO:root:AP0:006948.000000000 us	 TTB = 7
+INFO:root:AP1:006957.000000000 us	 TTB = 6
+INFO:root:AP0:006957.000000000 us	 TTB = 6
+INFO:root:AP1:006966.000000000 us	 TTB = 5
+INFO:root:AP0:006966.000000000 us	 TTB = 5
+INFO:root:AP1:006975.000000000 us	 TTB = 4
+INFO:root:AP0:006975.000000000 us	 TTB = 4
+INFO:root:AP1:006984.000000000 us	 TTB = 3
+INFO:root:AP0:006984.000000000 us	 TTB = 3
+INFO:root:AP1:006993.000000000 us	 TTB = 2
+INFO:root:AP0:006993.000000000 us	 TTB = 2
+INFO:root:AP1:007002.000000000 us	 TTB = 1
+INFO:root:AP0:007002.000000000 us	 TTB = 1
+INFO:root:AP1:007011.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:007011.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:007110.000000000 us	 Collision, increasing CW to 16
+INFO:root:AP1:007110.000000000 us	 Attempting to send frame. Retry count: 1
+INFO:root:AP1:007110.000000000 us	 TTB initialized as 9 from [0, 16) interval
+INFO:root:AP1:007110.000000000 us	 TTB = 9
+INFO:root:AP0:007110.000000000 us	 Collision, increasing CW to 16
+INFO:root:AP0:007110.000000000 us	 Attempting to send frame. Retry count: 1
+INFO:root:AP0:007110.000000000 us	 TTB initialized as 4 from [0, 16) interval
+INFO:root:AP0:007110.000000000 us	 TTB = 4
+INFO:root:AP1:007119.000000000 us	 TTB = 8
+INFO:root:AP0:007119.000000000 us	 TTB = 3
+INFO:root:AP1:007128.000000000 us	 TTB = 7
+INFO:root:AP0:007128.000000000 us	 TTB = 2
+INFO:root:AP1:007137.000000000 us	 TTB = 6
+INFO:root:AP0:007137.000000000 us	 TTB = 1
+INFO:root:AP1:007146.000000000 us	 TTB = 5
+INFO:root:AP0:007146.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:007155.000000000 us	 TTB = 4
+INFO:root:AP1:007155.000000000 us	 Channel busy, freezing backoff at TTB = 5
+INFO:root:AP1:007155.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007164.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007173.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007182.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007191.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007200.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007209.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007218.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007227.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007236.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007245.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:007245.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007245.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007254.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007254.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007263.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:007263.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:007263.000000000 us	 TTB initialized as 8 from [0, 16) interval
+INFO:root:AP0:007263.000000000 us	 TTB = 8
+INFO:root:AP1:007263.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:007263.000000000 us	 Channel idle, reactivating backoff at TTB = 5
+INFO:root:AP1:007263.000000000 us	 TTB = 5
+INFO:root:AP0:007272.000000000 us	 TTB = 7
+INFO:root:AP1:007272.000000000 us	 TTB = 4
+INFO:root:AP0:007281.000000000 us	 TTB = 6
+INFO:root:AP1:007281.000000000 us	 TTB = 3
+INFO:root:AP0:007290.000000000 us	 TTB = 5
+INFO:root:AP1:007290.000000000 us	 TTB = 2
+INFO:root:AP0:007299.000000000 us	 TTB = 4
+INFO:root:AP1:007299.000000000 us	 TTB = 1
+INFO:root:AP0:007308.000000000 us	 TTB = 3
+INFO:root:AP1:007308.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:007317.000000000 us	 TTB = 2
+INFO:root:AP0:007317.000000000 us	 Channel busy, freezing backoff at TTB = 3
+INFO:root:AP0:007317.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007326.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007335.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007344.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007353.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007362.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007371.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007380.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007389.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007398.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007407.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:007407.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007407.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007416.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007416.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007425.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:007425.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:007425.000000000 us	 TTB initialized as 7 from [0, 16) interval
+INFO:root:AP1:007425.000000000 us	 TTB = 7
+INFO:root:AP0:007425.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:007425.000000000 us	 Channel idle, reactivating backoff at TTB = 3
+INFO:root:AP0:007425.000000000 us	 TTB = 3
+INFO:root:AP1:007434.000000000 us	 TTB = 6
+INFO:root:AP0:007434.000000000 us	 TTB = 2
+INFO:root:AP1:007443.000000000 us	 TTB = 5
+INFO:root:AP0:007443.000000000 us	 TTB = 1
+INFO:root:AP1:007452.000000000 us	 TTB = 4
+INFO:root:AP0:007452.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:007461.000000000 us	 TTB = 3
+INFO:root:AP1:007461.000000000 us	 Channel busy, freezing backoff at TTB = 4
+INFO:root:AP1:007461.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007470.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007479.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007488.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007497.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007506.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007515.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007524.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007533.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007542.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007551.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:007551.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007551.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007560.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007560.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007569.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:007569.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:007569.000000000 us	 TTB initialized as 8 from [0, 16) interval
+INFO:root:AP0:007569.000000000 us	 TTB = 8
+INFO:root:AP1:007569.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:007569.000000000 us	 Channel idle, reactivating backoff at TTB = 4
+INFO:root:AP1:007569.000000000 us	 TTB = 4
+INFO:root:AP0:007578.000000000 us	 TTB = 7
+INFO:root:AP1:007578.000000000 us	 TTB = 3
+INFO:root:AP0:007587.000000000 us	 TTB = 6
+INFO:root:AP1:007587.000000000 us	 TTB = 2
+INFO:root:AP0:007596.000000000 us	 TTB = 5
+INFO:root:AP1:007596.000000000 us	 TTB = 1
+INFO:root:AP0:007605.000000000 us	 TTB = 4
+INFO:root:AP1:007605.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:007614.000000000 us	 TTB = 3
+INFO:root:AP0:007614.000000000 us	 Channel busy, freezing backoff at TTB = 4
+INFO:root:AP0:007614.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007623.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007632.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007641.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007650.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007659.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007668.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007677.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007686.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007695.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007704.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:007704.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007704.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007713.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007713.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007722.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:007722.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:007722.000000000 us	 TTB initialized as 3 from [0, 16) interval
+INFO:root:AP1:007722.000000000 us	 TTB = 3
+INFO:root:AP0:007722.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:007722.000000000 us	 Channel idle, reactivating backoff at TTB = 4
+INFO:root:AP0:007722.000000000 us	 TTB = 4
+INFO:root:AP1:007731.000000000 us	 TTB = 2
+INFO:root:AP0:007731.000000000 us	 TTB = 3
+INFO:root:AP1:007740.000000000 us	 TTB = 1
+INFO:root:AP0:007740.000000000 us	 TTB = 2
+INFO:root:AP1:007749.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:007749.000000000 us	 TTB = 1
+INFO:root:AP0:007749.000000000 us	 Channel busy, freezing backoff at TTB = 2
+INFO:root:AP0:007749.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007758.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007767.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007776.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007785.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007794.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007803.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007812.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007821.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007830.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007839.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007848.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:007848.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007848.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007857.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007857.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007866.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:007866.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:007866.000000000 us	 TTB initialized as 12 from [0, 16) interval
+INFO:root:AP1:007866.000000000 us	 TTB = 12
+INFO:root:AP0:007866.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:007866.000000000 us	 Channel idle, reactivating backoff at TTB = 2
+INFO:root:AP0:007866.000000000 us	 TTB = 2
+INFO:root:AP1:007875.000000000 us	 TTB = 11
+INFO:root:AP0:007875.000000000 us	 TTB = 1
+INFO:root:AP1:007884.000000000 us	 TTB = 10
+INFO:root:AP0:007884.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:007893.000000000 us	 TTB = 9
+INFO:root:AP1:007893.000000000 us	 Channel busy, freezing backoff at TTB = 10
+INFO:root:AP1:007893.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007902.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007911.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007920.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007929.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007938.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007947.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007956.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007965.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007974.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007983.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007983.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:007983.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:007992.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:007992.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008001.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:008001.000000000 us	 Channel idle, reactivating backoff at TTB = 10
+INFO:root:AP1:008001.000000000 us	 TTB = 10
+INFO:root:AP0:008001.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:008001.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:008001.000000000 us	 TTB initialized as 4 from [0, 16) interval
+INFO:root:AP0:008001.000000000 us	 TTB = 4
+INFO:root:AP1:008010.000000000 us	 TTB = 9
+INFO:root:AP0:008010.000000000 us	 TTB = 3
+INFO:root:AP1:008019.000000000 us	 TTB = 8
+INFO:root:AP0:008019.000000000 us	 TTB = 2
+INFO:root:AP1:008028.000000000 us	 TTB = 7
+INFO:root:AP0:008028.000000000 us	 TTB = 1
+INFO:root:AP1:008037.000000000 us	 TTB = 6
+INFO:root:AP0:008037.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:008046.000000000 us	 TTB = 5
+INFO:root:AP1:008046.000000000 us	 Channel busy, freezing backoff at TTB = 6
+INFO:root:AP1:008046.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008055.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008064.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008073.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008082.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008091.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008100.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008109.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008118.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008127.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008136.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:008136.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008136.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008145.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008145.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008154.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:008154.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:008154.000000000 us	 TTB initialized as 5 from [0, 16) interval
+INFO:root:AP0:008154.000000000 us	 TTB = 5
+INFO:root:AP1:008154.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:008154.000000000 us	 Channel idle, reactivating backoff at TTB = 6
+INFO:root:AP1:008154.000000000 us	 TTB = 6
+INFO:root:AP0:008163.000000000 us	 TTB = 4
+INFO:root:AP1:008163.000000000 us	 TTB = 5
+INFO:root:AP0:008172.000000000 us	 TTB = 3
+INFO:root:AP1:008172.000000000 us	 TTB = 4
+INFO:root:AP0:008181.000000000 us	 TTB = 2
+INFO:root:AP1:008181.000000000 us	 TTB = 3
+INFO:root:AP0:008190.000000000 us	 TTB = 1
+INFO:root:AP1:008190.000000000 us	 TTB = 2
+INFO:root:AP0:008199.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:008199.000000000 us	 TTB = 1
+INFO:root:AP1:008199.000000000 us	 Channel busy, freezing backoff at TTB = 2
+INFO:root:AP1:008199.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008208.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008217.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008226.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008235.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008244.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008253.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008262.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008271.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008280.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008289.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008298.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:008298.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008298.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008307.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008307.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008316.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:008316.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:008316.000000000 us	 TTB initialized as 1 from [0, 16) interval
+INFO:root:AP0:008316.000000000 us	 TTB = 1
+INFO:root:AP1:008316.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:008316.000000000 us	 Channel idle, reactivating backoff at TTB = 2
+INFO:root:AP1:008316.000000000 us	 TTB = 2
+INFO:root:AP0:008325.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:008325.000000000 us	 TTB = 1
+INFO:root:AP1:008325.000000000 us	 Channel busy, freezing backoff at TTB = 2
+INFO:root:AP1:008325.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008334.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008343.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008352.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008361.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008370.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008379.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008388.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008397.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008406.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008415.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008424.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:008424.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008424.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008433.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008433.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008442.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:008442.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:008442.000000000 us	 TTB initialized as 14 from [0, 16) interval
+INFO:root:AP0:008442.000000000 us	 TTB = 14
+INFO:root:AP1:008442.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:008442.000000000 us	 Channel idle, reactivating backoff at TTB = 2
+INFO:root:AP1:008442.000000000 us	 TTB = 2
+INFO:root:AP0:008451.000000000 us	 TTB = 13
+INFO:root:AP1:008451.000000000 us	 TTB = 1
+INFO:root:AP0:008460.000000000 us	 TTB = 12
+INFO:root:AP1:008460.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:008469.000000000 us	 TTB = 11
+INFO:root:AP0:008469.000000000 us	 Channel busy, freezing backoff at TTB = 12
+INFO:root:AP0:008469.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008478.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008487.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008496.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008505.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008514.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008523.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008532.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008541.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008550.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008559.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008559.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:008559.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008568.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008568.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008577.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008577.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:008577.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:008577.000000000 us	 TTB initialized as 0 from [0, 16) interval
+INFO:root:AP1:008577.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:008586.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008595.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008604.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008613.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008622.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008631.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008640.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008649.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008658.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008667.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008676.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008676.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:008676.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008685.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008685.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008694.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:008694.000000000 us	 Channel idle, reactivating backoff at TTB = 12
+INFO:root:AP0:008694.000000000 us	 TTB = 12
+INFO:root:AP1:008694.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:008694.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:008694.000000000 us	 TTB initialized as 4 from [0, 16) interval
+INFO:root:AP1:008694.000000000 us	 TTB = 4
+INFO:root:AP0:008703.000000000 us	 TTB = 11
+INFO:root:AP1:008703.000000000 us	 TTB = 3
+INFO:root:AP0:008712.000000000 us	 TTB = 10
+INFO:root:AP1:008712.000000000 us	 TTB = 2
+INFO:root:AP0:008721.000000000 us	 TTB = 9
+INFO:root:AP1:008721.000000000 us	 TTB = 1
+INFO:root:AP0:008730.000000000 us	 TTB = 8
+INFO:root:AP1:008730.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:008739.000000000 us	 TTB = 7
+INFO:root:AP0:008739.000000000 us	 Channel busy, freezing backoff at TTB = 8
+INFO:root:AP0:008739.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008748.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008757.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008766.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008775.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008784.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008793.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008802.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008811.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008820.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008829.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:008829.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008829.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008838.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:008838.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:008847.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:008847.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:008847.000000000 us	 TTB initialized as 8 from [0, 16) interval
+INFO:root:AP1:008847.000000000 us	 TTB = 8
+INFO:root:AP0:008847.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:008847.000000000 us	 Channel idle, reactivating backoff at TTB = 8
+INFO:root:AP0:008847.000000000 us	 TTB = 8
+INFO:root:AP1:008856.000000000 us	 TTB = 7
+INFO:root:AP0:008856.000000000 us	 TTB = 7
+INFO:root:AP1:008865.000000000 us	 TTB = 6
+INFO:root:AP0:008865.000000000 us	 TTB = 6
+INFO:root:AP1:008874.000000000 us	 TTB = 5
+INFO:root:AP0:008874.000000000 us	 TTB = 5
+INFO:root:AP1:008883.000000000 us	 TTB = 4
+INFO:root:AP0:008883.000000000 us	 TTB = 4
+INFO:root:AP1:008892.000000000 us	 TTB = 3
+INFO:root:AP0:008892.000000000 us	 TTB = 3
+INFO:root:AP1:008901.000000000 us	 TTB = 2
+INFO:root:AP0:008901.000000000 us	 TTB = 2
+INFO:root:AP1:008910.000000000 us	 TTB = 1
+INFO:root:AP0:008910.000000000 us	 TTB = 1
+INFO:root:AP1:008919.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:008919.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:009018.000000000 us	 Collision, increasing CW to 16
+INFO:root:AP1:009018.000000000 us	 Attempting to send frame. Retry count: 1
+INFO:root:AP1:009018.000000000 us	 TTB initialized as 4 from [0, 16) interval
+INFO:root:AP1:009018.000000000 us	 TTB = 4
+INFO:root:AP0:009018.000000000 us	 Collision, increasing CW to 16
+INFO:root:AP0:009018.000000000 us	 Attempting to send frame. Retry count: 1
+INFO:root:AP0:009018.000000000 us	 TTB initialized as 7 from [0, 16) interval
+INFO:root:AP0:009018.000000000 us	 TTB = 7
+INFO:root:AP1:009027.000000000 us	 TTB = 3
+INFO:root:AP0:009027.000000000 us	 TTB = 6
+INFO:root:AP1:009036.000000000 us	 TTB = 2
+INFO:root:AP0:009036.000000000 us	 TTB = 5
+INFO:root:AP1:009045.000000000 us	 TTB = 1
+INFO:root:AP0:009045.000000000 us	 TTB = 4
+INFO:root:AP1:009054.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:009054.000000000 us	 TTB = 3
+INFO:root:AP0:009054.000000000 us	 Channel busy, freezing backoff at TTB = 4
+INFO:root:AP0:009054.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009063.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009072.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009081.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009090.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009099.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009108.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009117.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009126.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009135.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009144.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009153.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:009153.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009153.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009162.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009162.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009171.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:009171.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:009171.000000000 us	 TTB initialized as 7 from [0, 16) interval
+INFO:root:AP1:009171.000000000 us	 TTB = 7
+INFO:root:AP0:009171.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:009171.000000000 us	 Channel idle, reactivating backoff at TTB = 4
+INFO:root:AP0:009171.000000000 us	 TTB = 4
+INFO:root:AP1:009180.000000000 us	 TTB = 6
+INFO:root:AP0:009180.000000000 us	 TTB = 3
+INFO:root:AP1:009189.000000000 us	 TTB = 5
+INFO:root:AP0:009189.000000000 us	 TTB = 2
+INFO:root:AP1:009198.000000000 us	 TTB = 4
+INFO:root:AP0:009198.000000000 us	 TTB = 1
+INFO:root:AP1:009207.000000000 us	 TTB = 3
+INFO:root:AP0:009207.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:009216.000000000 us	 TTB = 2
+INFO:root:AP1:009216.000000000 us	 Channel busy, freezing backoff at TTB = 3
+INFO:root:AP1:009216.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009225.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009234.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009243.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009252.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009261.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009270.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009279.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009288.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009297.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009306.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009306.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:009306.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009315.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009315.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009324.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:009324.000000000 us	 Channel idle, reactivating backoff at TTB = 3
+INFO:root:AP1:009324.000000000 us	 TTB = 3
+INFO:root:AP0:009324.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:009324.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:009324.000000000 us	 TTB initialized as 15 from [0, 16) interval
+INFO:root:AP0:009324.000000000 us	 TTB = 15
+INFO:root:AP1:009333.000000000 us	 TTB = 2
+INFO:root:AP0:009333.000000000 us	 TTB = 14
+INFO:root:AP1:009342.000000000 us	 TTB = 1
+INFO:root:AP0:009342.000000000 us	 TTB = 13
+INFO:root:AP1:009351.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:009351.000000000 us	 TTB = 12
+INFO:root:AP0:009351.000000000 us	 Channel busy, freezing backoff at TTB = 13
+INFO:root:AP0:009351.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009360.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009369.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009378.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009387.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009396.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009405.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009414.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009423.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009432.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009441.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009450.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:009450.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009450.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009459.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009459.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009468.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:009468.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:009468.000000000 us	 TTB initialized as 12 from [0, 16) interval
+INFO:root:AP1:009468.000000000 us	 TTB = 12
+INFO:root:AP0:009468.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:009468.000000000 us	 Channel idle, reactivating backoff at TTB = 13
+INFO:root:AP0:009468.000000000 us	 TTB = 13
+INFO:root:AP1:009477.000000000 us	 TTB = 11
+INFO:root:AP0:009477.000000000 us	 TTB = 12
+INFO:root:AP1:009486.000000000 us	 TTB = 10
+INFO:root:AP0:009486.000000000 us	 TTB = 11
+INFO:root:AP1:009495.000000000 us	 TTB = 9
+INFO:root:AP0:009495.000000000 us	 TTB = 10
+INFO:root:AP1:009504.000000000 us	 TTB = 8
+INFO:root:AP0:009504.000000000 us	 TTB = 9
+INFO:root:AP1:009513.000000000 us	 TTB = 7
+INFO:root:AP0:009513.000000000 us	 TTB = 8
+INFO:root:AP1:009522.000000000 us	 TTB = 6
+INFO:root:AP0:009522.000000000 us	 TTB = 7
+INFO:root:AP1:009531.000000000 us	 TTB = 5
+INFO:root:AP0:009531.000000000 us	 TTB = 6
+INFO:root:AP1:009540.000000000 us	 TTB = 4
+INFO:root:AP0:009540.000000000 us	 TTB = 5
+INFO:root:AP1:009549.000000000 us	 TTB = 3
+INFO:root:AP0:009549.000000000 us	 TTB = 4
+INFO:root:AP1:009558.000000000 us	 TTB = 2
+INFO:root:AP0:009558.000000000 us	 TTB = 3
+INFO:root:AP1:009567.000000000 us	 TTB = 1
+INFO:root:AP0:009567.000000000 us	 TTB = 2
+INFO:root:AP1:009576.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:009576.000000000 us	 TTB = 1
+INFO:root:AP0:009576.000000000 us	 Channel busy, freezing backoff at TTB = 2
+INFO:root:AP0:009576.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009585.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009594.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009603.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009612.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009621.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009630.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009639.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009648.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009657.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009666.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009675.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:009675.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009675.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009684.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009684.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009693.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:009693.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:009693.000000000 us	 TTB initialized as 0 from [0, 16) interval
+INFO:root:AP1:009693.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 3
+INFO:root:AP0:009693.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009702.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009711.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009720.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009729.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009738.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009747.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009756.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009765.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009774.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009783.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009792.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP1:009792.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009792.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009801.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009801.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009810.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:009810.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP1:009810.000000000 us	 TTB initialized as 8 from [0, 16) interval
+INFO:root:AP1:009810.000000000 us	 TTB = 8
+INFO:root:AP0:009810.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:009810.000000000 us	 Channel idle, reactivating backoff at TTB = 2
+INFO:root:AP0:009810.000000000 us	 TTB = 2
+INFO:root:AP1:009819.000000000 us	 TTB = 7
+INFO:root:AP0:009819.000000000 us	 TTB = 1
+INFO:root:AP1:009828.000000000 us	 TTB = 6
+INFO:root:AP0:009828.000000000 us	 TTB reached zero (TTB = 0) and the channel is idle. Sending frame to 2
+INFO:root:AP1:009837.000000000 us	 TTB = 5
+INFO:root:AP1:009837.000000000 us	 Channel busy, freezing backoff at TTB = 6
+INFO:root:AP1:009837.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009846.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009855.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009864.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009873.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009882.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009891.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009900.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009909.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009918.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009927.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009927.000000000 us	 TX successfull, resetting CW to 16
+INFO:root:AP0:009927.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009936.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009936.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP1:009945.000000000 us	 DIFS: waiting for a SLOT_TIME = 9 us
+INFO:root:AP0:009945.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP0:009945.000000000 us	 Attempting to send frame. Retry count: 0
+INFO:root:AP0:009945.000000000 us	 TTB initialized as 7 from [0, 16) interval
+INFO:root:AP0:009945.000000000 us	 TTB = 7
+INFO:root:AP1:009954.000000000 us	 DIFS: Channel idle for DIFS = 34 us
+INFO:root:AP1:009954.000000000 us	 Channel idle, reactivating backoff at TTB = 6
+INFO:root:AP1:009954.000000000 us	 TTB = 6
+INFO:root:AP0:009954.000000000 us	 TTB = 6
+INFO:root:AP1:009963.000000000 us	 TTB = 5
+INFO:root:AP0:009963.000000000 us	 TTB = 5
+INFO:root:AP1:009972.000000000 us	 TTB = 4
+INFO:root:AP0:009972.000000000 us	 TTB = 4
+INFO:root:AP1:009981.000000000 us	 TTB = 3
+INFO:root:AP0:009981.000000000 us	 TTB = 3
+INFO:root:AP1:009990.000000000 us	 TTB = 2
+INFO:root:AP0:009990.000000000 us	 TTB = 2
+INFO:root:AP1:009999.000000000 us	 TTB = 1
+INFO:root:AP0:009999.000000000 us	 TTB = 1
+WARNING:root:Dumping 72 rows to out/dump_20241011_212804_1.csv
+WARNING:root:Run1:Collisions:AP0: 0.212 (of 33)
+WARNING:root:Run1:Collisions:AP1: 0.179 (of 39)
+WARNING:root:Run1:Collisions: 0.194 (of 72)
+WARNING:root:Execution time: 10.13 seconds
