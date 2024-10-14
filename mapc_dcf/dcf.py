@@ -93,11 +93,12 @@ class DCF():
             # The backoff time counter is decremented as long as the channel is sensed idle.
             if self.channel.is_idle(self.des_env.now, frame.src, frame.tx_power):
                 yield self.des_env.process(self._wait_for_one_slot())
-                time_to_backoff -= 1
-            
+                if self.channel.is_idle(self.des_env.now-(9/2*1e-6), frame.src, frame.tx_power):
+                    time_to_backoff -= 1
+                else:
+                    yield self.des_env.process(self._freeze_backoff(frame, time_to_backoff))    
             # It is frozen when activities (i.e. packet transmissions) are detected on the channel
             else:
-                time_to_backoff += 1
                 yield self.des_env.process(self._freeze_backoff(frame, time_to_backoff))
                 # and reactivated after the channel is sensed idle again for a guard period.
         

@@ -67,7 +67,7 @@ https://en.wikipedia.org/wiki/Short_Interframe_Space"""
 CW_EXP_MIN = 4
 """Minimum contention window exponent"""
 
-CW_EXP_MAX = 4
+CW_EXP_MAX = 10
 """Maximum contention window exponent"""
 
 CCA_THRESHOLD = -82.
