@@ -89,19 +89,13 @@ class DCF():
             logging.info(f"AP{self.ap}:{self.timestamp()}\t TTB = {time_to_backoff}")
 
             # The backoff time counter is decremented as long as the channel is sensed idle.
-            if self.channel.is_idle(self.des_env.now, frame.src, frame.tx_power):
-                yield self.des_env.process(self._wait_for_one_slot())
-                time_to_backoff -= 1
-            
+            yield self.des_env.process(self._wait_for_one_slot())
+            time_to_backoff -= 1
+
             # It is frozen when activities (i.e. packet transmissions) are detected on the channel
-            else:
-                yield self.des_env.process(self._freeze_backoff(frame, time_to_backoff))
-                # and reactivated after the channel is sensed idle again for a guard period.
-        
-        # # Corner case: Selected TTB is zero and the channel is busy, we wait for DIFS
-        # if not self.channel.is_idle(self.des_env.now, frame.src, frame.tx_power):
-        #     yield self.des_env.process(self._freeze_backoff(frame, time_to_backoff))
-        #     # and reactivated after the channel is sensed idle again for a guard period.
+            # and reactivated after the channel is sensed idle again for a guard period.
+            if not self.channel.is_idle(self.des_env.now - SLOT_TIME / 2, frame.src, frame.tx_power):
+                yield self.des_env.process(self._freeze_backoff(frame, time_to_backoff)) 
         
         # The frame is sent to the channel
         logging.info(f"AP{self.ap}:{self.timestamp()}\t TTB reached zero (TTB = {time_to_backoff}) and the channel is idle. Sending frame to {frame.dst}")
