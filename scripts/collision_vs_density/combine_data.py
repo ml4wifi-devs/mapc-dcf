@@ -5,8 +5,10 @@ from argparse import ArgumentParser
 import pandas as pd
 import numpy as np
 
+from mapc_mab.plots.utils import confidence_interval
 
-def combine_data(results_dir, save_path, clear_dir):
+
+def combine_data(results_dir, save_path, ci, clear_dir):
     """
     Combines the json results files from the results_dir into a single csv file and saves it to save_path.
     If clear_dir is True, the json files are deleted after combining.
@@ -40,11 +42,13 @@ def combine_data(results_dir, save_path, clear_dir):
         with open(os.path.join(results_dir, file), 'r') as f:
             n_aps = int(file.split('.')[0][1:])
             data = json.load(f)
+            data = data['CollisionRate']['Data']
+            mean, low, high = confidence_interval(np.array(data), ci)
             results.append({
                 'NumAPs': n_aps,
-                'CollisionRateMean': data['CollisionRate']['Mean'],
-                'CollisionRateLow': data['CollisionRate']['Low'],
-                'CollisionRateHigh': data['CollisionRate']['High']
+                'CollisionRateMean': mean,
+                'CollisionRateLow': low,
+                'CollisionRateHigh': high
             })
 
     if clear_dir:
@@ -59,8 +63,9 @@ if __name__ == '__main__':
     args = ArgumentParser()
     args.add_argument('-o', '--out_dir',    type=str, default='out')
     args.add_argument('-s', '--save_path',  type=str, default='out/combined.csv')
+    args.add_argument('-i', '--ci',         type=float, default=0.99)
     args.add_argument('-c', '--clear_dir',  action='store_true')
     args = args.parse_args()
 
-    combine_data(args.out_dir, args.save_path, args.clear_dir)
+    combine_data(args.out_dir, args.save_path, args.ci, args.clear_dir)
 
