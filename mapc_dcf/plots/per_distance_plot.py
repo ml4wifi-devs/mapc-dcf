@@ -24,7 +24,7 @@ def plot(labels: list, dataframes: List[pd.DataFrame], title: str):
 
     
     # Setup the plot
-    plt.xlabel('Number of APs')
+    plt.xlabel('Distance [m]')
     plt.ylabel('PER')
     plt.ylim(0, 1)
     plt.grid()
