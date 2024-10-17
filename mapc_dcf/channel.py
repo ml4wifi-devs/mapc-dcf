@@ -211,9 +211,7 @@ class Channel():
             )
 
             # Calculate the collision probability at the middlepoint, weighted by the overlapping ratio
-            weight = duration / frame_duration
             collision_prob_middlepoint = 1 - success_prob_middlepoint
-            collision_prob_middlepoint = weight * collision_prob_middlepoint
             middlepoints_collision_probs.append(collision_prob_middlepoint)
         
         # Aggregate the collision probabilities
