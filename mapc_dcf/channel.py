@@ -158,9 +158,9 @@ class Channel():
         self.frames_history.add(Interval(start_time, frame.end_time, frame))
 
 
-    def is_colliding(self, frame: WiFiFrame) -> bool:
+    def is_tx_successful(self, frame: WiFiFrame) -> bool:
         """
-        Check if a frame transmission resulted in collision.
+        Check if a frame transmission was successful.
 
         Parameters
         ----------
@@ -182,7 +182,7 @@ class Channel():
         middlepoints, durations = self._get_middlepoints_and_durations(overlapping_frames, frame_start_time, frame_end_time)
         
         # Calculate the success probability at the middlepoints
-        middlepoints_collision_probs = []
+        middlepoints_success_probs = []
         for middlepoint, duration in zip(middlepoints, durations):
 
             # Get the concurrent frames at the middlepoint
@@ -200,26 +200,22 @@ class Channel():
                 mcs_at_middlepoint = mcs_at_middlepoint.at[iter_frame.src].set(iter_frame.mcs)
                 tx_power_at_middlepoint = tx_power_at_middlepoint.at[iter_frame.src].set(iter_frame.tx_power)
             
-            # Calculate the success probability at the middlepoint
+            # Calculate the success probability at the current middlepoint
             self.key, key_per = jax.random.split(self.key)
-            success_prob_middlepoint = self._get_success_probability(
+            middlepoints_success_probs.append(self._get_success_probability(
                 key_per,
                 tx_matrix_at_middlepoint,
                 mcs_at_middlepoint,
                 tx_power_at_middlepoint,
                 frame.src
-            )
-
-            # Calculate the collision probability at the middlepoint, weighted by the overlapping ratio
-            collision_prob_middlepoint = 1 - success_prob_middlepoint
-            middlepoints_collision_probs.append(collision_prob_middlepoint)
+            ))
+        middlepoints_success_probs = jnp.array(middlepoints_success_probs)
         
-        # Aggregate the collision probabilities
-        middlepoints_collision_probs = jnp.array(middlepoints_collision_probs)
-        self.key, key_collision = jax.random.split(self.key)
-        collision = jnp.any(jax.random.uniform(key_collision, shape=middlepoints_collision_probs.shape) < middlepoints_collision_probs).item()
+        # Aggregate the probabilities
+        self.key, key_uniform = jax.random.split(self.key)
+        tx_successful = jnp.all(jax.random.uniform(key_uniform, shape=middlepoints_success_probs.shape) < middlepoints_success_probs).item()
         
-        return collision
+        return tx_successful
     
 
     def _get_middlepoints_and_durations(
@@ -268,9 +264,7 @@ class Channel():
         sinr = (sinr * tx).sum(axis=1)
 
         sdist = tfd.Normal(loc=MEAN_SNRS[mcs], scale=2.)
-        logit_success_prob = sdist.log_cdf(sinr) - sdist.log_survival_function(sinr)
-        logit_success_prob = jnp.where(sinr > 0, logit_success_prob, -jnp.inf)
-        success_prob = jnp.exp(logit_success_prob)/(1 + jnp.exp(logit_success_prob))
+        success_prob = sdist.cdf(sinr)
 
         return success_prob[ap_src].item()
         
