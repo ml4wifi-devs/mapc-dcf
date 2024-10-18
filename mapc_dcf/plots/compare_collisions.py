@@ -27,7 +27,7 @@ def plot(labels: list, dataframes: List[pd.DataFrame], reference_data: Optional[
         for i, row in reference_data.iterrows():
             if row[-1] == 'Analytical model':
                 xs = list(range(1, 11))
-                plt.plot(xs, row[:-1], marker='.', label=row[-1], linestyle='--', color='gray')
+                plt.plot(xs, row[:-1], label=row[-1], linestyle='--', color='red')
             else:
                 continue
     
