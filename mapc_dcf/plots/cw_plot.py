@@ -43,7 +43,8 @@ def plot(df_results: pd.DataFrame, warmup: float, save_path: str, accumulate_aps
     plt.yscale('log')
     plt.ylim(bottom=0.5)
     plt.grid(axis='y')
-    plt.legend() if not accumulate_aps else None
+    if not accumulate_aps and len(aps) <= 10:
+        plt.legend()
     plt.savefig(save_path, bbox_inches='tight')
     plt.close()
 

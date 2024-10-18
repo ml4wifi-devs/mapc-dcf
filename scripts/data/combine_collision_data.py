@@ -44,11 +44,13 @@ def combine_data(results_dir, save_path, ci, clear_dir):
             data = json.load(f)
             data = data['CollisionRate']['Data']
             mean, low, high = confidence_interval(np.array(data), ci)
+            std = np.std(data)
             results.append({
                 'NumAPs': n_aps,
                 'CollisionRateMean': mean,
                 'CollisionRateLow': low,
-                'CollisionRateHigh': high
+                'CollisionRateHigh': high,
+                'CollisionRateStd': std
             })
 
     if clear_dir:

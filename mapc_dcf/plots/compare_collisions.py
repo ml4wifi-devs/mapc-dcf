@@ -11,7 +11,7 @@ plt.rcParams['lines.linewidth'] = 0.5
 plt.rcParams['figure.figsize'] = (3.5, 3.)
 
 
-def plot(labels: list, dataframes: List[pd.DataFrame], reference_data: Optional[pd.DataFrame], title: str):
+def plot(labels: list, dataframes: List[pd.DataFrame], reference_data: Optional[pd.DataFrame], title: str, scatter: bool):
 
     # Set color map
     colors = get_cmap(len(labels))
@@ -19,17 +19,22 @@ def plot(labels: list, dataframes: List[pd.DataFrame], reference_data: Optional[
     # Plot the mcs data
     for label, df, color in zip(labels, dataframes, colors):
         xs = df["NumAPs"]
-        plt.plot(xs, df['CollisionRateMean'], marker='.', label=label, color=color)
-        plt.fill_between(xs,  df['CollisionRateLow'], df['CollisionRateHigh'], alpha=0.5, color=color, linewidth=0)
+        if scatter:
+            plt.scatter(xs, df['CollisionRateMean'], marker='.', label=label, color=color)
+            plt.errorbar(
+                xs, df['CollisionRateMean'], yerr=[
+                    df['CollisionRateMean'] - df['CollisionRateLow'], 
+                    df['CollisionRateHigh'] - df['CollisionRateMean']
+                ], fmt='none', color=color)
+        else:
+            plt.plot(xs, df['CollisionRateMean'], marker='.', label=label, color=color)
+            plt.fill_between(xs,  df['CollisionRateLow'], df['CollisionRateHigh'], alpha=0.5, color=color, linewidth=0)
 
     # Plot the reference data
     if reference_data is not None:
-        for i, row in reference_data.iterrows():
-            if row[-1] == 'Analytical model':
-                xs = list(range(1, 11))
-                plt.plot(xs, row[:-1], label=row[-1], linestyle='--', color='red')
-            else:
-                continue
+        reference_data = reference_data.sort_values(by='NumAPs')
+        reference_data = reference_data[reference_data['NumAPs'] <= max([df['NumAPs'].max() for df in dataframes])]
+        plt.plot(reference_data['NumAPs'], reference_data['CollisionRateMean'], label='Reference', linestyle='--', color='red')
     
     # Setup the plot
     plt.xlabel('Number of APs')
@@ -51,6 +56,7 @@ if __name__ == '__main__':
     args.add_argument('-d', '--data',           type=str, nargs='+', required=True)
     args.add_argument('-r', '--reference_data', type=str, required=False)
     args.add_argument('-t', '--title',          type=str, required=False)
+    args.add_argument('-s', '--scatter',        action='store_true')
     args = args.parse_args()
 
     # Get labels
@@ -65,8 +71,6 @@ if __name__ == '__main__':
     reference_data = args.reference_data
     if reference_data is not None:
         reference_df = pd.read_csv(reference_data)
-        reference_df = reference_df[reference_df["Name"] != "DCF-SimPy"]
-        reference_df = reference_df.iloc[:, :11]
     else:
         reference_df = None
     
@@ -74,4 +78,4 @@ if __name__ == '__main__':
     title =  args.title if args.title is not None else 'Collision Probability in Dense Networks'
 
     # Plot the data
-    plot(labels, dataframes, reference_df, title)
+    plot(labels, dataframes, reference_df, title, args.scatter)
