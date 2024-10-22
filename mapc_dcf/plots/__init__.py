@@ -5,6 +5,47 @@ from mapc_dcf.constants import CW_EXP_MIN, CW_EXP_MAX
 
 set_style()
 
+def calculate_ema(data, span=None, alpha=None):
+    """
+    Calculate Exponential Moving Average (EMA) for a numpy array.
+    
+    Parameters:
+    -----------
+    data : numpy.ndarray
+        Input array of values to smooth
+    span : int, optional
+        Number of periods to use for smoothing. 
+        Either span or alpha must be provided.
+    alpha : float, optional
+        Smoothing factor between 0 and 1. 
+        Either span or alpha must be provided.
+        
+    Returns:
+    --------
+    numpy.ndarray
+        Array of smoothed values
+        
+    Notes:
+    ------
+    If span is provided, alpha is calculated as: 2 / (span + 1)
+    The larger the span, the smoother the result.
+    """
+    if span is None and alpha is None:
+        raise ValueError("Either span or alpha must be provided")
+        
+    if span is not None:
+        alpha = 2 / (span + 1)
+    
+    # Initialize the output array with the first value
+    ema = np.zeros_like(data, dtype=float)
+    ema[0] = data[0]
+    
+    # Calculate EMA
+    for i in range(1, len(data)):
+        ema[i] = alpha * data[i] + (1 - alpha) * ema[i-1]
+        
+    return ema
+
 
 def plot_backoff_hist(backoff_hist: dict, ap: Optional[int] = None):
     """

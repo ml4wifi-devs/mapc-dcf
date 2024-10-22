@@ -1,7 +1,6 @@
 from argparse import ArgumentParser
 from typing import Optional, List
 
-import os
 import pandas as pd
 import matplotlib.pyplot as plt
 
