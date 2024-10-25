@@ -15,16 +15,18 @@ tfd = tfp.distributions
 
 class WiFiFrame():
 
-    def __init__(self, src: int, dst: int, tx_power: float, mcs: int, size: int = FRAME_LEN_INT) -> None:
+    def __init__(self, id: int, src: int, dst: int, tx_power: float, mcs: int, payload_size: int = FRAME_LEN_INT) -> None:
+        self.id = id
         self.src = src
         self.dst = dst
         self.tx_power = tx_power
         self.mcs = mcs
-        self.size = size
-        self.duration = self.size / (DATA_RATES[mcs].item() * 1e6) # ~84 us for MCS 11
+        self.payload_size = payload_size
+        self.n_ampdu = int(jnp.round(DATA_RATES[mcs] * 1e6 * TAU / FRAME_LEN).item())
+        self.duration = self.n_ampdu * self.payload_size / (DATA_RATES[mcs].item() * 1e6)
     
 
-    def materialize(self, start_time: float):
+    def materialize(self, start_time: float, retransmission: int) -> None:
         """
         Materialize the WiFi frame by setting its start time, end time, and transmission power.
         End time is calculated based on the predefined frame duration. After materialization,
@@ -40,6 +42,7 @@ class WiFiFrame():
         
         self.start_time = start_time
         self.end_time = start_time + self.duration
+        self.retransmission = retransmission
 
 
 class Channel():
@@ -72,6 +75,9 @@ class Channel():
         # Get frames that occupy the channel at the given time
         overlapping_frames = self.frames_history[time]
 
+        if not overlapping_frames:
+            return True
+
         # Set the transmission matrix and transmission power from the current frames in the channel
         tx_matrix_at_time = jnp.zeros((self.n_nodes, self.n_nodes))
         tx_power_at_time = jnp.zeros((self.n_nodes,))
@@ -80,6 +86,10 @@ class Channel():
             overlapping_frame = frame_interval.data
             tx_matrix_at_time = tx_matrix_at_time.at[overlapping_frame.src, overlapping_frame.dst].set(1)
             tx_power_at_time = tx_power_at_time.at[overlapping_frame.src].set(overlapping_frame.tx_power)
+        
+        # If ap was transmitting at the given time, the channel is busy
+        if tx_matrix_at_time[ap].sum() > 0:
+            return False
         
         # Set the transmission from AP to itself, to be used in the signal level calculation
         tx_matrix_at_time = tx_matrix_at_time.at[ap, ap].set(1)
@@ -112,14 +122,18 @@ class Channel():
         """
 
         # Transform time and duration to low and high times
-        low_time, high_time = max(0., time - duration), time
+        low_time, high_time = time - duration, time
+
+        # If the simulation does not last long enough, assume the channel busy
+        if low_time < 0:
+            return False
 
         # Get the overlapping frames within the given time interval
         overlapping_frames = self.frames_history.overlap(low_time, high_time)
-        logging.debug(f"AP{ap}: Overlapping frames: {overlapping_frames}")
 
         # We asses the channel as idle if it is idle in all the middlepoints of the given interval
         middlepoints, _ = self._get_middlepoints_and_durations(overlapping_frames, low_time, high_time)
+        logging.debug(f"AP{ap}:t{time:.9f}\t Overlapping frames: {overlapping_frames}\n" + "\t"*8 + f"Middlepoints: {middlepoints}")
         for middlepoint in middlepoints:
 
             if not self.is_idle(middlepoint, ap, sender_tx_power):
@@ -128,7 +142,7 @@ class Channel():
         return self.is_idle(high_time, ap, sender_tx_power)
 
     
-    def send_frame(self, frame: WiFiFrame, start_time: float) -> None:
+    def send_frame(self, frame: WiFiFrame, start_time: float, retransmission: int) -> None:
         """
         Send a WiFi frame over the channel.
 
@@ -141,23 +155,23 @@ class Channel():
         tx_power : float
             The transmission power at which the frame is sent.
         """
-        frame.materialize(start_time)
+        frame.materialize(start_time, retransmission)
         self.frames_history.add(Interval(start_time, frame.end_time, frame))
 
 
-    def is_colliding(self, frame: WiFiFrame) -> bool:
+    def is_tx_successful(self, frame: WiFiFrame) -> int:
         """
-        Check if a frame transmission resulted in collision.
+        Check if a AMPDU transmission was successful. Return the number of successful transmissions.
 
         Parameters
         ----------
         frame : WiFiFrame
-            The transmitted frame.
+            The transmitted AMPDU WiFi frame.
 
         Returns
         -------
-        bool
-            Whether there was a collision or not.
+        int
+            The number of successful transmissions within the AMPDU.
         """
         
         # Get the overlapping frames with the transmitted frame
@@ -165,21 +179,16 @@ class Channel():
         overlapping_frames = self.frames_history.overlap(frame_start_time, frame_end_time) - {Interval(frame_start_time, frame_end_time, frame)}
         overlapping_frames_tree = IntervalTree(overlapping_frames)
 
-        if not overlapping_frames:
-            return False
-
         # Calculate the middlepoints and durations in reference to the transmitted frame
         middlepoints, durations = self._get_middlepoints_and_durations(overlapping_frames, frame_start_time, frame_end_time)
         
         # Calculate the success probability at the middlepoints
-        middlepoints_collision_probs = []
+        middlepoints_success_probs = []
         for middlepoint, duration in zip(middlepoints, durations):
 
             # Get the concurrent frames at the middlepoint
             middlepoint_overlapping_frames = overlapping_frames_tree[middlepoint]
-            if not middlepoint_overlapping_frames:
-                continue
-            middlepoint_overlapping_frames.union({Interval(frame_start_time, frame_end_time, frame)})
+            middlepoint_overlapping_frames = middlepoint_overlapping_frames.union({Interval(frame_start_time, frame_end_time, frame)})
 
             # Build the transmission matrix, MCS, and transmission power at the middlepoint
             tx_matrix_at_middlepoint = jnp.zeros((self.n_nodes, self.n_nodes))
@@ -192,28 +201,22 @@ class Channel():
                 mcs_at_middlepoint = mcs_at_middlepoint.at[iter_frame.src].set(iter_frame.mcs)
                 tx_power_at_middlepoint = tx_power_at_middlepoint.at[iter_frame.src].set(iter_frame.tx_power)
             
-            # Calculate the success probability at the middlepoint
+            # Calculate the success probability at the current middlepoint
             self.key, key_per = jax.random.split(self.key)
-            success_prob_middlepoint = self._get_success_probability(
+            middlepoints_success_probs.append(self._get_success_probability(
                 key_per,
                 tx_matrix_at_middlepoint,
                 mcs_at_middlepoint,
                 tx_power_at_middlepoint,
                 frame.src
-            )
-
-            # Calculate the collision probability at the middlepoint, weighted by the overlapping ratio
-            weight = duration / frame_duration
-            collision_prob_middlepoint = 1 - success_prob_middlepoint
-            collision_prob_middlepoint = weight * collision_prob_middlepoint
-            middlepoints_collision_probs.append(collision_prob_middlepoint)
+            ))
+        middlepoints_success_probs = jnp.array(middlepoints_success_probs)
         
-        # Aggregate the collision probabilities
-        middlepoints_collision_probs = jnp.array(middlepoints_collision_probs)
-        self.key, key_collision = jax.random.split(self.key)
-        collision = jnp.any(jax.random.uniform(key_collision, shape=middlepoints_collision_probs.shape) < middlepoints_collision_probs).item()
+        # Aggregate the probabilities
+        self.key, key_uniform = jax.random.split(self.key)
+        tx_successful = jnp.all(jax.random.uniform(key_uniform, shape=middlepoints_success_probs.shape) < middlepoints_success_probs).item()
         
-        return collision
+        return int(tx_successful) * frame.n_ampdu
     
 
     def _get_middlepoints_and_durations(
@@ -262,9 +265,7 @@ class Channel():
         sinr = (sinr * tx).sum(axis=1)
 
         sdist = tfd.Normal(loc=MEAN_SNRS[mcs], scale=2.)
-        logit_success_prob = sdist.log_cdf(sinr) - sdist.log_survival_function(sinr)
-        logit_success_prob = jnp.where(sinr > 0, logit_success_prob, -jnp.inf)
-        success_prob = jnp.exp(logit_success_prob)/(1 + jnp.exp(logit_success_prob))
+        success_prob = sdist.cdf(sinr)
 
         return success_prob[ap_src].item()
         

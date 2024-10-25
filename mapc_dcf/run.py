@@ -1,72 +1,67 @@
-import os
-os.environ['JAX_ENABLE_X64'] = 'True'
-
 import json
 import logging
+import os
+from time import time
+from typing import Dict
 from argparse import ArgumentParser
 
+os.environ['JAX_ENABLE_X64'] = 'True'
+
+import simpy
 import jax
 from chex import PRNGKey
-import simpy
+from joblib import Parallel, delayed
 from tqdm import tqdm
-from typing import Dict
 
 from mapc_mab.envs.static_scenarios import *
 from mapc_dcf.channel import Channel
 from mapc_dcf.nodes import AccessPoint
 from mapc_dcf.logger import Logger
 
-def run_scenario(
+
+def single_run(
         key: PRNGKey,
-        n_runs: int,
+        run: int,
         simulation_length: float,
         warmup_length: float,
         scenario: StaticScenario,
         logger: Logger
-):  
+) -> None:
     
-    run_keys = jax.random.split(key, n_runs)
+    key, key_channel = jax.random.split(key)
+    des_env = simpy.Environment()
+    channel = Channel(key_channel, scenario.pos, walls=scenario.walls)
+    aps: Dict[int, AccessPoint] = {}
+    for ap in scenario.associations:
 
-    for run, _ in enumerate(tqdm(range(n_runs), desc='Repetition'), start=1):
-        logging.info(f"Run {run}/{n_runs}")
+        key, key_ap = jax.random.split(key)
+        clients = jnp.array(scenario.associations[ap])
+        tx_power = scenario.tx_power[ap].item()
+        mcs = scenario.mcs[ap].item()
+        aps[ap] = AccessPoint(key_ap, ap, scenario.pos, tx_power, mcs, clients, channel, des_env, logger)
+        aps[ap].start_operation(run)
+    
+    des_env.run(until=warmup_length + simulation_length)
+    logger.dump_acumulators(run)
 
-        run_key = run_keys[run - 1]
-        run_key, key_channel = jax.random.split(run_key)
-        des_env = simpy.Environment()
-        channel = Channel(key_channel, scenario.pos, walls=scenario.walls)
-        aps: Dict[int, AccessPoint] = {}
-        for ap in scenario.associations:
+    # TODO to be removed once debugged or improve logger
+    total = 0
+    collisions = 0
+    for ap in aps.keys():
+        total_ap = aps[ap].dcf.total_attempts
+        collisions_ap = aps[ap].dcf.total_collisions
+        logging.warning(f"Run{run}:Collisions:AP{ap}: {collisions_ap / total_ap:.3f} (of {total_ap})")
+        total += total_ap
+        collisions += collisions_ap
+    logging.warning(f"Run{run}:Collisions: {collisions / total:.3f} (of {total})")
 
-            run_key, key_ap = jax.random.split(run_key)
-            clients = jnp.array(scenario.associations[ap])
-            tx_power = scenario.tx_power[ap].item()
-            mcs = scenario.mcs[ap].item()
-            aps[ap] = AccessPoint(key_ap, ap, scenario.pos, tx_power, mcs, clients, channel, des_env, logger)
-            aps[ap].start_operation(run)
-        
-        des_env.run(until=warmup_length + simulation_length)
-        logger._save_accumulators()
-
-        # TODO to be removed once debugged or improve logger
-        total = 0
-        collisions = 0
-        for ap in aps.keys():
-            total_ap = aps[ap].dcf.total_frames
-            collisions_ap = aps[ap].dcf.total_collisions
-            print(f"Collisions:AP{ap}: {collisions_ap / total_ap:.3f} (of {total_ap})")
-            total += total_ap
-            collisions += collisions_ap
-        print(f"Collisions: {collisions / total:.3f} (of {total})")
-
-        del des_env
-
-    logger.shutdown()
+    del des_env
 
 
 if __name__ == '__main__':
     args = ArgumentParser()
     args.add_argument('-c', '--config_path',    type=str, default='default_config.json')
-    args.add_argument('-r', '--results_path',   type=str, default='all_results')
+    args.add_argument('-r', '--results_path',   type=str, default=os.path.join('out', 'results'))
     args.add_argument('-l', '--log_level',      type=str, default='warning')
     args = args.parse_args()
 
@@ -77,6 +72,14 @@ if __name__ == '__main__':
     
     key = jax.random.PRNGKey(config['seed'])
 
-    logger = Logger(args.results_path, config['n_runs'], config['simulation_length'], config['warmup_length'], **config['logger_params'])
+    logger = Logger(config['simulation_length'], config['warmup_length'], args.results_path, **config['logger_params'])
     scenario = globals()[config['scenario']](**config['scenario_params'])
-    run_scenario(key, config['n_runs'], config['simulation_length'], config['warmup_length'], scenario, logger)
+
+    start_time = time()
+    n_runs = config['n_runs']
+    Parallel(n_jobs=n_runs)(
+        delayed(single_run)(key, run, config['simulation_length'], config['warmup_length'], scenario, logger)
+        for key, run in zip(jax.random.split(key, n_runs), range(1, n_runs + 1))
+    )
+    logger.shutdown(config)
+    logging.warning(f"Execution time: {time() - start_time:.2f} seconds")
