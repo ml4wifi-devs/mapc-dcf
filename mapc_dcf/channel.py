@@ -15,14 +15,15 @@ tfd = tfp.distributions
 
 class WiFiFrame():
 
-    def __init__(self, id: int, src: int, dst: int, tx_power: float, mcs: int, size: int = FRAME_LEN_INT) -> None:
+    def __init__(self, id: int, src: int, dst: int, tx_power: float, mcs: int, payload_size: int = FRAME_LEN_INT) -> None:
         self.id = id
         self.src = src
         self.dst = dst
         self.tx_power = tx_power
         self.mcs = mcs
-        self.size = size
-        self.duration = self.size / (DATA_RATES[mcs].item() * 1e6) # ~84 us for MCS 11
+        self.payload_size = payload_size
+        self.n_ampdu = int(jnp.round(DATA_RATES[mcs] * 1e6 * TAU / FRAME_LEN).item())
+        self.duration = self.n_ampdu * self.payload_size / (DATA_RATES[mcs].item() * 1e6)
     
 
     def materialize(self, start_time: float, retransmission: int) -> None:
@@ -158,19 +159,19 @@ class Channel():
         self.frames_history.add(Interval(start_time, frame.end_time, frame))
 
 
-    def is_tx_successful(self, frame: WiFiFrame) -> bool:
+    def is_tx_successful(self, frame: WiFiFrame) -> int:
         """
-        Check if a frame transmission was successful.
+        Check if a AMPDU transmission was successful. Return the number of successful transmissions.
 
         Parameters
         ----------
         frame : WiFiFrame
-            The transmitted frame.
+            The transmitted AMPDU WiFi frame.
 
         Returns
         -------
-        bool
-            Whether there was a collision or not.
+        int
+            The number of successful transmissions within the AMPDU.
         """
         
         # Get the overlapping frames with the transmitted frame
@@ -215,7 +216,7 @@ class Channel():
         self.key, key_uniform = jax.random.split(self.key)
         tx_successful = jnp.all(jax.random.uniform(key_uniform, shape=middlepoints_success_probs.shape) < middlepoints_success_probs).item()
         
-        return tx_successful
+        return int(tx_successful) * frame.n_ampdu
     
 
     def _get_middlepoints_and_durations(

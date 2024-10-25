@@ -20,7 +20,7 @@ class Logger:
         self.simulation_length = simulation_length
         self.warmup_length = warmup_length
         self.timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        self.header = ['SimTime', 'RunNumber', 'FrameID', 'Retransmission', 'Src', 'Dst', 'PayloadSize', 'MCS', 'CW', 'Backoff', 'Collision']
+        self.header = ['SimTime', 'RunNumber', 'FrameID', 'Retransmission', 'Src', 'Dst', 'AMPDUSize', 'MCS', 'CW', 'Backoff', 'Collision', 'NSuccess', 'NCollision']
         self.accumulator = []
         self.dump_size = dump_size
         self.dumped = False
@@ -56,8 +56,9 @@ class Logger:
         self.accumulator = []
 
 
-    def log(self, sim_time: float, run_number: int, frame: WiFiFrame, cw: int, backoff: int, collision: bool):
+    def log(self, sim_time: float, run_number: int, frame: WiFiFrame, cw: int, backoff: int, n_success: int, n_collision: int) -> None:
         
+        collision = n_success == 0
         self.accumulator.append([
             sim_time,
             run_number,
@@ -65,11 +66,13 @@ class Logger:
             frame.retransmission,
             frame.src,
             frame.dst,
-            frame.size,
+            frame.payload_size * n_success,
             frame.mcs,
             cw,
             backoff,
-            collision
+            collision,
+            n_success,
+            n_collision
         ])
 
         if len(self.accumulator) >= self.dump_size:
@@ -102,7 +105,7 @@ class Logger:
             run_df = results_csv[(results_csv['RunNumber'] == run) & (results_csv['SimTime'] > self.warmup_length)]
 
             # Calculate the data rate
-            total_payload = run_df[run_df['Collision'] == False]['PayloadSize'].sum()
+            total_payload = run_df[run_df['Collision'] == False]['AMPDUSize'].sum()
             data_rates.append(total_payload / self.simulation_length / 1e6)
 
             # Calculate the collision rate

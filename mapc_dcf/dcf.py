@@ -105,16 +105,16 @@ class DCF():
         self.channel.send_frame(frame, self.des_env.now, retry_count)
         yield self.des_env.timeout(frame.duration + SIFS) # The SIFS is the lower bound of the ACK timeout
 
-        # The channel returns the result of the transmission attempt
-        successful_tx = self.channel.is_tx_successful(frame)
+        # The channel returns the number of successful transmissions within the AMPDU
+        successful_txs = self.channel.is_tx_successful(frame)
 
         # Log the transmission attempt
         self.total_attempts += 1
-        self.logger.log(self.des_env.now, self.run_number, frame, self.cw, initialized_backoff, not successful_tx)
+        self.logger.log(self.des_env.now, self.run_number, frame, self.cw, initialized_backoff, successful_txs, frame.n_ampdu - successful_txs)
 
         # If the packet transmission is successful, the size of the contention window resets to the minimum value
-        if successful_tx:
-            logging.info(f"AP{self.ap}:{self.timestamp()}\t TX successfull, resetting CW to {self.cw}")
+        if successful_txs > 0:
+            logging.info(f"AP{self.ap}:{self.timestamp()}\t At leas one successfull TX, resetting CW to {self.cw}")
             self.cw = 2**CW_EXP_MIN
         # and is doubled on failure
         else:

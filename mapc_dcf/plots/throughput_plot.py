@@ -25,7 +25,7 @@ def plot(json_data: Dict, df: Optional[pd.DataFrame], run_number: Optional[int],
     # Plot the throughput for a specific run
     if df is not None:
         df = df[(df["Collision"] == False) &  (df["RunNumber"] == run_number)].sort_values("SimTime")
-        df["dThr"] = np.concatenate(([0], df["PayloadSize"][1:].values * 1e-6 / (df["SimTime"][1:].values - df["SimTime"][:-1].values)))
+        df["dThr"] = np.concatenate(([0], df["AMPDUSize"][1:].values * 1e-6 / (df["SimTime"][1:].values - df["SimTime"][:-1].values)))
         xs = df["SimTime"].values
         ys = df["dThr"].values
         ys_smooth = calculate_ema(ys, alpha=ema_alpha)
