@@ -42,14 +42,17 @@ def plot(json_data: Dict, df: Optional[pd.DataFrame], run_number: Optional[int],
     ys_high = np.array([data_rate_high] * res)
 
     # - Plot the data
-    plt.plot(xs, ys, color=color, label=f"Average Throughput ({data_rate_mean} Mb/s)", linestyle="--")
+    plt.plot(xs, ys, color=color, label=f"Average Throughput ({data_rate_mean:.3f} Mb/s)", linestyle="--")
     plt.fill_between(xs, ys_low, ys_high, alpha=0.5, color="black", linewidth=0)
+
+    # - Plot the MCS 11 data rate
+    plt.axhline(DATA_RATES[11], color="gray", label=f"MCS 11 Data Rate ({DATA_RATES[11]:.3f})", linestyle="--")
 
     # Setup the plot
     plt.xlabel('Time [s]')
-    plt.yticks(np.arange(0, 150, 25))
+    plt.yticks(np.arange(0, 155 + 1, 25))
     plt.ylabel('Throughput [Mb/s]')
-    plt.ylim(0, DATA_RATES[11])
+    plt.ylim(0, 155)
     plt.xlim(0, sim_time + warmup_time)
     plt.grid()
     plt.legend()
