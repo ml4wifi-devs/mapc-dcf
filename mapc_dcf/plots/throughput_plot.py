@@ -11,7 +11,7 @@ from mapc_dcf.constants import DATA_RATES
 
 # plt.rcParams['text.usetex'] = False
 
-def plot(json_data: Dict, df: Optional[pd.DataFrame], run_number: Optional[int], ema_alpha: float = 0.02):
+def plot(json_data: Dict, df: Optional[pd.DataFrame], run_number: Optional[int], mcs: int, ema_alpha: float = 0.02):
 
     color = get_cmap(1)[0]
 
@@ -45,8 +45,8 @@ def plot(json_data: Dict, df: Optional[pd.DataFrame], run_number: Optional[int],
     plt.plot(xs, ys, color=color, label=f"Average Throughput ({data_rate_mean:.3f} Mb/s)", linestyle="--")
     plt.fill_between(xs, ys_low, ys_high, alpha=0.5, color="black", linewidth=0)
 
-    # - Plot the MCS 11 data rate
-    plt.axhline(DATA_RATES[11], color="gray", label=f"MCS 11 Data Rate ({DATA_RATES[11]:.3f})", linestyle="--")
+    # - Plot the MCS data rate
+    plt.axhline(DATA_RATES[mcs], color="gray", label=f"MCS {mcs} Data Rate ({DATA_RATES[mcs]:.3f})", linestyle="--")
 
     # Setup the plot
     plt.xlabel('Time [s]')
@@ -68,6 +68,7 @@ if __name__ == '__main__':
     args.add_argument('-j', '--json_data',  type=str, required=True)
     args.add_argument('-c', '--csv_data',   type=str)
     args.add_argument('-r', '--run_number', type=int)
+    args.add_argument('-m', '--mcs',        type=int, default=11)
     args = args.parse_args()
 
     # Check the arguments
@@ -85,4 +86,4 @@ if __name__ == '__main__':
         csv_data = pd.read_csv(csv_data)
 
     # Plot the data
-    plot(json_data, csv_data, args.run_number)
+    plot(json_data, csv_data, args.run_number, args.mcs)
