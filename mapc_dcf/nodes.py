@@ -3,7 +3,7 @@ from chex import Array, PRNGKey
 
 import simpy
 
-from mapc_dcf.channel import Channel, WiFiFrame
+from mapc_dcf.channel import Channel, AMPDU
 from mapc_dcf.dcf import DCF
 from mapc_dcf.logger import Logger
 
@@ -34,7 +34,7 @@ class AccessPoint():
         self.frame_id = 0
     
 
-    def frame_generator(self) -> WiFiFrame:
+    def frame_generator(self) -> AMPDU:
         """
         Generate an 802.11 frame to be sent by the AP.
 
@@ -46,7 +46,7 @@ class AccessPoint():
 
         self.key, key_frame = jax.random.split(self.key)
         dst = jax.random.choice(key_frame, self.clients).item()
-        frame = WiFiFrame(self.frame_id, self.id, dst, self.tx_power, self.mcs)
+        frame = AMPDU(self.frame_id, self.id, dst, self.tx_power, self.mcs)
         self.frame_id += 1
 
         return frame

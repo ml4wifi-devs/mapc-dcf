@@ -10,7 +10,7 @@ from datetime import datetime
 
 from mapc_mab.plots.utils import confidence_interval
 from mapc_dcf.plots import plot_backoff_hist
-from mapc_dcf.channel import WiFiFrame
+from mapc_dcf.channel import AMPDU
 from mapc_dcf.constants import CW_EXP_MIN, CW_EXP_MAX
 
 class Logger:
@@ -56,7 +56,7 @@ class Logger:
         self.accumulator = []
 
 
-    def log(self, sim_time: float, run_number: int, frame: WiFiFrame, cw: int, backoff: int, n_success: int, n_collision: int) -> None:
+    def log(self, sim_time: float, run_number: int, frame: AMPDU, cw: int, backoff: int, n_success: int, n_collision: int) -> None:
         
         collision = n_success == 0
         self.accumulator.append([
@@ -66,7 +66,7 @@ class Logger:
             frame.retransmission,
             frame.src,
             frame.dst,
-            frame.payload_size * n_success,
+            frame.pdu_size * n_success,
             frame.mcs,
             cw,
             backoff,

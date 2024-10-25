@@ -13,7 +13,7 @@ from mapc_sim.utils import logsumexp_db, tgax_path_loss
 tfd = tfp.distributions
 
 
-class WiFiFrame():
+class AMPDU():
 
     def __init__(self, id: int, src: int, dst: int, tx_power: float, mcs: int, payload_size: int = FRAME_LEN_INT) -> None:
         self.id = id
@@ -21,9 +21,11 @@ class WiFiFrame():
         self.dst = dst
         self.tx_power = tx_power
         self.mcs = mcs
-        self.payload_size = payload_size
         self.n_ampdu = int(jnp.round(DATA_RATES[mcs] * 1e6 * TAU / FRAME_LEN).item())
-        self.duration = self.n_ampdu * self.payload_size / (DATA_RATES[mcs].item() * 1e6)
+        self.pdu_size = payload_size
+        self.ampdu_size = self.n_ampdu * self.pdu_size
+        self.pdu_duration = self.pdu_size / (DATA_RATES[mcs].item() * 1e6)
+        self.ampdu_duration = self.n_ampdu * self.pdu_duration
     
 
     def materialize(self, start_time: float, retransmission: int) -> None:
@@ -41,7 +43,7 @@ class WiFiFrame():
         """
         
         self.start_time = start_time
-        self.end_time = start_time + self.duration
+        self.end_time = start_time + self.ampdu_duration
         self.retransmission = retransmission
 
 
@@ -142,7 +144,7 @@ class Channel():
         return self.is_idle(high_time, ap, sender_tx_power)
 
     
-    def send_frame(self, frame: WiFiFrame, start_time: float, retransmission: int) -> None:
+    def send_frame(self, frame: AMPDU, start_time: float, retransmission: int) -> None:
         """
         Send a WiFi frame over the channel.
 
@@ -159,7 +161,7 @@ class Channel():
         self.frames_history.add(Interval(start_time, frame.end_time, frame))
 
 
-    def is_tx_successful(self, frame: WiFiFrame) -> int:
+    def is_tx_successful(self, frame: AMPDU) -> int:
         """
         Check if a AMPDU transmission was successful. Return the number of successful transmissions.
 
@@ -175,48 +177,58 @@ class Channel():
         """
         
         # Get the overlapping frames with the transmitted frame
-        frame_start_time, frame_end_time, frame_duration = frame.start_time, frame.end_time, frame.duration
+        frame_start_time, frame_end_time, frame_duration = frame.start_time, frame.end_time, frame.ampdu_duration
         overlapping_frames = self.frames_history.overlap(frame_start_time, frame_end_time) - {Interval(frame_start_time, frame_end_time, frame)}
         overlapping_frames_tree = IntervalTree(overlapping_frames)
 
-        # Calculate the middlepoints and durations in reference to the transmitted frame
-        middlepoints, durations = self._get_middlepoints_and_durations(overlapping_frames, frame_start_time, frame_end_time)
+        # Iterate over the AMPDU frames to check the success of each PDU. Stop if a PDU fails, and return the number of successful PDUs
+        pdu_iter = 0
+        success = True
+        n_successful_txs = 0
+        while pdu_iter < frame.n_ampdu and success:
+            pdu_start_time = frame_start_time + pdu_iter * frame.pdu_duration
+            pdu_end_time = pdu_start_time + frame.pdu_duration
+
+            # Calculate the middlepoints and durations in reference to the current PDU
+            middlepoints, durations = self._get_middlepoints_and_durations(overlapping_frames, pdu_start_time, pdu_end_time)
         
-        # Calculate the success probability at the middlepoints
-        middlepoints_success_probs = []
-        for middlepoint, duration in zip(middlepoints, durations):
+            # Calculate the success probability at the middlepoints
+            middlepoints_success_probs = []
+            for middlepoint, duration in zip(middlepoints, durations):
 
-            # Get the concurrent frames at the middlepoint
-            middlepoint_overlapping_frames = overlapping_frames_tree[middlepoint]
-            middlepoint_overlapping_frames = middlepoint_overlapping_frames.union({Interval(frame_start_time, frame_end_time, frame)})
+                # Get the concurrent frames at the middlepoint
+                middlepoint_overlapping_frames = overlapping_frames_tree[middlepoint]
+                middlepoint_overlapping_frames = middlepoint_overlapping_frames.union({Interval(pdu_start_time, pdu_end_time, frame)})
 
-            # Build the transmission matrix, MCS, and transmission power at the middlepoint
-            tx_matrix_at_middlepoint = jnp.zeros((self.n_nodes, self.n_nodes))
-            mcs_at_middlepoint = jnp.zeros((self.n_nodes,), dtype=int)
-            tx_power_at_middlepoint = jnp.zeros((self.n_nodes,))
-            for frame_interval in middlepoint_overlapping_frames:
+                # Build the transmission matrix, MCS, and transmission power at the middlepoint
+                tx_matrix_at_middlepoint = jnp.zeros((self.n_nodes, self.n_nodes))
+                mcs_at_middlepoint = jnp.zeros((self.n_nodes,), dtype=int)
+                tx_power_at_middlepoint = jnp.zeros((self.n_nodes,))
+                for frame_interval in middlepoint_overlapping_frames:
+                    
+                    iter_frame = frame_interval.data
+                    tx_matrix_at_middlepoint = tx_matrix_at_middlepoint.at[iter_frame.src, iter_frame.dst].set(1)
+                    mcs_at_middlepoint = mcs_at_middlepoint.at[iter_frame.src].set(iter_frame.mcs)
+                    tx_power_at_middlepoint = tx_power_at_middlepoint.at[iter_frame.src].set(iter_frame.tx_power)
                 
-                iter_frame = frame_interval.data
-                tx_matrix_at_middlepoint = tx_matrix_at_middlepoint.at[iter_frame.src, iter_frame.dst].set(1)
-                mcs_at_middlepoint = mcs_at_middlepoint.at[iter_frame.src].set(iter_frame.mcs)
-                tx_power_at_middlepoint = tx_power_at_middlepoint.at[iter_frame.src].set(iter_frame.tx_power)
-            
-            # Calculate the success probability at the current middlepoint
-            self.key, key_per = jax.random.split(self.key)
-            middlepoints_success_probs.append(self._get_success_probability(
-                key_per,
-                tx_matrix_at_middlepoint,
-                mcs_at_middlepoint,
-                tx_power_at_middlepoint,
-                frame.src
-            ))
-        middlepoints_success_probs = jnp.array(middlepoints_success_probs)
+                # Calculate the success probability at the current middlepoint
+                self.key, key_per = jax.random.split(self.key)
+                middlepoints_success_probs.append(self._get_success_probability(
+                    key_per,
+                    tx_matrix_at_middlepoint,
+                    mcs_at_middlepoint,
+                    tx_power_at_middlepoint,
+                    frame.src
+                ))
+            middlepoints_success_probs = jnp.array(middlepoints_success_probs)
         
-        # Aggregate the probabilities
-        self.key, key_uniform = jax.random.split(self.key)
-        tx_successful = jnp.all(jax.random.uniform(key_uniform, shape=middlepoints_success_probs.shape) < middlepoints_success_probs).item()
+            # Aggregate the probabilities
+            self.key, key_uniform = jax.random.split(self.key)
+            success = jnp.all(jax.random.uniform(key_uniform, shape=middlepoints_success_probs.shape) < middlepoints_success_probs).item()
+            n_successful_txs += int(success)
+            pdu_iter += 1
         
-        return int(tx_successful) * frame.n_ampdu
+        return int(n_successful_txs)
     
 
     def _get_middlepoints_and_durations(

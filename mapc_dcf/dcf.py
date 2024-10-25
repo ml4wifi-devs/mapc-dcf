@@ -7,7 +7,7 @@ import jax.numpy as jnp
 import simpy
 
 from mapc_dcf.constants import *
-from mapc_dcf.channel import Channel, WiFiFrame
+from mapc_dcf.channel import Channel, AMPDU
 from mapc_dcf.logger import Logger
 
 
@@ -20,7 +20,7 @@ class DCF():
             des_env: simpy.Environment,
             channel: Channel,
             logger: Logger,
-            frame_generator: Callable[[], WiFiFrame],
+            frame_generator: Callable[[], AMPDU],
     ) -> None:
         self.key = key
         self.ap = ap
@@ -51,7 +51,7 @@ class DCF():
         yield self.des_env.timeout(SLOT_TIME)
     
 
-    def _wait_for_difs(self, frame: WiFiFrame):
+    def _wait_for_difs(self, frame: AMPDU):
         
         idle = self.channel.is_idle_for(self.des_env.now, DIFS, frame.src, frame.tx_power)
         while not idle:
@@ -61,7 +61,7 @@ class DCF():
         logging.info(f"AP{self.ap}:{self.timestamp()}\t DIFS: Channel idle for DIFS = 34 us")
     
 
-    def _freeze_backoff(self, frame: WiFiFrame, time_to_backoff: int):
+    def _freeze_backoff(self, frame: AMPDU, time_to_backoff: int):
 
         logging.info(f"AP{self.ap}:{self.timestamp()}\t Channel busy, freezing backoff at TTB = {time_to_backoff}")
         yield self.des_env.process(self._wait_for_difs(frame))
@@ -69,7 +69,7 @@ class DCF():
         # and reactivated after the channel is sensed idle again for a guard period.
 
 
-    def _try_sending(self, frame: WiFiFrame, retry_count: int):
+    def _try_sending(self, frame: AMPDU, retry_count: int):
 
         logging.info(f"AP{self.ap}:{self.timestamp()}\t Attempting to send frame. Retry count: {retry_count}")
         
@@ -103,7 +103,7 @@ class DCF():
         # The frame is sent to the channel
         logging.info(f"AP{self.ap}:{self.timestamp()}\t TTB reached zero (TTB = {time_to_backoff}) and the channel is idle. Sending frame to {frame.dst}")
         self.channel.send_frame(frame, self.des_env.now, retry_count)
-        yield self.des_env.timeout(frame.duration + SIFS) # The SIFS is the lower bound of the ACK timeout
+        yield self.des_env.timeout(frame.ampdu_duration + SIFS) # The SIFS is the lower bound of the ACK timeout
 
         # The channel returns the number of successful transmissions within the AMPDU
         successful_txs = self.channel.is_tx_successful(frame)
