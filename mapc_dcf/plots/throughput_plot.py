@@ -11,7 +11,7 @@ from mapc_dcf.constants import DATA_RATES
 
 # plt.rcParams['text.usetex'] = False
 
-def plot(json_data: Dict, df: Optional[pd.DataFrame], run_number: Optional[int], mcs: int, ema_alpha: float = 0.05):
+def plot(json_data: Dict, csv_data: Optional[pd.DataFrame], mcs: int):
 
     color = get_cmap(1)[0]
 
@@ -22,16 +22,24 @@ def plot(json_data: Dict, df: Optional[pd.DataFrame], run_number: Optional[int],
     data_rate_low = json_data['DataRate']['Low']
     data_rate_high = json_data['DataRate']['High']
 
-    # Plot the throughput for a specific run
-    if df is not None:
-        df = df[(df["Collision"] == False) &  (df["RunNumber"] == run_number)].sort_values("SimTime")
-        df["dThr"] = np.concatenate(([0], df["AMPDUSize"][1:].values * 1e-6 / (df["SimTime"][1:].values - df["SimTime"][:-1].values)))
-        xs = df["SimTime"].values
-        ys = df["dThr"].values
-        ys_smooth = calculate_ema(ys, alpha=ema_alpha)
-        plt.plot(xs, ys, alpha=0.6, color=color, label="Instantaneous Throughput")
-        plt.plot(xs, ys_smooth, color=color, linewidth=0.5)
-        plt.axvline(warmup_time, color="red", linestyle="--")
+    # Plot the warmup
+    plt.axvline(warmup_time, color="black", linestyle="-", linewidth=0.5)
+    plt.text(warmup_time * 0.5, 50, "Warmup", rotation=90, verticalalignment='center')
+    plt.text(warmup_time * 1.1, 50, "Simtime", rotation=90, verticalalignment='center')
+
+    # Plot the throughput for all runs
+    if csv_data is not None:
+        for run_number in [1]:
+            df = csv_data
+            df = df[(df["Collision"] == False) &  (df["RunNumber"] == run_number)].sort_values("SimTime")
+            window_size = 5
+            d_t = np.concatenate(([1.] * window_size, (df["SimTime"][5:].values - df["SimTime"][:-5].values)))
+            d_data = df["AMPDUSize"].rolling(window_size).sum().fillna(0).values
+            d_thr = d_data * 1e-6 / d_t
+            df["dThr"] = d_thr
+            xs = df["SimTime"].values
+            ys = df["dThr"].values
+            plt.plot(xs, ys, alpha=0.4, color=color, linewidth=0.5)
 
     # Plot the average throughput
     # - Define the x and y values
@@ -42,20 +50,23 @@ def plot(json_data: Dict, df: Optional[pd.DataFrame], run_number: Optional[int],
     ys_high = np.array([data_rate_high] * res)
 
     # - Plot the data
-    plt.plot(xs, ys, color=color, label=f"Average Throughput ({data_rate_mean:.3f} Mb/s)", linestyle="--")
-    plt.fill_between(xs, ys_low, ys_high, alpha=0.5, color=color, linewidth=0)
+    plt.plot(xs, ys, color="black", label=f"Average Throughput ({data_rate_mean:.3f} Mb/s)", linestyle="--", linewidth=0.5)
+    plt.fill_between(xs, ys_low, ys_high, alpha=0.5, color="black", linewidth=0)
 
     # - Plot the MCS data rate
-    plt.axhline(DATA_RATES[mcs], color="gray", label=f"MCS {mcs} Data Rate ({DATA_RATES[mcs]:.3f})", linestyle="--")
+    plt.axhline(DATA_RATES[mcs], color="red", label=f"MCS {mcs} Data Rate ({DATA_RATES[mcs]:.3f})", linestyle="--", linewidth=0.5)
 
     # Setup the plot
     plt.xlabel('Time [s]')
-    plt.yticks(np.arange(0, 155 + 1, 25))
+    xticks = plt.xticks()[0]
+    xticks = sorted(np.append(xticks, warmup_time))
+    plt.xticks(xticks)
+    plt.yticks(np.arange(0, 300 + 1, 50))
     plt.ylabel('Throughput [Mb/s]')
-    plt.ylim(0, 155)
+    plt.ylim(0, 300)
     plt.xlim(0, sim_time + warmup_time)
     plt.grid()
-    plt.legend()
+    plt.legend(loc='upper right')
     plt.tight_layout()
     plt.savefig(f'throughput.pdf', bbox_inches='tight')
     plt.clf()
@@ -67,12 +78,7 @@ if __name__ == '__main__':
     args = ArgumentParser()
     args.add_argument('-j', '--json_data',  type=str, required=True)
     args.add_argument('-c', '--csv_data',   type=str)
-    args.add_argument('-r', '--run_number', type=int)
     args = args.parse_args()
-
-    # Check the arguments
-    if args.csv_data is not None:
-        assert args.run_number is not None, 'When the "--csv_data" argument is specified, a "--run_number" must aslo be specified.'
     
     # Load the json data
     json_data = args.json_data
@@ -88,4 +94,4 @@ if __name__ == '__main__':
         csv_data = pd.read_csv(csv_data)
 
     # Plot the data
-    plot(json_data, csv_data, args.run_number, mcs)
+    plot(json_data, csv_data, mcs)
