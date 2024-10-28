@@ -29,7 +29,7 @@ def plot(json_data: Dict, csv_data: Optional[pd.DataFrame], mcs: int):
 
     # Plot the throughput for all runs
     if csv_data is not None:
-        for run_number in [1]:
+        for run_number in range(1, 1 + json_data['Config']['n_runs']):
             df = csv_data
             df = df[(df["Collision"] == False) &  (df["RunNumber"] == run_number)].sort_values("SimTime")
             window_size = 5
