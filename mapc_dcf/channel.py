@@ -183,9 +183,8 @@ class Channel():
 
         # Iterate over the AMPDU frames to check the success of each PDU. Stop if a PDU fails, and return the number of successful PDUs
         pdu_iter = 0
-        success = True
         n_successful_txs = 0
-        while pdu_iter < frame.n_ampdu and success:
+        while pdu_iter < frame.n_ampdu:
             pdu_start_time = frame_start_time + pdu_iter * frame.pdu_duration
             pdu_end_time = pdu_start_time + frame.pdu_duration
 
