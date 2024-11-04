@@ -12,7 +12,6 @@ import jax
 import jax.numpy as jnp
 from chex import PRNGKey
 from joblib import Parallel, delayed
-from tqdm import tqdm
 
 from mapc_research.envs.scenario_impl import *
 from mapc_dcf.channel import Channel
