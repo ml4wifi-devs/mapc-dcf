@@ -1,6 +1,6 @@
 from typing import Optional
 
-from mapc_mab.plots.config import *
+from mapc_research.plots.config import *
 from mapc_dcf.constants import CW_EXP_MIN, CW_EXP_MAX
 
 set_style()

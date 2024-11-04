@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from mapc_mab.plots.config import *
+from mapc_research.plots.config import *
 from mapc_dcf.plots import set_style, get_cmap
 
 set_style()

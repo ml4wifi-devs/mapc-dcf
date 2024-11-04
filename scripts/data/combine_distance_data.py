@@ -5,7 +5,7 @@ from argparse import ArgumentParser
 import pandas as pd
 import numpy as np
 
-from mapc_mab.plots.utils import confidence_interval
+from mapc_research.plots.utils import confidence_interval
 
 
 def combine_data(results_dir, save_path, ci, clear_dir):

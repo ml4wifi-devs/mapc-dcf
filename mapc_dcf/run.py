@@ -9,11 +9,12 @@ os.environ['JAX_ENABLE_X64'] = 'True'
 
 import simpy
 import jax
+import jax.numpy as jnp
 from chex import PRNGKey
 from joblib import Parallel, delayed
 from tqdm import tqdm
 
-from mapc_mab.envs.static_scenarios import *
+from mapc_research.envs.scenario_impl import *
 from mapc_dcf.channel import Channel
 from mapc_dcf.nodes import AccessPoint
 from mapc_dcf.logger import Logger
@@ -37,7 +38,7 @@ def single_run(
         key, key_ap = jax.random.split(key)
         clients = jnp.array(scenario.associations[ap])
         tx_power = scenario.tx_power[ap].item()
-        mcs = scenario.mcs[ap].item()
+        mcs = scenario.mcs
         aps[ap] = AccessPoint(key_ap, ap, scenario.pos, tx_power, mcs, clients, channel, des_env, logger)
         aps[ap].start_operation(run)
     
@@ -72,13 +73,20 @@ if __name__ == '__main__':
     
     key = jax.random.PRNGKey(config['seed'])
 
-    logger = Logger(config['simulation_length'], config['warmup_length'], args.results_path, **config['logger_params'])
     scenario = globals()[config['scenario']](**config['scenario_params'])
+    scenario, sim_time = scenario.split_scenario()[config["scenario_index"]]
+
+    if not ('simulation_length' in config):
+        config['simulation_length'] = sim_time
+    sim_time = config['simulation_length']
+    warmup_time = config['warmup_length']
+
+    logger = Logger(sim_time, warmup_time, args.results_path, **config['logger_params'])
 
     start_time = time()
     n_runs = config['n_runs']
     Parallel(n_jobs=n_runs)(
-        delayed(single_run)(key, run, config['simulation_length'], config['warmup_length'], scenario, logger)
+        delayed(single_run)(key, run, sim_time, warmup_time, scenario, logger)
         for key, run in zip(jax.random.split(key, n_runs), range(1, n_runs + 1))
     )
     logger.shutdown(config)

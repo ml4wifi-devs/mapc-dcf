@@ -8,7 +8,7 @@ import numpy as np
 from collections import defaultdict
 from datetime import datetime
 
-from mapc_mab.plots.utils import confidence_interval
+from mapc_research.plots.utils import confidence_interval
 from mapc_dcf.plots import plot_backoff_hist
 from mapc_dcf.channel import AMPDU
 from mapc_dcf.constants import CW_EXP_MIN, CW_EXP_MAX

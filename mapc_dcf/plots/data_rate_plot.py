@@ -5,8 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from mapc_dcf.constants import DATA_RATES
-from mapc_mab.plots.utils import confidence_interval
-from mapc_mab.envs.static_scenarios import DEFAULT_MCS
+from mapc_research.plots.utils import confidence_interval
 
 
 def plot(
@@ -68,10 +67,7 @@ if __name__ == '__main__':
         config = json.load(file)
     
     scenario_name = config['scenario']
-    if "mcs" in config['scenario_params']:
-        mcs = config['scenario_params']['mcs']
-    else:
-        mcs = DEFAULT_MCS
+    mcs = config['scenario_params']['mcs']
 
     plot(df_results, scenario_name, mcs, args.num_bins)
 
