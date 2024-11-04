@@ -7,6 +7,7 @@ import tensorflow_probability.substrates.jax as tfp
 from chex import Array, Scalar, PRNGKey
 from intervaltree import Interval, IntervalTree
 
+from mapc_dcf import IDEAL_MCS
 from mapc_dcf.constants import *
 from mapc_sim.utils import logsumexp_db, tgax_path_loss
 
@@ -19,16 +20,12 @@ class AMPDU():
         self.id = id
         self.src = src
         self.dst = dst
-        self.tx_power = tx_power
         self.mcs = mcs
-        self.n_ampdu = int(jnp.round(DATA_RATES[mcs] * 1e6 * TAU / FRAME_LEN).item())
+        self.tx_power = tx_power
         self.pdu_size = payload_size
-        self.ampdu_size = self.n_ampdu * self.pdu_size
-        self.pdu_duration = self.pdu_size / (DATA_RATES[mcs].item() * 1e6)
-        self.ampdu_duration = self.n_ampdu * self.pdu_duration
     
 
-    def materialize(self, start_time: float, retransmission: int) -> None:
+    def materialize(self, start_time: float, mcs: int, retransmission: int) -> None:
         """
         Materialize the WiFi frame by setting its start time, end time, and transmission power.
         End time is calculated based on the predefined frame duration. After materialization,
@@ -38,10 +35,20 @@ class AMPDU():
         ----------
         start_time : float
             Transmission start time.
+        mcs : int
+            Selected modulation and coding scheme.
         tx_power : float
             Transmission power.
         """
         
+        # Override the MCS if operating in ideal MCS mode
+        if IDEAL_MCS:
+            self.mcs = mcs
+        
+        self.n_ampdu = int(jnp.round(DATA_RATES[self.mcs] * 1e6 * TAU / FRAME_LEN).item())
+        self.ampdu_size = self.n_ampdu * self.pdu_size
+        self.pdu_duration = self.pdu_size / (DATA_RATES[self.mcs].item() * 1e6)
+        self.ampdu_duration = self.n_ampdu * self.pdu_duration
         self.start_time = start_time
         self.end_time = start_time + self.ampdu_duration
         self.retransmission = retransmission
@@ -157,7 +164,9 @@ class Channel():
         tx_power : float
             The transmission power at which the frame is sent.
         """
-        frame.materialize(start_time, retransmission)
+
+        mcs = self._get_ideal_mcs(frame, start_time)
+        frame.materialize(start_time, mcs, retransmission)
         self.frames_history.add(Interval(start_time, frame.end_time, frame))
 
 
@@ -267,16 +276,44 @@ class Channel():
         return interference[ap].item()
     
 
-    def _get_success_probability(self, key: PRNGKey, tx: Array, mcs: Array, tx_power: Array, ap_src: int) -> Scalar:
-
-        signal_power, interference = self._get_signal_power_and_interference(tx, tx_power)
+    def _calculate_sinr(self, key: PRNGKey, signal_power: Array, interference: Array, tx: Array) -> Array:
 
         sinr = signal_power - interference
         sinr = sinr + tfd.Normal(loc=jnp.zeros_like(signal_power), scale=DEFAULT_SIGMA).sample(seed=key)
         sinr = (sinr * tx).sum(axis=1)
 
+        return sinr
+    
+
+    def _get_success_probability(self, key: PRNGKey, tx: Array, mcs: Array, tx_power: Array, ap_src: int) -> Scalar:
+
+        signal_power, interference = self._get_signal_power_and_interference(tx, tx_power)
+        sinr = self._calculate_sinr(key, signal_power, interference, tx)
         sdist = tfd.Normal(loc=MEAN_SNRS[mcs], scale=2.)
         success_prob = sdist.cdf(sinr)
 
         return success_prob[ap_src].item()
+    
+
+    def _get_ideal_mcs(self, frame: AMPDU, start_time: float) -> int:
+            
+            self.key, key_mcs = jax.random.split(self.key)
+            
+            # Simulate the channel at the start time to obtain the ideal MCS
+            tx_matrix_at_time = jnp.zeros((self.n_nodes, self.n_nodes))
+            tx_power_at_time = jnp.zeros((self.n_nodes,))
+            overlapping_frames = self.frames_history[start_time]
+            overlapping_frames = overlapping_frames.union({Interval(start_time, TAU, frame)})
+            for frame_interval in overlapping_frames:
+
+                overlapping_frame = frame_interval.data
+                tx_matrix_at_time = tx_matrix_at_time.at[overlapping_frame.src, overlapping_frame.dst].set(1)
+                tx_power_at_time = tx_power_at_time.at[overlapping_frame.src].set(overlapping_frame.tx_power)
+    
+            signal_power, interference = self._get_signal_power_and_interference(tx, tx_power)
+            sinr = self._calculate_sinr(key_mcs, signal_power, interference, tx)
+            expected_data_rate = DATA_RATES[:, None] * tfd.Normal(loc=MEAN_SNRS[:, None], scale=2.).cdf(sinr)
+            mcs = jnp.argmax(expected_data_rate, axis=0)[frame.src].item()
+
+            return mcs
         
