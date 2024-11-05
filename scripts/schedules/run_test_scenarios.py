@@ -13,9 +13,7 @@ from chex import PRNGKey
 from joblib import Parallel, delayed
 
 from mapc_research.envs.scenario import Scenario
-from mapc_research.envs.dynamic_scenario import DynamicScenario
-from mapc_research.envs.scenario_impl import *
-# from mapc_research.envs.test_scenarios import *
+from mapc_research.envs.test_scenarios import *
 from mapc_dcf.channel import Channel
 from mapc_dcf.nodes import AccessPoint
 from mapc_dcf.logger import Logger
@@ -23,19 +21,6 @@ from mapc_dcf.logger import Logger
 
 logging.basicConfig(level=logging.WARNING)
 LOGGER_DUMP_SIZE = 100
-
-# TODO DEBUG Remove this and fix imports from mapc_research
-SHORT_SIM_STEPS = 50
-ALL_SCENARIOS = [
-    small_office_scenario(d_ap=10.0, d_sta=2.0, n_steps=SHORT_SIM_STEPS),
-    DynamicScenario.from_static_scenarios(
-        small_office_scenario(d_ap=20.0, d_sta=2.0, n_steps=300),
-        small_office_scenario(d_ap=20.0, d_sta=3.0, n_steps=300),
-        switch_steps=[SHORT_SIM_STEPS // 2], n_steps=SHORT_SIM_STEPS
-    ),
-    residential_scenario(seed=100, n_steps=SHORT_SIM_STEPS, x_apartments=2, y_apartments=2, n_sta_per_ap=4, size=10.0),
-    random_scenario(seed=100, d_ap=75., d_sta=8., n_ap=2, n_sta_per_ap=5, n_steps=SHORT_SIM_STEPS),
-]
 
 
 def flatten_scenarios(scenarios: List[Scenario]) -> List[Tuple[Scenario, float, str]]:
@@ -69,9 +54,18 @@ def single_run(key: PRNGKey, run: int, scenario: Scenario, sim_time: float, logg
     del des_env
 
 
-def run_test_scenarios(key: PRNGKey, results_dir: str, n_runs: int, warmup: float):
+def run_test_scenarios(key: PRNGKey, results_dir: str, n_runs: int, warmup: float, scenarios_type: str):
+
+    if scenarios_type == 'small_office':
+        scenarios = SMALL_OFFICE_SCENARIOS
+    elif scenarios_type == 'residential':
+        scenarios = RESIDENTIAL_SCENARIOS
+    elif scenarios_type == 'random':
+        scenario = RANDOM_SCENARIOS
+    else:
+        scenarios = ALL_SCENARIOS
     
-    scenarios = flatten_scenarios(ALL_SCENARIOS)
+    scenarios = flatten_scenarios(scenarios)
     n_scenarios = len(scenarios)
     for i, (scenario, sim_time, scenario_name) in enumerate(scenarios, 1):
         logger = Logger(sim_time, warmup, os.path.join(results_dir, scenario_name), dump_size=LOGGER_DUMP_SIZE)
@@ -92,6 +86,7 @@ if __name__ == '__main__':
     args.add_argument('-s', '--seed',           type=int, default=42)
     args.add_argument('-n', '--n_runs',         type=int, default=10)
     args.add_argument('-w', '--warmup',         type=float, default=0.)
+    args.add_argument('-t', '--scenarios_type', type=str, default='all', choices=['all', 'small_office', 'residential', 'random'])
     args = args.parse_args()
 
     # The results directory should exist and be empty
@@ -102,6 +97,6 @@ if __name__ == '__main__':
             "Please empty it manually before running this script."
     
     key = jax.random.PRNGKey(args.seed)
-    run_test_scenarios(key, args.results_dir, args.n_runs, args.warmup)
+    run_test_scenarios(key, args.results_dir, args.n_runs, args.warmup, args.scenarios_type)
     
 
