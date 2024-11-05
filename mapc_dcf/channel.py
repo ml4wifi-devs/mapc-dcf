@@ -7,7 +7,7 @@ import tensorflow_probability.substrates.jax as tfp
 from chex import Array, Scalar, PRNGKey
 from intervaltree import Interval, IntervalTree
 
-from mapc_dcf import IDEAL_MCS
+from mapc_dcf.__init__ import IDEAL_MCS
 from mapc_dcf.constants import *
 from mapc_sim.utils import logsumexp_db, tgax_path_loss
 
@@ -310,8 +310,8 @@ class Channel():
                 tx_matrix_at_time = tx_matrix_at_time.at[overlapping_frame.src, overlapping_frame.dst].set(1)
                 tx_power_at_time = tx_power_at_time.at[overlapping_frame.src].set(overlapping_frame.tx_power)
     
-            signal_power, interference = self._get_signal_power_and_interference(tx, tx_power)
-            sinr = self._calculate_sinr(key_mcs, signal_power, interference, tx)
+            signal_power, interference = self._get_signal_power_and_interference(tx_matrix_at_time, tx_power_at_time)
+            sinr = self._calculate_sinr(key_mcs, signal_power, interference, tx_matrix_at_time)
             expected_data_rate = DATA_RATES[:, None] * tfd.Normal(loc=MEAN_SNRS[:, None], scale=2.).cdf(sinr)
             mcs = jnp.argmax(expected_data_rate, axis=0)[frame.src].item()
 
