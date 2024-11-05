@@ -61,7 +61,7 @@ def run_test_scenarios(key: PRNGKey, results_dir: str, n_runs: int, warmup: floa
     elif scenarios_type == 'residential':
         scenarios = RESIDENTIAL_SCENARIOS
     elif scenarios_type == 'random':
-        scenario = RANDOM_SCENARIOS
+        scenarios = RANDOM_SCENARIOS
     else:
         scenarios = ALL_SCENARIOS
     
