@@ -28,8 +28,8 @@ class Logger:
         self.get_cw_exp = lambda backoff: int(np.floor(np.log2(max(backoff, 15)))) + 1
 
         self.results_dir = os.path.dirname(results_path)
-        self.results_path_csv = results_path.split('.')[0] + '.csv'
-        self.results_path_json = results_path.split('.')[0] + '.json'
+        self.results_path_csv = results_path + '.csv'
+        self.results_path_json = results_path + '.json'
 
         # Create the results files
         if os.path.exists(self.results_path_csv):
