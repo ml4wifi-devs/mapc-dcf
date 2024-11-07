@@ -11,7 +11,7 @@ from mapc_dcf.constants import DATA_RATES
 
 # plt.rcParams['text.usetex'] = False
 
-def plot(json_data: Dict, csv_data: Optional[pd.DataFrame], mcs: int):
+def plot(json_data: Dict, csv_data: Optional[pd.DataFrame], mcs: Optional[int], save_path: str) -> None:
 
     color = get_cmap(1)[0]
 
@@ -24,8 +24,9 @@ def plot(json_data: Dict, csv_data: Optional[pd.DataFrame], mcs: int):
 
     # Plot the warmup
     plt.axvline(warmup_time, color="black", linestyle="-", linewidth=0.5)
-    plt.text(warmup_time * 0.5, 50, "Warmup", rotation=90, verticalalignment='center')
-    plt.text(warmup_time * 1.1, 50, "Simtime", rotation=90, verticalalignment='center')
+    if warmup_time > 0:
+        plt.text(warmup_time * 0.5, 50, "Warmup", rotation=90, verticalalignment='center')
+        plt.text(warmup_time * 1.1, 50, "Simtime", rotation=90, verticalalignment='center')
 
     # Plot the throughput for all runs
     if csv_data is not None:
@@ -54,7 +55,8 @@ def plot(json_data: Dict, csv_data: Optional[pd.DataFrame], mcs: int):
     plt.fill_between(xs, ys_low, ys_high, alpha=0.5, color="black", linewidth=0)
 
     # - Plot the MCS data rate
-    plt.axhline(DATA_RATES[mcs], color="red", label=f"MCS {mcs} Data Rate ({DATA_RATES[mcs]:.3f})", linestyle="--", linewidth=0.5)
+    if mcs is not None:
+        plt.axhline(DATA_RATES[mcs], color="red", label=f"MCS {mcs} Data Rate ({DATA_RATES[mcs]:.3f})", linestyle="--", linewidth=0.5)
 
     # Setup the plot
     plt.xlabel('Time [s]')
@@ -68,7 +70,7 @@ def plot(json_data: Dict, csv_data: Optional[pd.DataFrame], mcs: int):
     plt.grid()
     plt.legend(loc='upper right')
     plt.tight_layout()
-    plt.savefig(f'throughput.pdf', bbox_inches='tight')
+    plt.savefig(save_path, bbox_inches='tight')
     plt.clf()
 
 
@@ -86,12 +88,19 @@ if __name__ == '__main__':
         json_data = json.load(f)
     
     # Get the mcs from config
-    mcs = json_data['Config']['scenario_params']['mcs']
+    mcs = None
+    try:
+        mcs = json_data['Config']['scenario_params']['mcs']
+    except KeyError:
+        pass
 
     # Load the csv data
     csv_data = args.csv_data
     if csv_data is not None:
         csv_data = pd.read_csv(csv_data)
+    
+    # Create the save path
+    save_path = args.json_data.replace('.json', '_thr.pdf')
 
     # Plot the data
-    plot(json_data, csv_data, mcs)
+    plot(json_data, csv_data, mcs, save_path)
