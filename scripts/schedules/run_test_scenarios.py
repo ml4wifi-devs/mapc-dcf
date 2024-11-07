@@ -76,7 +76,13 @@ def run_test_scenarios(key: PRNGKey, results_dir: str, n_runs: int, warmup: floa
             delayed(single_run)(k, r, scenario, sim_time, logger)
             for k, r in zip(jax.random.split(key, n_runs), range(1, n_runs + 1))
         )
-        logger.shutdown({"name": scenario_name, "sim_time": sim_time})
+        logger.shutdown({
+            "name": scenario_name,
+            "simulation_length": sim_time,
+            "warmup_length": warmup,
+            "n_runs": n_runs
+
+        })
         logging.warning(f"Execution time: {time() - start_time:.2f} seconds")
 
 
@@ -88,13 +94,6 @@ if __name__ == '__main__':
     args.add_argument('-w', '--warmup',         type=float, default=0.)
     args.add_argument('-t', '--scenarios_type', type=str, default='all', choices=['all', 'small_office', 'residential', 'random'])
     args = args.parse_args()
-
-    # The results directory should exist and be empty
-    if not os.path.exists(args.results_dir):
-        os.makedirs(args.results_dir)
-    else:
-        assert len(os.listdir(args.results_dir)) == 0, f"Results dir {args.results_dir} is not empty." +\
-            "Please empty it manually before running this script."
     
     key = jax.random.PRNGKey(args.seed)
     run_test_scenarios(key, args.results_dir, args.n_runs, args.warmup, args.scenarios_type)
