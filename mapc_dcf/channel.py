@@ -7,7 +7,7 @@ import tensorflow_probability.substrates.jax as tfp
 from chex import Array, Scalar, PRNGKey
 from intervaltree import Interval, IntervalTree
 
-from mapc_dcf.__init__ import IDEAL_MCS
+from mapc_dcf.__init__ import *
 from mapc_dcf.constants import *
 from mapc_sim.utils import logsumexp_db, tgax_path_loss
 
@@ -25,7 +25,7 @@ class AMPDU():
         self.pdu_size = payload_size
     
 
-    def materialize(self, start_time: float, mcs: int, retransmission: int) -> None:
+    def materialize(self, start_time: float, mcs: int, tx_power: float, retransmission: int) -> None:
         """
         Materialize the WiFi frame by setting its start time, end time, and transmission power.
         End time is calculated based on the predefined frame duration. After materialization,
@@ -39,11 +39,19 @@ class AMPDU():
             Selected modulation and coding scheme.
         tx_power : float
             Transmission power.
+        retransmission : int
+            Retransmission number.
         """
         
         # Override the MCS if operating in ideal MCS mode
         if IDEAL_MCS:
             self.mcs = mcs
+        
+        # Reduce the tx power if operating in spatial reuse mode
+        if SPATIAL_REUSE:
+            self.tx_power = tx_power
+        else:
+            self.tx_power = DEFAULT_TX_POWER
         
         self.n_ampdu = int(jnp.round(DATA_RATES[self.mcs] * 1e6 * TAU / FRAME_LEN).item())
         self.ampdu_size = self.n_ampdu * self.pdu_size
@@ -59,6 +67,7 @@ class Channel():
     def __init__(self, key: PRNGKey, pos: Array, walls: Optional[Array] = None) -> None:
         self.key = key
         self.pos = pos
+        self.cca_threshold = OBSS_PD_MAX if SPATIAL_REUSE else CCA_THRESHOLD
         self.n_nodes = self.pos.shape[0]
         self.walls = walls if walls is not None else jnp.zeros((self.n_nodes, self.n_nodes))
         self.frames_history = IntervalTree()
@@ -74,6 +83,8 @@ class Channel():
             Time at which to check the channel.
         ap : int
             AP index for which to check the channel.
+        sender_tx_power : float
+            Transmission power of the sender.
 
         Returns
         -------
@@ -104,10 +115,12 @@ class Channel():
         tx_matrix_at_time = tx_matrix_at_time.at[ap, ap].set(1)
         tx_power_at_time = tx_power_at_time.at[ap].set(sender_tx_power)
         
-        # Channel is idle if the signal level at the AP is below the CCA threshold
-        idle = self._get_signal_level(tx_matrix_at_time, tx_power_at_time, ap) < CCA_THRESHOLD
+        # Get the energy level calculated from the interference matrix at the AP
+        _, interference = self._get_signal_power_and_interference(tx_matrix_at_time, tx_power_at_time)
+        energy_detected = interference[ap].item()
 
-        return idle
+        # Channel is idle if the energy level at the AP is below the CCA threshold
+        return energy_detected < self.cca_threshold
 
 
     def is_idle_for(self, time: float, duration: float, ap: int, sender_tx_power: float) -> bool:
@@ -166,8 +179,12 @@ class Channel():
         """
 
         mcs = self._get_ideal_mcs(frame, start_time)
-        frame.materialize(start_time, mcs, retransmission)
+        tx_power = self._get_reduced_tx_power(start_time, frame.src, frame.tx_power)
+        frame.materialize(start_time, mcs, tx_power, retransmission)
         self.frames_history.add(Interval(start_time, frame.end_time, frame))
+
+        # Log the frame transmission
+        logging.info(f"AP{frame.src}:{timestamp(start_time)}\t Sending frame to {frame.dst} with MCS {frame.mcs} and tx power {frame.tx_power}")
 
 
     def is_tx_successful(self, frame: AMPDU) -> int:
@@ -271,8 +288,34 @@ class Channel():
         return signal_power, interference
 
     
-    def _get_signal_level(self, tx: Array, tx_power: Array, ap: int) -> Scalar:
-        _, interference = self._get_signal_power_and_interference(tx, tx_power)
+    def get_signal_level(self, time: float, ap: int, sender_tx_power: float) -> Scalar:
+
+        # TODO: The sender_tx_power probably doesn't matter here. The Interference at the sender does
+        # not depend on the sender's transmission power. Can be removed from the function signature?
+
+        # Get frames that occupy the channel at the given time
+        overlapping_frames = self.frames_history[time]
+
+        # If no frames are occupying the channel, return the noise floor
+        if not overlapping_frames:
+            return NOISE_FLOOR
+
+        # Set the transmission matrix and transmission power from the current frames in the channel
+        tx_matrix_at_time = jnp.zeros((self.n_nodes, self.n_nodes))
+        tx_power_at_time = jnp.zeros((self.n_nodes,))
+        for frame_interval in overlapping_frames:
+
+            overlapping_frame = frame_interval.data
+            tx_matrix_at_time = tx_matrix_at_time.at[overlapping_frame.src, overlapping_frame.dst].set(1)
+            tx_power_at_time = tx_power_at_time.at[overlapping_frame.src].set(overlapping_frame.tx_power)
+        
+        # Set the transmission from AP to itself, to be used in the signal level calculation
+        tx_matrix_at_time = tx_matrix_at_time.at[ap, ap].set(1)
+        tx_power_at_time = tx_power_at_time.at[ap].set(sender_tx_power)
+
+        # Calculate the energy detected (interference signal level) at the AP
+        _, interference = self._get_signal_power_and_interference(tx_matrix_at_time, tx_power_at_time)
+
         return interference[ap].item()
     
 
@@ -316,4 +359,15 @@ class Channel():
             mcs = jnp.argmax(expected_data_rate, axis=0)[frame.src].item()
 
             return mcs
+    
+    def _get_reduced_tx_power(self, time: float, ap: int, sender_tx_power: float) -> float:
+
+        energy_detected = self.get_signal_level(time, ap, sender_tx_power)
+        logging.info(f"AP{ap}:{timestamp(time)}\t Energy detected: ED = {energy_detected:.2f}")
+        if energy_detected <= OBSS_PD_MIN:
+            return DEFAULT_TX_POWER
+        elif OBSS_PD_MAX < energy_detected:
+            logging.info(f"AP{ap}:{timestamp(time)}\t Energy detected above OBSS_PD_MAX = {OBSS_PD_MAX}!")
+        return DEFAULT_TX_POWER - (energy_detected - OBSS_PD_MIN)
+
         

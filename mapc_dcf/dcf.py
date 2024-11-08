@@ -6,6 +6,7 @@ import jax
 import jax.numpy as jnp
 import simpy
 
+from mapc_dcf.__init__ import timestamp
 from mapc_dcf.constants import *
 from mapc_dcf.channel import Channel, AMPDU
 from mapc_dcf.logger import Logger
@@ -34,13 +35,7 @@ class DCF():
         # TODO Temporary, to be removed
         self.total_attempts = 0
         self.total_collisions = 0
-    
 
-    def timestamp(self):
-        t = f"{10**6 * self.des_env.now:.9f} us"
-        leading_zeros = max(6 - len(t.split(".")[0]), 0)
-        return "0" * leading_zeros + t
-    
 
     def start_operation(self, run_number: int):
         self.run_number = run_number
@@ -55,38 +50,38 @@ class DCF():
         
         idle = self.channel.is_idle_for(self.des_env.now, DIFS, frame.src, frame.tx_power)
         while not idle:
-            logging.info(f"AP{self.ap}:{self.timestamp()}\t DIFS: waiting for a SLOT_TIME = 9 us")
+            logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t DIFS: waiting for a SLOT_TIME = 9 us")
             yield self.des_env.timeout(SLOT_TIME)
             idle = self.channel.is_idle_for(self.des_env.now, DIFS, frame.src, frame.tx_power)
-        logging.info(f"AP{self.ap}:{self.timestamp()}\t DIFS: Channel idle for DIFS = 34 us")
+        logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t DIFS: Channel idle for DIFS = 34 us")
     
 
     def _freeze_backoff(self, frame: AMPDU, time_to_backoff: int):
 
-        logging.info(f"AP{self.ap}:{self.timestamp()}\t Channel busy, freezing backoff at TTB = {time_to_backoff}")
+        logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t Channel busy, freezing backoff at TTB = {time_to_backoff}")
         yield self.des_env.process(self._wait_for_difs(frame))
-        logging.info(f"AP{self.ap}:{self.timestamp()}\t Channel idle, reactivating backoff at TTB = {time_to_backoff}")
+        logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t Channel idle, reactivating backoff at TTB = {time_to_backoff}")
         # and reactivated after the channel is sensed idle again for a guard period.
 
 
     def _try_sending(self, frame: AMPDU, retry_count: int):
 
-        logging.info(f"AP{self.ap}:{self.timestamp()}\t Attempting to send frame. Retry count: {retry_count}")
+        logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t Attempting to send frame. Retry count: {retry_count}")
         
         # If the retry limit is reached, the frame is dropped
         if retry_count > self.retry_limit:
-            logging.info(f"AP{self.ap}:{self.timestamp()}\t Retry limit reached, dropping frame")
+            logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t Retry limit reached, dropping frame")
             return
 
         # Initialize a random backoff interval
         key_backoff, self.key = jax.random.split(self.key)
         initialized_backoff = jax.random.randint(key_backoff, shape=(1,), minval=0, maxval=self.cw).item()
-        logging.info(f"AP{self.ap}:{self.timestamp()}\t TTB initialized as {initialized_backoff} from [0, {self.cw}) interval")
+        logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t TTB initialized as {initialized_backoff} from [0, {self.cw}) interval")
 
         # The bakoff countdown with the freeze-and-reactivation mechanism
         time_to_backoff = initialized_backoff
         while time_to_backoff > 0:
-            logging.info(f"AP{self.ap}:{self.timestamp()}\t TTB = {time_to_backoff}")
+            logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t TTB = {time_to_backoff}")
 
             # The backoff time counter is decremented as long as the channel is sensed idle.
             if self.channel.is_idle(self.des_env.now, frame.src, frame.tx_power):
@@ -101,7 +96,7 @@ class DCF():
                 # and reactivated after the channel is sensed idle again for a guard period. 
         
         # The frame is sent to the channel
-        logging.info(f"AP{self.ap}:{self.timestamp()}\t TTB reached zero (TTB = {time_to_backoff}) and the channel is idle. Sending frame to {frame.dst}")
+        logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t TTB reached zero (TTB = {time_to_backoff}) and the channel is idle")
         self.channel.send_frame(frame, self.des_env.now, retry_count)
         yield self.des_env.timeout(frame.ampdu_duration + SIFS) # The SIFS is the lower bound of the ACK timeout
 
@@ -114,11 +109,11 @@ class DCF():
 
         # If the packet transmission is successful, the size of the contention window resets to the minimum value
         if successful_txs > 0:
-            logging.info(f"AP{self.ap}:{self.timestamp()}\t At leas one successfull TX, resetting CW to {self.cw}")
+            logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t At leas one successfull TX, resetting CW to {self.cw}")
             self.cw = 2**CW_EXP_MIN
         # and is doubled on failure
         else:
-            logging.info(f"AP{self.ap}:{self.timestamp()}\t Collision, increasing CW to {self.cw}")
+            logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t Collision, increasing CW to {self.cw}")
             self.total_collisions += 1
             self.cw = min(2*self.cw, 2**CW_EXP_MAX)
             yield self.des_env.process(self._try_sending(frame, retry_count + 1))
