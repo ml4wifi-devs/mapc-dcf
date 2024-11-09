@@ -56,12 +56,13 @@ def single_run(key: PRNGKey, run: int, scenario: Scenario, sim_time: float, logg
 
 def run_test_scenarios(key: PRNGKey, results_dir: str, n_runs: int, warmup: float, scenarios_type: str):
 
-    if scenarios_type == 'small_office':
-        scenarios = SMALL_OFFICE_SCENARIOS
-    elif scenarios_type == 'residential':
-        scenarios = RESIDENTIAL_SCENARIOS
-    elif scenarios_type == 'random':
-        scenarios = RANDOM_SCENARIOS
+    # TODO TO DELETE: Temporary subscenario selection
+    if scenarios_type == '1st':
+        scenarios = RANDOM_SCENARIOS[:8]
+    elif scenarios_type == '2nd':
+        scenarios = RANDOM_SCENARIOS[8:16]
+    elif scenarios_type == '3rd':
+        scenarios = RANDOM_SCENARIOS[16:]
     else:
         scenarios = ALL_SCENARIOS
     
@@ -92,7 +93,10 @@ if __name__ == '__main__':
     args.add_argument('-s', '--seed',           type=int, default=42)
     args.add_argument('-n', '--n_runs',         type=int, default=10)
     args.add_argument('-w', '--warmup',         type=float, default=0.)
-    args.add_argument('-t', '--scenarios_type', type=str, default='all', choices=['all', 'small_office', 'residential', 'random'])
+
+    # TODO TO DELETE: Temporary subscenario selection
+    args.add_argument('-t', '--scenarios_type', type=str, default='all', choices=['all', '1st', '2nd', '3rd'])
+    
     args = args.parse_args()
     
     key = jax.random.PRNGKey(args.seed)
