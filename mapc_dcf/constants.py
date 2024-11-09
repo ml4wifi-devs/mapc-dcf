@@ -73,4 +73,10 @@ CW_EXP_MAX = 10
 CCA_THRESHOLD = -82.
 """Clear channel assessment threshold (dBm)"""
 
+OBSS_PD_MIN = CCA_THRESHOLD
+"""OBSS packet detection minimum threshold (dBm)"""
+
+OBSS_PD_MAX = -62.
+"""OBSS packet detection maximum threshold (dBm)"""
+
 RETRY_LIMIT = None
