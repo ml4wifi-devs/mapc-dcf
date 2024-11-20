@@ -50,7 +50,6 @@ class DCF():
         
         idle = self.channel.is_idle_for(self.des_env.now, DIFS, frame.src, frame.tx_power)
         while not idle:
-            logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t DIFS: waiting for a SLOT_TIME = 9 us")
             yield self.des_env.timeout(SLOT_TIME)
             idle = self.channel.is_idle_for(self.des_env.now, DIFS, frame.src, frame.tx_power)
         logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t DIFS: Channel idle for DIFS = 34 us")
@@ -109,13 +108,13 @@ class DCF():
 
         # If the packet transmission is successful, the size of the contention window resets to the minimum value
         if successful_txs > 0:
-            logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t At leas one successfull TX, resetting CW to {self.cw}")
             self.cw = 2**CW_EXP_MIN
+            logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t {successful_txs} of {frame.n_ampdu} successfull TXs, resetting CW to {self.cw}")
         # and is doubled on failure
         else:
-            logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t Collision, increasing CW to {self.cw}")
             self.total_collisions += 1
             self.cw = min(2*self.cw, 2**CW_EXP_MAX)
+            logging.info(f"AP{self.ap}:{timestamp(self.des_env.now)}\t 0 successfull TXs, increasing CW to {self.cw}")
             yield self.des_env.process(self._try_sending(frame, retry_count + 1))
 
 

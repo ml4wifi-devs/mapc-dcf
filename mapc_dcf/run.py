@@ -63,6 +63,7 @@ if __name__ == '__main__':
     args.add_argument('-c', '--config_path',    type=str, default='default_config.json')
     args.add_argument('-r', '--results_path',   type=str, default=os.path.join('out', 'results'))
     args.add_argument('-l', '--log_level',      type=str, default='warning')
+    args.add_argument('-p', '--plot',           action='store_true')
     args = args.parse_args()
 
     logging.basicConfig(level=logging.getLevelName(args.log_level.upper()))
@@ -74,6 +75,8 @@ if __name__ == '__main__':
 
     scenario = globals()[config['scenario']](**config['scenario_params'])
     scenario, sim_time = scenario.split_scenario()[config["scenario_index"]]
+    if args.plot:
+        scenario.plot(f"{args.results_path}_topo.pdf")
 
     if not ('simulation_length' in config):
         config['simulation_length'] = sim_time

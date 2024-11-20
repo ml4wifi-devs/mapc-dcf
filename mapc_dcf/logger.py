@@ -20,7 +20,7 @@ class Logger:
         self.simulation_length = simulation_length
         self.warmup_length = warmup_length
         self.timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        self.header = ['SimTime', 'RunNumber', 'FrameID', 'Retransmission', 'Src', 'Dst', 'AMPDUSize', 'MCS', 'CW', 'Backoff', 'Collision', 'NSuccess', 'NCollision']
+        self.header = ['SimTime', 'RunNumber', 'FrameID', 'Retransmission', 'Src', 'Dst', 'AMPDUSize', 'MCS', 'TxPower', 'CW', 'Backoff', 'Collision', 'NSuccess', 'NCollision']
         self.accumulator = []
         self.dump_size = dump_size
         self.dumped = False
@@ -68,6 +68,7 @@ class Logger:
             frame.dst,
             frame.pdu_size * n_success,
             frame.mcs,
+            frame.tx_power,
             cw,
             backoff,
             collision,
