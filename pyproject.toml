@@ -23,7 +23,7 @@ dependencies = [
   "jaxlib~=0.4.33",
   "joblib~=1.4.2",
   "matplotlib~=3.9.2",
-  "pandas~=2.1.1",
+  "pandas~=2.2.3",
   "simpy~=4.1.1",
   "tensorflow-probability[jax]~=0.24.0"
 ]
