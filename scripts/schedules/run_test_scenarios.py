@@ -1,6 +1,7 @@
 from typing import List, Tuple
 import logging
 import os
+os.environ['JAX_ENABLE_X64'] = 'True'
 from time import time
 from datetime import datetime
 from typing import Dict

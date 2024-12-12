@@ -76,7 +76,7 @@ CCA_THRESHOLD = -82.
 OBSS_PD_MIN = CCA_THRESHOLD
 """OBSS packet detection minimum threshold (dBm)"""
 
-OBSS_PD_MAX = -62.
+OBSS_PD_MAX = -72.
 """OBSS packet detection maximum threshold (dBm)"""
 
 RETRY_LIMIT = None
