@@ -17,12 +17,13 @@ authors = [
 
 requires-python = ">=3.9"
 dependencies = [
-  "chex~=0.1.87",
+  "chex~=0.1.86",
   "intervaltree~=3.1.0",
-  "jax~=0.4.33",
-  "jaxlib~=0.4.33",
+  "jax~=0.4.30",
+  "jaxlib~=0.4.30",
   "joblib~=1.4.2",
-  "matplotlib~=3.9.2",
+  "mapc-optimal-research@git+https://github.com/ml4wifi-devs/mapc-optimal-research",
+  "matplotlib~=3.9.3",
   "pandas~=2.2.3",
   "simpy~=4.1.1",
   "tensorflow-probability[jax]~=0.24.0"
