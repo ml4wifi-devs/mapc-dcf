@@ -1,4 +1,3 @@
-IDEAL_MCS = True
 SPATIAL_REUSE = True
 
 

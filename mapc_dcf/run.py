@@ -14,6 +14,7 @@ from chex import PRNGKey
 from joblib import Parallel, delayed
 
 from mapc_research.envs.scenario_impl import *
+from mapc_dcf.__init__ import *
 from mapc_dcf.channel import Channel
 from mapc_dcf.nodes import AccessPoint
 from mapc_dcf.logger import Logger
@@ -72,6 +73,8 @@ if __name__ == '__main__':
         config = json.load(file)
     
     key = jax.random.PRNGKey(config['seed'])
+
+    logging.warning(f"Spatial Reuse: {'ON' if SPATIAL_REUSE else 'OFF'}")
 
     scenario = globals()[config['scenario']](**config['scenario_params'])
     scenario, sim_time = scenario.split_scenario()[config["scenario_index"]]
