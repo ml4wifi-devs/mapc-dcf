@@ -32,7 +32,7 @@ pip install mapc-dcf
 TODO
 ```
 
-## How to reference `mapc-sim`?
+## How to reference `mapc-dcf`?
 
 ```
 TODO

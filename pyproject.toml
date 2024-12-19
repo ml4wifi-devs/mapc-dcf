@@ -1,11 +1,11 @@
 [project]
 name = "mapc_dcf"
-version = "0.1.3"
-description = "IEEE 802.11 MAP DCF Simulator"
+version = "0.2.0"
+description = "IEEE 802.11 DCF Simulator"
 
 readme = "README.md"
 license = {file = "LICENSE"}
-keywords = ["802.11", "multi-access point coordination", "distributed coordination function", "simulator"]
+keywords = ["802.11", "distributed coordination function", "simulator"]
 
 authors = [
   {name = "Maksymilian Wojnar", email = "maksymilian.wojnar@agh.edu.pl"},
@@ -21,9 +21,6 @@ dependencies = [
   "intervaltree~=3.1.0",
   "jax~=0.4.30",
   "jaxlib~=0.4.30",
-  "joblib~=1.4.2",
-  "mapc-optimal-research@git+https://github.com/ml4wifi-devs/mapc-optimal-research",
-  "matplotlib~=3.9.3",
   "pandas~=2.2.3",
   "simpy~=4.1.1",
   "tensorflow-probability[jax]~=0.24.0"
@@ -35,6 +32,3 @@ find = {}
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
-
-[project.optional-dependencies]
-graph = ["jraph~=0.0.6.dev0"]
