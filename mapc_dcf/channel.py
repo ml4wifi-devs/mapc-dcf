@@ -9,7 +9,7 @@ from intervaltree import Interval, IntervalTree
 
 from mapc_dcf.__init__ import *
 from mapc_dcf.constants import *
-from mapc_sim.utils import logsumexp_db, tgax_path_loss
+from mapc_dcf.utils import logsumexp_db, tgax_path_loss
 
 tfd = tfp.distributions
 
