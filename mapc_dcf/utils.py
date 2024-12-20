@@ -1,3 +1,4 @@
+import numpy as np
 import jax
 import jax.numpy as jnp
 from scipy.stats import t
@@ -66,7 +67,7 @@ def logsumexp_db(a: jax.Array, b: jax.Array) -> jax.Array:
     return jax.nn.logsumexp(a=LOG10DIV10 * a, b=b) / LOG10DIV10
 
 
-def confidence_interval(data: jax.Array, ci: float = 0.95) -> tuple:
+def confidence_interval(data: np.ndarray, ci: float = 0.95) -> tuple:
     measurements = data.shape[0]
     mean = data.mean(axis=0)
     std = data.std(axis=0)
@@ -74,7 +75,7 @@ def confidence_interval(data: jax.Array, ci: float = 0.95) -> tuple:
     alpha = 1 - ci
     z = t.ppf(1 - alpha / 2, measurements - 1)
 
-    ci_low = mean - z * std / jnp.sqrt(measurements)
-    ci_high = mean + z * std / jnp.sqrt(measurements)
+    ci_low = mean - z * std / np.sqrt(measurements)
+    ci_high = mean + z * std / np.sqrt(measurements)
 
     return mean, ci_low, ci_high
