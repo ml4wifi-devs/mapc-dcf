@@ -46,7 +46,7 @@ class AccessPoint():
 
         self.key, key_frame = jax.random.split(self.key)
         dst = jax.random.choice(key_frame, self.clients).item()
-        frame = AMPDU(self.frame_id, self.id, dst, self.tx_power, self.mcs)
+        frame = AMPDU(self.frame_id, self.id, dst, self.tx_power, self.mcs, self.channel.is_sr_on)
         self.frame_id += 1
 
         return frame

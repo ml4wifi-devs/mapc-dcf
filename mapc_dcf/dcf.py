@@ -6,7 +6,7 @@ import jax
 import jax.numpy as jnp
 import simpy
 
-from mapc_dcf.__init__ import timestamp
+from mapc_dcf.utils import timestamp
 from mapc_dcf.constants import *
 from mapc_dcf.channel import Channel, AMPDU
 from mapc_dcf.logger import Logger

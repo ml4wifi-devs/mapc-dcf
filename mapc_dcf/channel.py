@@ -7,9 +7,8 @@ import tensorflow_probability.substrates.jax as tfp
 from chex import Array, Scalar, PRNGKey
 from intervaltree import Interval, IntervalTree
 
-from mapc_dcf.__init__ import *
 from mapc_dcf.constants import *
-from mapc_dcf.utils import logsumexp_db, tgax_path_loss
+from mapc_dcf.utils import logsumexp_db, tgax_path_loss, timestamp
 
 tfd = tfp.distributions
 
@@ -21,13 +20,14 @@ class AMPDU():
     ampdu_size: int
     pdu_duration: float
 
-    def __init__(self, id: int, src: int, dst: int, tx_power: float, mcs: int, payload_size: int = FRAME_LEN_INT) -> None:
+    def __init__(self, id: int, src: int, dst: int, tx_power: float, mcs: int, sr: bool, payload_size: int = FRAME_LEN_INT) -> None:
         self.id = id
         self.src = src
         self.dst = dst
         self.mcs = mcs
         self.tx_power = tx_power
         self.pdu_size = payload_size
+        self.sr = sr
     
 
     def materialize(self, start_time: float, tx_power: float, retransmission: int) -> None:
@@ -47,7 +47,7 @@ class AMPDU():
         """
         
         # Reduce the tx power if operating in spatial reuse mode
-        if SPATIAL_REUSE:
+        if self.sr:
             self.tx_power = tx_power
         else:
             self.tx_power = DEFAULT_TX_POWER
@@ -59,10 +59,11 @@ class AMPDU():
 
 class Channel():
 
-    def __init__(self, key: PRNGKey, pos: Array, walls: Optional[Array] = None) -> None:
+    def __init__(self, key: PRNGKey, sr: bool, pos: Array, walls: Optional[Array] = None) -> None:
         self.key = key
         self.pos = pos
-        self.cca_threshold = OBSS_PD_MAX if SPATIAL_REUSE else CCA_THRESHOLD
+        self.is_sr_on = sr
+        self.cca_threshold = OBSS_PD_MAX if self.is_sr_on else CCA_THRESHOLD
         self.n_nodes = self.pos.shape[0]
         self.walls = walls if walls is not None else jnp.zeros((self.n_nodes, self.n_nodes))
         self.tx_history = IntervalTree()
