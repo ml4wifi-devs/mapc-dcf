@@ -16,6 +16,11 @@ tfd = tfp.distributions
 
 class AMPDU():
 
+    ampdu_duration: float = TAU
+    n_ampdu: int
+    ampdu_size: int
+    pdu_duration: float
+
     def __init__(self, id: int, src: int, dst: int, tx_power: float, mcs: int, payload_size: int = FRAME_LEN_INT) -> None:
         self.id = id
         self.src = src
@@ -25,7 +30,7 @@ class AMPDU():
         self.pdu_size = payload_size
     
 
-    def materialize(self, start_time: float, mcs: int, tx_power: float, retransmission: int) -> None:
+    def materialize(self, start_time: float, tx_power: float, retransmission: int) -> None:
         """
         Materialize the WiFi frame by setting its start time, end time, and transmission power.
         End time is calculated based on the predefined frame duration. After materialization,
@@ -35,17 +40,11 @@ class AMPDU():
         ----------
         start_time : float
             Transmission start time.
-        mcs : int
-            Selected modulation and coding scheme.
         tx_power : float
             Transmission power.
         retransmission : int
             Retransmission number.
         """
-        
-        # Override the MCS if operating in ideal MCS mode
-        if IDEAL_MCS:
-            self.mcs = mcs
         
         # Reduce the tx power if operating in spatial reuse mode
         if SPATIAL_REUSE:
@@ -53,10 +52,6 @@ class AMPDU():
         else:
             self.tx_power = DEFAULT_TX_POWER
         
-        self.n_ampdu = int(jnp.round(DATA_RATES[self.mcs] * 1e6 * TAU / FRAME_LEN).item())
-        self.ampdu_size = self.n_ampdu * self.pdu_size
-        self.pdu_duration = self.pdu_size / (DATA_RATES[self.mcs].item() * 1e6)
-        self.ampdu_duration = self.n_ampdu * self.pdu_duration
         self.start_time = start_time
         self.end_time = start_time + self.ampdu_duration
         self.retransmission = retransmission
@@ -70,8 +65,9 @@ class Channel():
         self.cca_threshold = OBSS_PD_MAX if SPATIAL_REUSE else CCA_THRESHOLD
         self.n_nodes = self.pos.shape[0]
         self.walls = walls if walls is not None else jnp.zeros((self.n_nodes, self.n_nodes))
-        self.frames_history = IntervalTree()
-
+        self.tx_history = IntervalTree()
+        self.frames = {}
+        
 
     def is_idle(self, time: float, ap: int, sender_tx_power: float) -> bool:
         """
@@ -93,7 +89,7 @@ class Channel():
         """
 
         # Get frames that occupy the channel at the given time
-        overlapping_frames = self.frames_history[time]
+        overlapping_frames = self.tx_history[time]
 
         if not overlapping_frames:
             return True
@@ -103,7 +99,7 @@ class Channel():
         tx_power_at_time = jnp.zeros((self.n_nodes,))
         for frame_interval in overlapping_frames:
 
-            overlapping_frame = frame_interval.data
+            overlapping_frame: AMPDU = self.frames[frame_interval.data]
             tx_matrix_at_time = tx_matrix_at_time.at[overlapping_frame.src, overlapping_frame.dst].set(1)
             tx_power_at_time = tx_power_at_time.at[overlapping_frame.src].set(overlapping_frame.tx_power)
         
@@ -151,11 +147,11 @@ class Channel():
             return False
 
         # Get the overlapping frames within the given time interval
-        overlapping_frames = self.frames_history.overlap(low_time, high_time)
+        overlapping_ids = self.tx_history.overlap(low_time, high_time)
 
         # We asses the channel as idle if it is idle in all the middlepoints of the given interval
-        middlepoints, _ = self._get_middlepoints_and_durations(overlapping_frames, low_time, high_time)
-        logging.debug(f"AP{ap}:t{time:.9f}\t Overlapping frames: {overlapping_frames}\n" + "\t"*8 + f"Middlepoints: {middlepoints}")
+        middlepoints, _ = self._get_middlepoints_and_durations(overlapping_ids, low_time, high_time)
+        logging.debug(f"AP{ap}:t{time:.9f}\t Overlapping frames: {overlapping_ids}\n" + "\t"*8 + f"Middlepoints: {middlepoints}")
         for middlepoint in middlepoints:
 
             if not self.is_idle(middlepoint, ap, sender_tx_power):
@@ -178,10 +174,10 @@ class Channel():
             The transmission power at which the frame is sent.
         """
 
-        mcs = self._get_ideal_mcs(frame, start_time)
         tx_power = self._get_reduced_tx_power(start_time, frame.src, frame.tx_power)
-        frame.materialize(start_time, mcs, tx_power, retransmission)
-        self.frames_history.add(Interval(start_time, frame.end_time, frame))
+        frame.materialize(start_time, tx_power, retransmission)
+        self.tx_history.add(Interval(start_time, frame.end_time, (frame.src, frame.id)))
+        self.frames[(frame.src, frame.id)] = frame
 
         # Log the frame transmission
         logging.info(f"AP{frame.src}:{timestamp(start_time)}\t Sending frame to {frame.dst} with MCS {frame.mcs} and tx power {frame.tx_power}")
@@ -201,10 +197,19 @@ class Channel():
         int
             The number of successful transmissions within the AMPDU.
         """
+
+        # Calculate the ideal MCS for the frame
+        frame.mcs = self._get_ideal_mcs(frame, frame.end_time)
+        
+        # Based on the selected MCS, calculate AMPDU attributes
+        frame.n_ampdu = int(jnp.round(DATA_RATES[frame.mcs] * 1e6 * TAU / frame.pdu_size).item())
+        frame.ampdu_size = frame.n_ampdu * frame.pdu_size
+        frame.pdu_duration = frame.pdu_size / (DATA_RATES[frame.mcs].item() * 1e6)
+
         
         # Get the overlapping frames with the transmitted frame
         frame_start_time, frame_end_time, frame_duration = frame.start_time, frame.end_time, frame.ampdu_duration
-        overlapping_frames = self.frames_history.overlap(frame_start_time, frame_end_time) - {Interval(frame_start_time, frame_end_time, frame)}
+        overlapping_frames = self.tx_history.overlap(frame_start_time, frame_end_time) - {Interval(frame_start_time, frame_end_time, (frame.src, frame.id))}
         overlapping_frames_tree = IntervalTree(overlapping_frames)
 
         # Iterate over the AMPDU frames to check the success of each PDU. Stop if a PDU fails, and return the number of successful PDUs
@@ -223,7 +228,7 @@ class Channel():
 
                 # Get the concurrent frames at the middlepoint
                 middlepoint_overlapping_frames = overlapping_frames_tree[middlepoint]
-                middlepoint_overlapping_frames = middlepoint_overlapping_frames.union({Interval(pdu_start_time, pdu_end_time, frame)})
+                middlepoint_overlapping_frames = middlepoint_overlapping_frames.union({Interval(pdu_start_time, pdu_end_time, (frame.src, frame.id))})
 
                 # Build the transmission matrix, MCS, and transmission power at the middlepoint
                 tx_matrix_at_middlepoint = jnp.zeros((self.n_nodes, self.n_nodes))
@@ -231,7 +236,7 @@ class Channel():
                 tx_power_at_middlepoint = jnp.zeros((self.n_nodes,))
                 for frame_interval in middlepoint_overlapping_frames:
                     
-                    iter_frame = frame_interval.data
+                    iter_frame = self.frames[frame_interval.data]
                     tx_matrix_at_middlepoint = tx_matrix_at_middlepoint.at[iter_frame.src, iter_frame.dst].set(1)
                     mcs_at_middlepoint = mcs_at_middlepoint.at[iter_frame.src].set(iter_frame.mcs)
                     tx_power_at_middlepoint = tx_power_at_middlepoint.at[iter_frame.src].set(iter_frame.tx_power)
@@ -258,14 +263,14 @@ class Channel():
 
     def _get_middlepoints_and_durations(
             self,
-            overlapping_frames: Set[Interval],
+            overlapping_frames_ids: Set[Interval],
             low_time: float,
             high_time: float
     ) -> Tuple[Array, Array]:
         
-        start_times = {interval.data.start_time for interval in overlapping_frames if interval.data.start_time > low_time}
+        start_times = {self.frames[interval.data].start_time for interval in overlapping_frames_ids if self.frames[interval.data].start_time > low_time}
         start_times = start_times.union({low_time})
-        end_times = {interval.data.end_time for interval in overlapping_frames if interval.data.end_time < high_time}
+        end_times = {self.frames[interval.data].end_time for interval in overlapping_frames_ids if self.frames[interval.data].end_time < high_time}
         end_times = end_times.union({high_time})
         timepoints = jnp.array(sorted(list(start_times.union(end_times))))
         durations = timepoints[1:] - timepoints[:-1]
@@ -294,18 +299,18 @@ class Channel():
         # not depend on the sender's transmission power. Can be removed from the function signature?
 
         # Get frames that occupy the channel at the given time
-        overlapping_frames = self.frames_history[time]
+        overlapping_frames_ids = self.tx_history[time]
 
         # If no frames are occupying the channel, return the noise floor
-        if not overlapping_frames:
+        if not overlapping_frames_ids:
             return NOISE_FLOOR
 
         # Set the transmission matrix and transmission power from the current frames in the channel
         tx_matrix_at_time = jnp.zeros((self.n_nodes, self.n_nodes))
         tx_power_at_time = jnp.zeros((self.n_nodes,))
-        for frame_interval in overlapping_frames:
+        for frame_interval in overlapping_frames_ids:
 
-            overlapping_frame = frame_interval.data
+            overlapping_frame: AMPDU = self.frames[frame_interval.data]
             tx_matrix_at_time = tx_matrix_at_time.at[overlapping_frame.src, overlapping_frame.dst].set(1)
             tx_power_at_time = tx_power_at_time.at[overlapping_frame.src].set(overlapping_frame.tx_power)
         
@@ -345,11 +350,11 @@ class Channel():
             # Simulate the channel at the start time to obtain the ideal MCS
             tx_matrix_at_time = jnp.zeros((self.n_nodes, self.n_nodes))
             tx_power_at_time = jnp.zeros((self.n_nodes,))
-            overlapping_frames = self.frames_history[start_time]
-            overlapping_frames = overlapping_frames.union({Interval(start_time, TAU, frame)})
-            for frame_interval in overlapping_frames:
+            overlapping_frames_ids = self.tx_history[start_time]
+            overlapping_frames_ids = overlapping_frames_ids.union({Interval(start_time, TAU, (frame.src, frame.id))})
+            for frame_interval in overlapping_frames_ids:
 
-                overlapping_frame = frame_interval.data
+                overlapping_frame: AMPDU = self.frames[frame_interval.data]
                 tx_matrix_at_time = tx_matrix_at_time.at[overlapping_frame.src, overlapping_frame.dst].set(1)
                 tx_power_at_time = tx_power_at_time.at[overlapping_frame.src].set(overlapping_frame.tx_power)
     
