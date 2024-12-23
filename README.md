@@ -95,6 +95,18 @@ logger.shutdown(config={"scenario": "Optional JSON description of the scenario"}
 del des_env
 ```
 
+## Repository Structure
+
+The repository is structured as follows:
+
+- `mapc_dcf/`: The main package of the tool.
+  - `channel.py`: Implementation of the `Channel` class with the moset important methods: `is_idle()`, `send_frame()` and `is_tx_successful()`.
+  - `constants.py`: Physical and MAC layer constants used in the simulator.
+  - `dcf.py`: Logic of the DCF schema which uses the simpy interface to manage time intervals.
+  - `logger.py`: Logging module that monitors the frame exchange, dumps results to the output CSV files and summarizes loggs in a compact JSON format.
+  - `nodes.py`: Access Point abstraction and traffic generation.
+  - `utils.py`: Utility functions, including the function for calculation of the path loss from node positions using the TGax channel model.
+
 ## How to reference `MAPC-DCF`?
 
 ```
