@@ -15,15 +15,13 @@ authors = [
   {name = "Szymon Szott", email = "szymon.szott@agh.edu.pl"}
 ]
 
-requires-python = ">=3.9"
+requires-python = ">=3.12"
 dependencies = [
-  "chex~=0.1.86",
   "intervaltree~=3.1.0",
-  "jax~=0.4.30",
-  "jaxlib~=0.4.30",
+  "jax-ai-stack~=2025.2.5",
   "pandas~=2.2.3",
   "simpy~=4.1.1",
-  "tensorflow-probability[jax]~=0.24.0"
+  "tensorflow-probability[jax]~=0.25.0"
 ]
 
 [tool.setuptools.packages]
