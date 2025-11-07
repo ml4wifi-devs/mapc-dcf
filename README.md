@@ -31,7 +31,7 @@ from typing import Dict
 
 import simpy
 import jax
-import jax.numpy as jnp
+import numpy as np
 from mapc_research.envs.scenario_impl import *
 
 from mapc_dcf import AccessPoint, Channel, Logger
@@ -67,7 +67,7 @@ channel = Channel(
 aps: Dict[int, AccessPoint] = {}
 for ap_id in scenario.associations:
     key, key_ap = jax.random.split(key)
-    clients = jnp.array(scenario.associations[ap_id])
+    clients = np.array(scenario.associations[ap_id])
     tx_power = scenario.tx_power[ap_id].item()
     aps[ap_id] = AccessPoint(
         key=key_ap,

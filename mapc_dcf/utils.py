@@ -1,6 +1,6 @@
 import numpy as np
 import jax
-import jax.numpy as jnp
+import numpy as np
 from scipy.stats import t
 
 from mapc_dcf.constants import *
@@ -12,7 +12,7 @@ def timestamp(time: float) -> str:
     return "0" * leading_zeros + t
 
 
-def tgax_path_loss(distance: jax.Array, walls: jax.Array) -> jax.Array:
+def tgax_path_loss(distance: np.ndarray, walls: np.ndarray) -> np.ndarray:
     r"""
     Calculates the path loss according to the TGax channel model [1]_.
 
@@ -33,11 +33,11 @@ def tgax_path_loss(distance: jax.Array, walls: jax.Array) -> jax.Array:
     .. [1] https://www.ieee802.org/11/Reports/tgax_update.htm#:~:text=TGax%20Selection%20Procedure-,11%2D14%2D0980,-TGax%20Simulation%20Scenarios
     """
 
-    return (40.05 + 20 * jnp.log10((jnp.minimum(distance, BREAKING_POINT) * CENTRAL_FREQUENCY) / 2.4) +
-            (distance > BREAKING_POINT) * 35 * jnp.log10(distance / BREAKING_POINT) + WALL_LOSS * walls)
+    return (40.05 + 20 * np.log10((np.minimum(distance, BREAKING_POINT) * CENTRAL_FREQUENCY) / 2.4) +
+            (distance > BREAKING_POINT) * 35 * np.log10(distance / BREAKING_POINT) + WALL_LOSS * walls)
 
 
-def logsumexp_db(a: jax.Array, b: jax.Array) -> jax.Array:
+def logsumexp_db(a: np.ndarray, b: np.ndarray) -> np.ndarray:
     r"""
     Computes :func:`jax.nn.logsumexp` for dB i.e. :math:`10 * \log_{10}(\sum_i b_i 10^{a_i/10})`
 
@@ -45,9 +45,9 @@ def logsumexp_db(a: jax.Array, b: jax.Array) -> jax.Array:
 
     .. code-block:: python
 
-        interference_lin = jnp.power(10, a / 10)
+        interference_lin = np.power(10, a / 10)
         interference_lin = (b * interference_lin).sum()
-        interference = 10 * jnp.log10(interference_lin)
+        interference = 10 * np.log10(interference_lin)
 
 
     Parameters
@@ -63,7 +63,7 @@ def logsumexp_db(a: jax.Array, b: jax.Array) -> jax.Array:
         ``logsumexp`` for dB
     """
 
-    LOG10DIV10 = jnp.log(10.) / 10.
+    LOG10DIV10 = np.log(10.) / 10.
     return jax.nn.logsumexp(a=LOG10DIV10 * a, b=b) / LOG10DIV10
 
 

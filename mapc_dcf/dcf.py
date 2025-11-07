@@ -3,7 +3,6 @@ from chex import PRNGKey
 
 import logging
 import jax
-import jax.numpy as jnp
 import simpy
 
 from mapc_dcf.utils import timestamp
@@ -29,7 +28,7 @@ class DCF():
         self.channel = channel
         self.logger = logger
         self.frame_generator = frame_generator
-        self.retry_limit = RETRY_LIMIT if RETRY_LIMIT is not None else jnp.inf
+        self.retry_limit = RETRY_LIMIT if RETRY_LIMIT is not None else float('inf')
         self.cw = 2**CW_EXP_MIN
 
         # TODO Temporary, to be removed

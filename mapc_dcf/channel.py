@@ -2,8 +2,8 @@ from typing import Set, Optional, Tuple
 
 import logging
 import jax
-import jax.numpy as jnp
-import tensorflow_probability.substrates.jax as tfp
+import numpy as np
+import tensorflow_probability.substrates.numpy as tfp
 from chex import Array, Scalar, PRNGKey
 from intervaltree import Interval, IntervalTree
 
@@ -66,7 +66,7 @@ class Channel():
         self.channel_width = channel_width
         self.cca_threshold = OBSS_PD_MAX if self.is_sr_on else CCA_THRESHOLD
         self.n_nodes = self.pos.shape[0]
-        self.walls = walls if walls is not None else jnp.zeros((self.n_nodes, self.n_nodes))
+        self.walls = walls if walls is not None else np.zeros((self.n_nodes, self.n_nodes))
         self.tx_history = IntervalTree()
         self.frames = {}
         
@@ -97,8 +97,8 @@ class Channel():
             return True
 
         # Set the transmission matrix and transmission power from the current frames in the channel
-        tx_matrix_at_time = jnp.zeros((self.n_nodes, self.n_nodes))
-        tx_power_at_time = jnp.zeros((self.n_nodes,))
+        tx_matrix_at_time = np.zeros((self.n_nodes, self.n_nodes))
+        tx_power_at_time = np.zeros((self.n_nodes,))
         for frame_interval in overlapping_frames:
 
             overlapping_frame: AMPDU = self.frames[frame_interval.data]
@@ -204,7 +204,7 @@ class Channel():
         frame.mcs = self._get_ideal_mcs(frame, frame.end_time)
         
         # Based on the selected MCS, calculate AMPDU attributes
-        frame.n_ampdu = int(jnp.round(DATA_RATES[self.channel_width][frame.mcs] * 1e6 * TAU / frame.pdu_size).item())
+        frame.n_ampdu = int(np.round(DATA_RATES[self.channel_width][frame.mcs] * 1e6 * TAU / frame.pdu_size).item())
         frame.ampdu_size = frame.n_ampdu * frame.pdu_size
         frame.pdu_duration = frame.pdu_size / (DATA_RATES[self.channel_width][frame.mcs].item() * 1e6)
 
@@ -233,9 +233,9 @@ class Channel():
                 middlepoint_overlapping_frames = middlepoint_overlapping_frames.union({Interval(pdu_start_time, pdu_end_time, (frame.src, frame.id))})
 
                 # Build the transmission matrix, MCS, and transmission power at the middlepoint
-                tx_matrix_at_middlepoint = jnp.zeros((self.n_nodes, self.n_nodes))
-                mcs_at_middlepoint = jnp.zeros((self.n_nodes,), dtype=int)
-                tx_power_at_middlepoint = jnp.zeros((self.n_nodes,))
+                tx_matrix_at_middlepoint = np.zeros((self.n_nodes, self.n_nodes))
+                mcs_at_middlepoint = np.zeros((self.n_nodes,), dtype=int)
+                tx_power_at_middlepoint = np.zeros((self.n_nodes,))
                 for frame_interval in middlepoint_overlapping_frames:
                     
                     iter_frame = self.frames[frame_interval.data]
@@ -252,11 +252,11 @@ class Channel():
                     tx_power_at_middlepoint,
                     frame.src
                 ))
-            middlepoints_success_probs = jnp.array(middlepoints_success_probs)
+            middlepoints_success_probs = np.array(middlepoints_success_probs)
         
             # Aggregate the probabilities
             self.key, key_uniform = jax.random.split(self.key)
-            success = jnp.all(jax.random.uniform(key_uniform, shape=middlepoints_success_probs.shape) < middlepoints_success_probs).item()
+            success = np.all(jax.random.uniform(key_uniform, shape=middlepoints_success_probs.shape) < middlepoints_success_probs).item()
             n_successful_txs += int(success)
             pdu_iter += 1
         
@@ -274,7 +274,7 @@ class Channel():
         start_times = start_times.union({low_time})
         end_times = {self.frames[interval.data].end_time for interval in overlapping_frames_ids if self.frames[interval.data].end_time < high_time}
         end_times = end_times.union({high_time})
-        timepoints = jnp.array(sorted(list(start_times.union(end_times))))
+        timepoints = np.array(sorted(list(start_times.union(end_times))))
         durations = timepoints[1:] - timepoints[:-1]
 
         return (timepoints[:-1] + timepoints[1:]) / 2, durations
@@ -282,14 +282,14 @@ class Channel():
 
     def _get_signal_power_and_interference(self, tx: Array, tx_power: Array) -> Tuple[Array, Array]:
 
-        distance = jnp.sqrt(jnp.sum((self.pos[:, None, :] - self.pos[None, ...]) ** 2, axis=-1))
-        distance = jnp.clip(distance, REFERENCE_DISTANCE, None)
+        distance = np.sqrt(np.sum((self.pos[:, None, :] - self.pos[None, ...]) ** 2, axis=-1))
+        distance = np.clip(distance, REFERENCE_DISTANCE, None)
 
         signal_power = tx_power[:, None] - tgax_path_loss(distance, self.walls)
 
-        interference_matrix = jnp.ones_like(tx) * tx.sum(axis=0) * tx.sum(axis=1, keepdims=True) * (1 - tx)
-        a = jnp.concatenate([signal_power, jnp.full((1, signal_power.shape[1]), fill_value=NOISE_FLOOR)], axis=0)
-        b = jnp.concatenate([interference_matrix, jnp.ones((1, interference_matrix.shape[1]))], axis=0)
+        interference_matrix = np.ones_like(tx) * tx.sum(axis=0) * tx.sum(axis=1, keepdims=True) * (1 - tx)
+        a = np.concatenate([signal_power, np.full((1, signal_power.shape[1]), fill_value=NOISE_FLOOR)], axis=0)
+        b = np.concatenate([interference_matrix, np.ones((1, interference_matrix.shape[1]))], axis=0)
         interference = jax.vmap(logsumexp_db, in_axes=(1, 1))(a, b)
 
         return signal_power, interference
@@ -308,8 +308,8 @@ class Channel():
             return NOISE_FLOOR
 
         # Set the transmission matrix and transmission power from the current frames in the channel
-        tx_matrix_at_time = jnp.zeros((self.n_nodes, self.n_nodes))
-        tx_power_at_time = jnp.zeros((self.n_nodes,))
+        tx_matrix_at_time = np.zeros((self.n_nodes, self.n_nodes))
+        tx_power_at_time = np.zeros((self.n_nodes,))
         for frame_interval in overlapping_frames_ids:
 
             overlapping_frame: AMPDU = self.frames[frame_interval.data]
@@ -329,7 +329,7 @@ class Channel():
     def _calculate_sinr(self, key: PRNGKey, signal_power: Array, interference: Array, tx: Array) -> Array:
 
         sinr = signal_power - interference
-        sinr = sinr + tfd.Normal(loc=jnp.zeros_like(signal_power), scale=DEFAULT_SIGMA).sample(seed=key)
+        sinr = sinr + tfd.Normal(loc=np.zeros_like(signal_power), scale=DEFAULT_SIGMA).sample(seed=key)
         sinr = (sinr * tx).sum(axis=1)
 
         return sinr
@@ -350,8 +350,8 @@ class Channel():
             self.key, key_mcs = jax.random.split(self.key)
             
             # Simulate the channel at the start time to obtain the ideal MCS
-            tx_matrix_at_time = jnp.zeros((self.n_nodes, self.n_nodes))
-            tx_power_at_time = jnp.zeros((self.n_nodes,))
+            tx_matrix_at_time = np.zeros((self.n_nodes, self.n_nodes))
+            tx_power_at_time = np.zeros((self.n_nodes,))
             overlapping_frames_ids = self.tx_history[start_time]
             overlapping_frames_ids = overlapping_frames_ids.union({Interval(start_time, TAU, (frame.src, frame.id))})
             for frame_interval in overlapping_frames_ids:
@@ -363,7 +363,7 @@ class Channel():
             signal_power, interference = self._get_signal_power_and_interference(tx_matrix_at_time, tx_power_at_time)
             sinr = self._calculate_sinr(key_mcs, signal_power, interference, tx_matrix_at_time)
             expected_data_rate = DATA_RATES[self.channel_width][:, None] * tfd.Normal(loc=MEAN_SNRS[self.channel_width][:, None], scale=2.).cdf(sinr)
-            mcs = jnp.argmax(expected_data_rate, axis=0)[frame.src].item()
+            mcs = np.argmax(expected_data_rate, axis=0)[frame.src].item()
 
             return mcs
     
