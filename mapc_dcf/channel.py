@@ -20,11 +20,11 @@ class AMPDU():
     ampdu_size: int
     pdu_duration: float
 
-    def __init__(self, id: int, src: int, dst: int, tx_power: float, mcs: int, sr: bool, payload_size: int = FRAME_LEN_INT) -> None:
+    def __init__(self, id: int, src: int, dst: int, tx_power: float, sr: bool, payload_size: int = FRAME_LEN_INT) -> None:
         self.id = id
         self.src = src
         self.dst = dst
-        self.mcs = mcs
+        self.mcs = None
         self.tx_power = tx_power
         self.pdu_size = payload_size
         self.sr = sr
@@ -102,16 +102,16 @@ class Channel():
         for frame_interval in overlapping_frames:
 
             overlapping_frame: AMPDU = self.frames[frame_interval.data]
-            tx_matrix_at_time = tx_matrix_at_time.at[overlapping_frame.src, overlapping_frame.dst].set(1)
-            tx_power_at_time = tx_power_at_time.at[overlapping_frame.src].set(overlapping_frame.tx_power)
+            tx_matrix_at_time[overlapping_frame.src, overlapping_frame.dst] = 1
+            tx_power_at_time[overlapping_frame.src] = overlapping_frame.tx_power
         
         # If ap was transmitting at the given time, the channel is busy
         if tx_matrix_at_time[ap].sum() > 0:
             return False
         
         # Set the transmission from AP to itself, to be used in the signal level calculation
-        tx_matrix_at_time = tx_matrix_at_time.at[ap, ap].set(1)
-        tx_power_at_time = tx_power_at_time.at[ap].set(sender_tx_power)
+        tx_matrix_at_time[ap, ap] = 1
+        tx_power_at_time[ap] = sender_tx_power
         
         # Get the energy level calculated from the interference matrix at the AP
         _, interference = self._get_signal_power_and_interference(tx_matrix_at_time, tx_power_at_time)
@@ -239,9 +239,10 @@ class Channel():
                 for frame_interval in middlepoint_overlapping_frames:
                     
                     iter_frame = self.frames[frame_interval.data]
-                    tx_matrix_at_middlepoint = tx_matrix_at_middlepoint.at[iter_frame.src, iter_frame.dst].set(1)
-                    mcs_at_middlepoint = mcs_at_middlepoint.at[iter_frame.src].set(iter_frame.mcs)
-                    tx_power_at_middlepoint = tx_power_at_middlepoint.at[iter_frame.src].set(iter_frame.tx_power)
+                    tx_matrix_at_middlepoint[iter_frame.src, iter_frame.dst] = 1
+                    iter_frame_mcs = iter_frame.mcs or self._get_ideal_mcs(iter_frame, iter_frame.start_time)
+                    mcs_at_middlepoint[iter_frame.src] = iter_frame_mcs
+                    tx_power_at_middlepoint[iter_frame.src] = iter_frame.tx_power
                 
                 # Calculate the success probability at the current middlepoint
                 self.key, key_per = jax.random.split(self.key)
@@ -313,12 +314,12 @@ class Channel():
         for frame_interval in overlapping_frames_ids:
 
             overlapping_frame: AMPDU = self.frames[frame_interval.data]
-            tx_matrix_at_time = tx_matrix_at_time.at[overlapping_frame.src, overlapping_frame.dst].set(1)
-            tx_power_at_time = tx_power_at_time.at[overlapping_frame.src].set(overlapping_frame.tx_power)
+            tx_matrix_at_time[overlapping_frame.src, overlapping_frame.dst] = 1
+            tx_power_at_time[overlapping_frame.src] = overlapping_frame.tx_power
         
         # Set the transmission from AP to itself, to be used in the signal level calculation
-        tx_matrix_at_time = tx_matrix_at_time.at[ap, ap].set(1)
-        tx_power_at_time = tx_power_at_time.at[ap].set(sender_tx_power)
+        tx_matrix_at_time[ap, ap] = 1
+        tx_power_at_time[ap] = sender_tx_power
 
         # Calculate the energy detected (interference signal level) at the AP
         _, interference = self._get_signal_power_and_interference(tx_matrix_at_time, tx_power_at_time)
@@ -357,8 +358,8 @@ class Channel():
             for frame_interval in overlapping_frames_ids:
 
                 overlapping_frame: AMPDU = self.frames[frame_interval.data]
-                tx_matrix_at_time = tx_matrix_at_time.at[overlapping_frame.src, overlapping_frame.dst].set(1)
-                tx_power_at_time = tx_power_at_time.at[overlapping_frame.src].set(overlapping_frame.tx_power)
+                tx_matrix_at_time[overlapping_frame.src, overlapping_frame.dst] = 1
+                tx_power_at_time[overlapping_frame.src] = overlapping_frame.tx_power
     
             signal_power, interference = self._get_signal_power_and_interference(tx_matrix_at_time, tx_power_at_time)
             sinr = self._calculate_sinr(key_mcs, signal_power, interference, tx_matrix_at_time)

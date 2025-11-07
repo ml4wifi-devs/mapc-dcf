@@ -17,6 +17,7 @@ authors = [
 
 requires-python = ">=3.12"
 dependencies = [
+  "chex~=0.1.91",
   "intervaltree~=3.1.0",
   "jax~=0.8.0",
   "pandas~=2.3.3",

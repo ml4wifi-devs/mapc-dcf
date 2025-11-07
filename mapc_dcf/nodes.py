@@ -16,7 +16,6 @@ class AccessPoint():
             id: int,
             position: Array,
             tx_power: float,
-            mcs: int,
             clients: Array,
             channel: Channel,
             des_env: simpy.Environment,
@@ -26,7 +25,6 @@ class AccessPoint():
         self.id = id
         self.position = position
         self.tx_power = tx_power
-        self.mcs = mcs
         self.clients = clients
         self.channel = channel
         self.des_env = des_env
@@ -46,7 +44,7 @@ class AccessPoint():
 
         self.key, key_frame = jax.random.split(self.key)
         dst = jax.random.choice(key_frame, self.clients).item()
-        frame = AMPDU(self.frame_id, self.id, dst, self.tx_power, self.mcs, self.channel.is_sr_on)
+        frame = AMPDU(self.frame_id, self.id, dst, self.tx_power, self.channel.is_sr_on)
         self.frame_id += 1
 
         return frame

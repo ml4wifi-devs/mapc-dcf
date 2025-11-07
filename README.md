@@ -74,8 +74,6 @@ for ap_id in scenario.associations:
         id=ap_id,
         position=scenario.pos,
         tx_power=tx_power,
-        mcs=11, # MCS 11, this is legacy, it does not affect
-        # the simulation as the MCS is selected ideally inside the DCF
         clients=clients,
         channel=channel,
         des_env=des_env,
