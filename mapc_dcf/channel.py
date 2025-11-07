@@ -59,10 +59,11 @@ class AMPDU():
 
 class Channel():
 
-    def __init__(self, key: PRNGKey, sr: bool, pos: Array, walls: Optional[Array] = None) -> None:
+    def __init__(self, key: PRNGKey, sr: bool, channel_width: int, pos: Array, walls: Optional[Array] = None) -> None:
         self.key = key
         self.pos = pos
         self.is_sr_on = sr
+        self.channel_width = channel_width
         self.cca_threshold = OBSS_PD_MAX if self.is_sr_on else CCA_THRESHOLD
         self.n_nodes = self.pos.shape[0]
         self.walls = walls if walls is not None else jnp.zeros((self.n_nodes, self.n_nodes))
@@ -203,9 +204,9 @@ class Channel():
         frame.mcs = self._get_ideal_mcs(frame, frame.end_time)
         
         # Based on the selected MCS, calculate AMPDU attributes
-        frame.n_ampdu = int(jnp.round(DATA_RATES[frame.mcs] * 1e6 * TAU / frame.pdu_size).item())
+        frame.n_ampdu = int(jnp.round(DATA_RATES[self.channel_width][frame.mcs] * 1e6 * TAU / frame.pdu_size).item())
         frame.ampdu_size = frame.n_ampdu * frame.pdu_size
-        frame.pdu_duration = frame.pdu_size / (DATA_RATES[frame.mcs].item() * 1e6)
+        frame.pdu_duration = frame.pdu_size / (DATA_RATES[self.channel_width][frame.mcs].item() * 1e6)
 
         
         # Get the overlapping frames with the transmitted frame
@@ -338,7 +339,7 @@ class Channel():
 
         signal_power, interference = self._get_signal_power_and_interference(tx, tx_power)
         sinr = self._calculate_sinr(key, signal_power, interference, tx)
-        sdist = tfd.Normal(loc=MEAN_SNRS[mcs], scale=2.)
+        sdist = tfd.Normal(loc=MEAN_SNRS[self.channel_width][mcs], scale=2.)
         success_prob = sdist.cdf(sinr)
 
         return success_prob[ap_src].item()
@@ -361,7 +362,7 @@ class Channel():
     
             signal_power, interference = self._get_signal_power_and_interference(tx_matrix_at_time, tx_power_at_time)
             sinr = self._calculate_sinr(key_mcs, signal_power, interference, tx_matrix_at_time)
-            expected_data_rate = DATA_RATES[:, None] * tfd.Normal(loc=MEAN_SNRS[:, None], scale=2.).cdf(sinr)
+            expected_data_rate = DATA_RATES[self.channel_width][:, None] * tfd.Normal(loc=MEAN_SNRS[self.channel_width][:, None], scale=2.).cdf(sinr)
             mcs = jnp.argmax(expected_data_rate, axis=0)[frame.src].item()
 
             return mcs
