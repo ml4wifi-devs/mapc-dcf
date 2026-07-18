@@ -1,4 +1,4 @@
-from typing import Set, Optional, Tuple
+from typing import Callable, Set, Optional, Tuple
 
 import logging
 import jax
@@ -8,7 +8,7 @@ from chex import Array, Scalar, PRNGKey
 from intervaltree import Interval, IntervalTree
 
 from mapc_dcf.constants import *
-from mapc_dcf.utils import logsumexp_db, tgax_path_loss, timestamp
+from mapc_dcf.utils import logsumexp_db, default_path_loss, nakagami_fading_db, timestamp
 
 tfd = tfp.distributions
 
@@ -59,7 +59,17 @@ class AMPDU():
 
 class Channel():
 
-    def __init__(self, key: PRNGKey, sr: bool, channel_width: int, pos: Array, walls: Optional[Array] = None) -> None:
+    def __init__(
+            self,
+            key: PRNGKey,
+            sr: bool,
+            channel_width: int,
+            pos: Array,
+            walls: Optional[Array] = None,
+            path_loss_fn: Callable = default_path_loss,
+            nakagami_m: Optional[float] = None,
+            sigma: float = DEFAULT_SIGMA
+    ) -> None:
         self.key = key
         self.pos = pos
         self.is_sr_on = sr
@@ -67,9 +77,11 @@ class Channel():
         self.cca_threshold = OBSS_PD_MAX if self.is_sr_on else CCA_THRESHOLD
         self.n_nodes = self.pos.shape[0]
         self.walls = walls if walls is not None else np.zeros((self.n_nodes, self.n_nodes))
+        self.path_loss_fn = path_loss_fn
+        self.nakagami_m = nakagami_m
+        self.sigma = sigma
         self.tx_history = IntervalTree()
         self.frames = {}
-        
 
     def is_idle(self, time: float, ap: int, sender_tx_power: float) -> bool:
         """
@@ -286,7 +298,11 @@ class Channel():
         distance = np.sqrt(np.sum((self.pos[:, None, :] - self.pos[None, ...]) ** 2, axis=-1))
         distance = np.clip(distance, REFERENCE_DISTANCE, None)
 
-        signal_power = tx_power[:, None] - tgax_path_loss(distance, self.walls)
+        signal_power = tx_power[:, None] - self.path_loss_fn(distance, self.walls)
+
+        if self.nakagami_m is not None:
+            self.key, key_nakagami = jax.random.split(self.key)
+            signal_power = signal_power + nakagami_fading_db(key_nakagami, self.nakagami_m, signal_power.shape)
 
         interference_matrix = np.ones_like(tx) * tx.sum(axis=0) * tx.sum(axis=1, keepdims=True) * (1 - tx)
         a = np.concatenate([signal_power, np.full((1, signal_power.shape[1]), fill_value=NOISE_FLOOR)], axis=0)
@@ -330,7 +346,7 @@ class Channel():
     def _calculate_sinr(self, key: PRNGKey, signal_power: Array, interference: Array, tx: Array) -> Array:
 
         sinr = signal_power - interference
-        sinr = sinr + tfd.Normal(loc=np.zeros_like(signal_power), scale=DEFAULT_SIGMA).sample(seed=key)
+        sinr = sinr + tfd.Normal(loc=np.zeros_like(signal_power), scale=self.sigma).sample(seed=key)
         sinr = (sinr * tx).sum(axis=1)
 
         return sinr

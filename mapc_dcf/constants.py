@@ -16,19 +16,29 @@ r"""Physical constant (dBm)
 https://www.nsnam.org/docs/models/html/wifi-testing.html#packet-error-rate-performance"""
 
 DEFAULT_SIGMA = 2.
-r"""Simulation parameter 
+r"""Simulation parameter
 https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=908165"""
 
+DEFAULT_NAKAGAMI_M = 1.5
+r"""ns-3 NakagamiPropagationLossModel default m parameter for short distances (< 80 m)
+https://gitlab.com/nsnam/ns-3-dev/-/blob/master/src/propagation/model/propagation-loss-model.cc"""
+
+DEFAULT_NAKAGAMI_SIGMA = 0.
+r"""Recommended sigma when using explicit Nakagami fading. Set to 0 because Nakagami already
+models per-link channel variability."""
+
 CENTRAL_FREQUENCY = 5.160
-r"""Simulation parameter (GHz) 
+r"""Simulation parameter (GHz)
 https://en.wikipedia.org/wiki/List_of_WLAN_channels#5_GHz_(802.11a/h/n/ac/ax)"""
 
-WALL_LOSS = 7.
-r"""Simulation parameter (dB)"""
-
-BREAKING_POINT = 10.
-r"""TGax channel model parameter (m) 
+RESIDENTIAL_WALL_LOSS = 5.
+ENTERPRISE_WALL_LOSS = 7.
+r"""TGax channel model parameter (m)
 https://mentor.ieee.org/802.11/dcn/14/11-14-0980-16-00ax-simulation-scenarios.docx (p. 19)"""
+
+RESIDENTIAL_BREAKING_POINT = 5.
+ENTERPRISE_BREAKING_POINT = 10.
+r"""TGax channel model parameter (m)"""
 
 REFERENCE_DISTANCE = 1.
 r"""TGax channel model parameter (m)"""

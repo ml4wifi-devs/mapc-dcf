@@ -1,6 +1,8 @@
+from functools import partial
+
 import numpy as np
 import jax
-import numpy as np
+import jax.numpy as jnp
 from scipy.stats import t
 
 from mapc_dcf.constants import *
@@ -12,7 +14,7 @@ def timestamp(time: float) -> str:
     return "0" * leading_zeros + t
 
 
-def tgax_path_loss(distance: np.ndarray, walls: np.ndarray) -> np.ndarray:
+def tgax_path_loss(distance: np.ndarray, walls: np.ndarray, breaking_point: float, wall_loss: float) -> np.ndarray:
     r"""
     Calculates the path loss according to the TGax channel model [1]_.
 
@@ -22,6 +24,10 @@ def tgax_path_loss(distance: np.ndarray, walls: np.ndarray) -> np.ndarray:
         Distance between nodes
     walls: Array
         Adjacency matrix describing walls between nodes (1 if there is a wall, 0 otherwise).
+    breaking_point: float
+        Breaking point of the path loss model
+    wall_loss: float
+        Wall loss factor
 
     Returns
     -------
@@ -33,8 +39,42 @@ def tgax_path_loss(distance: np.ndarray, walls: np.ndarray) -> np.ndarray:
     .. [1] https://www.ieee802.org/11/Reports/tgax_update.htm#:~:text=TGax%20Selection%20Procedure-,11%2D14%2D0980,-TGax%20Simulation%20Scenarios
     """
 
-    return (40.05 + 20 * np.log10((np.minimum(distance, BREAKING_POINT) * CENTRAL_FREQUENCY) / 2.4) +
-            (distance > BREAKING_POINT) * 35 * np.log10(distance / BREAKING_POINT) + WALL_LOSS * walls)
+    return (40.05 + 20 * np.log10((np.minimum(distance, breaking_point) * CENTRAL_FREQUENCY) / 2.4) +
+            (distance > breaking_point) * 35 * np.log10(distance / breaking_point) + wall_loss * walls)
+
+
+residential_tgax_path_loss = partial(tgax_path_loss, breaking_point=RESIDENTIAL_BREAKING_POINT, wall_loss=RESIDENTIAL_WALL_LOSS)
+enterprise_tgax_path_loss = partial(tgax_path_loss, breaking_point=ENTERPRISE_BREAKING_POINT, wall_loss=ENTERPRISE_WALL_LOSS)
+default_path_loss = enterprise_tgax_path_loss
+
+
+def nakagami_fading_db(key: jax.random.PRNGKey, m: float, shape: tuple) -> np.ndarray:
+    r"""
+    Samples Nakagami-m fading loss in dB for a matrix of wireless links.
+
+    The fading factor :math:`g \sim \text{Gamma}(m, 1/m)` has mean 1 and variance :math:`1/m`,
+    matching ns-3's ``NakagamiPropagationLossModel`` parameterization. Mean received power is
+    preserved in linear scale; in dB the distribution is left-skewed (negative mean).
+
+    Special cases: :math:`m = 1` reduces to Rayleigh fading (exponential power distribution);
+    large :math:`m` approaches no fading (:math:`g \to 1`).
+
+    Parameters
+    ----------
+    key: PRNGKey
+        JAX random key.
+    m: float
+        Nakagami shape parameter (:math:`m \geq 0.5`). Higher values mean less fading depth.
+    shape: tuple
+        Output shape, typically ``signal_power.shape`` i.e. ``(n_tx, n_rx)``.
+
+    Returns
+    -------
+    Array
+        Fading loss in dB (negative values attenuate the signal).
+    """
+    g = jax.random.gamma(key, a=m, shape=shape) / m
+    return np.asarray(10.0 * jnp.log10(g))
 
 
 def logsumexp_db(a: np.ndarray, b: np.ndarray) -> np.ndarray:

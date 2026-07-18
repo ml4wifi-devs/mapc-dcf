@@ -110,7 +110,12 @@ The repository is structured as follows:
 ```
 @article{wojnar2025coordinated,
   author={Wojnar, Maksymilian and Ciężobka, Wojciech and Tomaszewski, Artur and Chołda, Piotr and Rusek, Krzysztof and Kosek-Szott, Katarzyna and Haxhibeqiri, Jetmir and Hoebeke, Jeroen and Bellalta, Boris and Zubow, Anatolij and Dressler, Falko and Szott, Szymon},
+  journal={IEEE Journal on Selected Areas in Communications}, 
   title={{Coordinated Spatial Reuse Scheduling With Machine Learning in IEEE 802.11 MAPC Networks}}, 
   year={2025},
+  volume={43},
+  number={11},
+  pages={3666--3682},
+  doi={10.1109/JSAC.2025.3584555}
 }
 ```
